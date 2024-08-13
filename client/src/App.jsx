@@ -166,7 +166,7 @@ export default function App() {
                                                    width < 991 ? <NuevoClienteTablet proporcional={991 / width}/> : 
                                                                  <NuevoCliente       proporcional={1920 / width} />}/>
                                                                 
-                      <Route path='/cliente/:cliente/:id' element={width < 500 ? <DetallesClienteCell   proporcional={499 / width}/> : 
+                      <Route path='cliente/:cliente/:id' element={width < 500 ? <DetallesClienteCell   proporcional={499 / width}/> : 
                                                           width < 991 ? <DetallesClienteTablet proporcional={991 / width}/> : 
                                                                         <DetallesCliente       proporcional={1920 / width} />}/>
 
@@ -184,7 +184,7 @@ export default function App() {
                                                    width < 991 ? <NuevoTipoProyectoTablet proporcional={991 / width}/> : 
                                                                  <NuevoTipoProyecto       proporcional={1920 / width} />}/>
                                                                 
-                      <Route path='/tipo-proyecto/:tipo_proyecto/:id' element={width < 500 ? <DetallesTipoProyectoCell   proporcional={499 / width}/> : 
+                      <Route path='tipo-proyecto/:tipo_proyecto/:id' element={width < 500 ? <DetallesTipoProyectoCell   proporcional={499 / width}/> : 
                                                                 width < 991 ? <DetallesTipoProyectoTablet proporcional={991 / width}/> : 
                                                                               <DetallesTipoProyecto       proporcional={1920 / width} />}/>
 
