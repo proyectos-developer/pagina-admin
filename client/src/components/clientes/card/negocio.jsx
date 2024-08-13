@@ -12,16 +12,16 @@ export default function CardNegocio ({proporcional, index, negocio}) {
 
     const ver_negocio = () => {
         dispatch (set_data_negocio(negocio))
-        navigate (`/clientes/${negocio.nombre_negocio.replace(' ', '-')}/${negocio.id}`)
+        navigate (`/panel/clientes/${negocio.nombre_negocio.replace(' ', '-')}/${negocio.id}`)
     }
 
     return (
-        <div key={index} className={over_card ? 'rounded shadow-lg' : 'rounded shadow'} style={{width: '100%', height: 'auto'}}>
+        <div key={index} className={over_card ? 'rounded shadow-lg' : 'rounded shadow'} style={{width: '100%', height: '100%'}}>
             <div style={{width: '100%', height: 'auto', padding: 20 / proporcional, cursor: 'pointer'}}
                 onMouseOver={() => setOverCard(true)} onMouseLeave={() => setOverCard(false)}
                 onClick={() => ver_negocio()}>
                 <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                    <div className='rounded-circle' style={{width: '60%', height: '60%'}}>
+                <div className='rounded-circle' style={{width: 150 / proporcional, height: 150 / proporcional}}>
                         <img className='rounded-circle' src={negocio.url_logo} style={{width: '100%', height: '100%'}}/>
                     </div>
                 </div>

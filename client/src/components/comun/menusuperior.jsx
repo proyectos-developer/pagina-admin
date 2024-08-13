@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import menu from '../../assets/iconos/menu/superior/menu.png'
 import search from '../../assets/iconos/menu/superior/search.png'
@@ -6,18 +6,38 @@ import settings from '../../assets/iconos/menu/superior/settings.png'
 import logout from '../../assets/iconos/menu/superior/logout.png'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { set_open_menu_lateral } from '../../redux/actions/data'
+import { set_authenticated, set_open_menu_lateral } from '../../redux/actions/data'
+import { useNavigate } from 'react-router-dom'
+import {begindata} from '../../redux/slice/begindata'
+import { beginConstants } from '../../uri/begin-constants'
 
 export default function MenuSuperior ({proporcional}) {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [search_word, setSearchWord] = useState('')
 
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
+    const {local_logout} = useSelector(({begin_data}) => begin_data)
+
+    useEffect(() => {
+        if (local_logout && local_logout.success === true){
+            window.localStorage.removeItem('session_id')
+            window.localStorage.removeItem('correo')
+            window.localStorage.removeItem('user')
+            dispatch (set_authenticated(false))
+            dispatch (begindata(beginConstants(0, {}, true).local_logout))
+            navigate ('/')
+        }
+    }, [local_logout])
 
     const buscar_por_palabra = () => {
         
+    }
+
+    const cerrar_sesion = () => {
+        dispatch(begindata(beginConstants(0, {}, false).local_logout))
     }
 
     return (
@@ -58,8 +78,10 @@ export default function MenuSuperior ({proporcional}) {
                 </div>
                 <div style={{width: 'auto', height: 60 / proporcional}}>
                     <div className='d-flex' style={{width: 'auto', height: 60 / proporcional}}>
-                        <img src={settings} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional}}/>
-                        <img src={logout} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional}}/>    
+                        <img src={settings} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional,
+                                cursor: 'pointer'}}/>
+                        <img src={logout} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional,
+                                cursor: 'pointer'}} onClick={() => cerrar_sesion()}/>
                     </div>
                 </div>
             </div>

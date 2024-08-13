@@ -1,47 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 
 import {useDispatch, useSelector} from 'react-redux'
 
-import MenuLateral from '../comun/menulateral.jsx'
-import MenuSuperior from '../comun/menusuperior.jsx'
-import left from '../../assets/iconos/menu/lateral/left.png'
-import { set_open_menu_lateral } from '../../redux/actions/data.js'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { set_authenticated } from '../../redux/actions/data'
 
 export default function GlobalPanel({proporcional}) {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const [arrow_left, setArrowLeft] = useState(false)
-
-    const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
+    useEffect(() => {
+        if (window.localStorage.getItem('session_id')){
+            dispatch(set_authenticated(true))
+            navigate ('/panel')
+        }else{
+            navigate ('/')
+        }
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%'}}>
-            <div className='d-flex' style={{width: '100%', height: '100%'}}>
-                {
-                    open_menu_lateral ? (
-                        <div className='shadow-lg position-relative' style={{width: '18%', height: '100%', borderRight: '1px solid rgba(229, 229, 229, 1)',
-                                background: 'white'}}>
-                            <MenuLateral proporcional={proporcional}/>
-                            <div className={`position-absolute ${arrow_left ? 'shadow' : 'shadow-lg'} rounded-circle`} 
-                                style={{width: 48 / proporcional, height: 48 / proporcional,
-                                    top: 246 / proporcional, right: -24 / proporcional, background: '#28A745', cursor: 'pointer'}}
-                                    onMouseOver={() => setArrowLeft(true)} onMouseLeave={() => setArrowLeft(false)}
-                                    onClick={() => dispatch (set_open_menu_lateral(false))}>
-                                <img className='rounded-circle' src={left} style={{width: 48 / proporcional, height: 48 / proporcional,
-                                        padding: arrow_left ? 3 / proporcional : 6 / proporcional}}/>
-                            </div>
-                        </div>
-                    ) : null
-                }
-                <div style={{width: open_menu_lateral ? '82%' : '100%', height: '100%'}}>
-                    <div style={{width: '100%', height: 100 / proporcional, borderBottom: '2px solid rgba(229, 229, 229, 1)'}}>
-                        <MenuSuperior proporcional={proporcional}/>
-                    </div>
-                    <Outlet/>
-                </div>
-            </div>
+            <Outlet/>
         </div>
     )
 }

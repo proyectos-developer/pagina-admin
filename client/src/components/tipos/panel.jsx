@@ -12,10 +12,10 @@ export default function TiposProyectosPanel ({proporcional}) {
     const [opcion_titulo, setOpcionTitulo] = useState (0)
 
     useEffect(() => {
-        setTituloPagina(location.pathname.split ('/')[2] === undefined ? 'Tipos de proyectos' : 
-            location.pathname.split('/')[2] === 'nuevo' ? 'Nuevo tipo de proyecto' : `Detalles tipo proyecto`)
-        setOpcionTitulo(location.pathname.split ('/')[2] === undefined ? 1 : 0)
-    }, [location.pathname.split ('/')[2]])
+        setTituloPagina(location.pathname.split ('/')[3] === undefined ? 'Tipos de proyectos' : 
+            location.pathname.split('/')[3] === 'nuevo' ? 'Nuevo tipo de proyecto' : `Detalles tipo proyecto`)
+        setOpcionTitulo(location.pathname.split ('/')[3] === undefined ? 1 : 0)
+    }, [location.pathname.split ('/')[3]])
 
     return (
         <div style={{width: '100%', height: '100%'}}>

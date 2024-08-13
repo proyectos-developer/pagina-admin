@@ -6,7 +6,9 @@ const initial_state = {
 
     data_negocio: {},
     data_tipo_proyecto: {},
-    data_proyecto: {}
+    data_proyecto: {},
+    data_cliente: {},
+    data_producto: {}
 }
 
 const data = (state = initial_state, action) => {
@@ -39,6 +41,18 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_proyecto
+        }
+    }else if (action.type === datatypes.SET_DATA_CLIENTE){
+        const data_cliente = action.data_cliente
+        return {
+            ... state,
+            data_cliente
+        }
+    }else if (action.type === datatypes.SET_DATA_PRODUCTO){
+        const data_producto = action.data_producto
+        return {
+            ... state,
+            data_producto
         }
     }else{
         return state

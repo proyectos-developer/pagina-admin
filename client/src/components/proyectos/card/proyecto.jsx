@@ -12,16 +12,16 @@ export default function CardProyecto ({proporcional, index, proyecto}) {
 
     const ver_proyecto = () => {
         dispatch (set_data_proyecto(proyecto))
-        navigate (`/proyectos/${proyecto.nombre_proyecto.replace(' ', '-')}/${proyecto.id}`)
+        navigate (`/panel/proyectos/${proyecto.nombre_proyecto.replace(' ', '-')}/${proyecto.id}`)
     }
 
     return (
-        <div key={index} className={over_card ? 'rounded shadow-lg' : 'rounded shadow'} style={{width: '100%', height: 'auto'}}>
+        <div key={index} className={over_card ? 'rounded shadow-lg' : 'rounded shadow'} style={{width: '100%', height: '100%'}}>
             <div style={{width: '100%', height: 'auto', padding: 20 / proporcional, cursor: 'pointer'}}
                 onMouseOver={() => setOverCard(true)} onMouseLeave={() => setOverCard(false)}
                 onClick={() => ver_proyecto()}>
                 <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                    <div className='rounded-circle' style={{width: '60%', height: '60%'}}>
+                    <div className='rounded-circle' style={{width: 150 / proporcional, height: 150 / proporcional}}>
                         <img className='rounded-circle' src={proyecto.url_imagen} style={{width: '100%', height: '100%'}}/>
                     </div>
                 </div>

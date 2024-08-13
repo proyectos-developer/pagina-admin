@@ -53,7 +53,7 @@ export default function NuevoTipoProyecto ({proporcional}) {
 
     const volver_a_lista = () => {
         resetear_data()
-        navigate ('/tipos-proyectos')
+        navigate ('/panel/tipos-proyectos')
     }
 
     const guardar_tipo_proyecto = () => {

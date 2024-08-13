@@ -62,7 +62,7 @@ export default function NuevoCliente ({proporcional}) {
 
     const volver_a_lista = () => {
         resetear_data()
-        navigate ('/clientes')
+        navigate ('/panel/clientes')
     }
 
     const guardar_negocio_empresa = () => {

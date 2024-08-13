@@ -107,7 +107,7 @@ export default function DetallesProyecto ({proporcional}) {
 
     const volver_a_lista = () => {
         dispatch(set_data_proyecto({}))
-        navigate ('/proyectos')
+        navigate ('/panel/proyectos')
     }
     
     const actualizar_informacion = () => {

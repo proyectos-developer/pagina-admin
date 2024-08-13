@@ -60,7 +60,7 @@ export default function DetallesTipoProyecto ({proporcional}) {
 
     const volver_a_lista = () => {
         dispatch(set_data_tipo_proyecto({}))
-        navigate ('/tipos-proyectos')
+        navigate ('/panel/tipos-proyectos')
     }
 
     const actualizar_datos_negocio = () => {

@@ -72,7 +72,7 @@ export default function DetallesCliente ({proporcional}) {
 
     const volver_a_lista = () => {
         dispatch(set_data_negocio({}))
-        navigate ('/clientes')
+        navigate ('/panel/clientes')
     }
 
     const actualizar_datos_negocio = () => {

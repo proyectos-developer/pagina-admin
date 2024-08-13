@@ -12,14 +12,22 @@ import dashboard from '../../assets/iconos/menu/lateral/dashboard.png'
 import clientes from '../../assets/iconos/menu/lateral/clientes.png'
 import categorias from '../../assets/iconos/menu/lateral/categorias.png'
 import proyectos from '../../assets/iconos/menu/lateral/proyectos.png'
+import favoritos from '../../assets/iconos/menu/lateral/favoritos.png'
+import calificaciones from '../../assets/iconos/menu/lateral/calificaciones.png'
+import productos from '../../assets/iconos/menu/lateral/productos.png'
 import compradores from '../../assets/iconos/menu/lateral/compradores.png'
 import compras from '../../assets/iconos/menu/lateral/compras.png'
 import presupuestos from '../../assets/iconos/menu/lateral/presupuestos.png'
 import blog from '../../assets/iconos/menu/lateral/blog.png'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import {begindata} from '../../redux/slice/begindata'
+import { beginConstants } from '../../uri/begin-constants'
+import { set_authenticated } from '../../redux/actions/data'
 
 export default function MenuLateral ({proporcional}) {
 
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -29,18 +37,31 @@ export default function MenuLateral ({proporcional}) {
     const [sub_menu, setSubMenu] = useState('')
     const [seleccion_sub_menu, setSeleccionSubMenu] = useState ('')
 
-    useEffect(() => {
-        setMenu(location.pathname.split ('/')[1] === '' ? 'dashboard' : location.pathname.split ('/')[1])
-    }, [location.pathname.split('/')[1]])
+    const {local_logout} = useSelector(({begin_data}) => begin_data)
 
     useEffect(() => {
-        const ruta = location.pathname.split ('/')[2] === undefined ? 'lista' : location.pathname.split('/')[2]
-        const ruta_menu = location.pathname.split ('/')[1]
-        setSubMenu(ruta === 'lista' ? `lista-${ruta_menu}` : ruta === 'nuevo' ? `nuevo-${ruta_menu.replace('s', '')}` : '')
+        if (local_logout && local_logout.success === true){
+            window.localStorage.removeItem('session_id')
+            window.localStorage.removeItem('correo')
+            window.localStorage.removeItem('user')
+            dispatch (set_authenticated(false))
+            dispatch (begindata(beginConstants(0, {}, true).local_logout))
+            navigate ('/')
+        }
+    }, [local_logout])
+
+    useEffect(() => {
+        setMenu(location.pathname.split ('/')[2] === '' ? 'dashboard' : location.pathname.split ('/')[2])
     }, [location.pathname.split('/')[2]])
 
-    const cerrar_sesion = () => {
+    useEffect(() => {
+        const ruta = location.pathname.split ('/')[3] === undefined ? 'lista' : location.pathname.split('/')[3]
+        const ruta_menu = location.pathname.split ('/')[2]
+        setSubMenu(ruta === 'lista' ? `lista-${ruta_menu}` : ruta === 'nuevo' ? `nuevo-${ruta_menu.replace('s', '')}` : '')
+    }, [location.pathname.split('/')[3]])
 
+    const cerrar_sesion = () => {
+        dispatch(begindata(beginConstants(0, {}, false).local_logout))
     }
 
     return (
@@ -65,7 +86,7 @@ export default function MenuLateral ({proporcional}) {
                             paddingBottom: 5 / proporcional, cursor: 'pointer'}}
                             onMouseOver={() => setSeleccionMenu('dashboard')} onMouseLeave={() => setSeleccionMenu('')}>
                         <div className={seleccion_menu === 'dashboard' ? 'd-flex shadow-sm rounded' : 'd-flex'} 
-                                style={{width: '100%', height: 30 / proporcional}} onClick={() => navigate ('/')}>
+                                style={{width: '100%', height: 30 / proporcional}} onClick={() => navigate ('/panel')}>
                             <img src={dashboard} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                     paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                             <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
@@ -101,7 +122,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => {navigate ('/clientes')}}
+                                                    onClick={() => {navigate ('/panel/clientes'); setSubMenu('lista-clientes')}}
                                                     onMouseOver={() => setSeleccionSubMenu('lista-clientes')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -114,7 +135,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => {navigate ('/clientes/nuevo')}}
+                                                    onClick={() => {navigate ('/panel/clientes/nuevo'); setSubMenu('nuevo-cliente')}}
                                                     onMouseOver={() => setSeleccionSubMenu('nuevo-cliente')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -134,7 +155,7 @@ export default function MenuLateral ({proporcional}) {
                             <div className={seleccion_menu === 'tipo-proyectos' ? 'd-flex justify-content-between rounded shadow-sm' :
                                     'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setSeleccionMenu('tipo-proyectos')} onMouseLeave={() => setSeleccionMenu('')}
-                                onClick={() => setMenu(menu === 'tipo-proyectos' ? '' : 'tipo-proyectos')}>
+                                onClick={() => setMenu(menu === 'tipos-proyectos' ? '' : 'tipos-proyectos')}>
                                 <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
                                     <img src={categorias} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                             paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
@@ -150,12 +171,12 @@ export default function MenuLateral ({proporcional}) {
                             </div>
                         </div>
                         {
-                            menu === 'tipo-proyectos' ? (
+                            menu === 'tipos-proyectos' ? (
                                 <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/tipos-proyectos')}
+                                                    onClick={() => {navigate ('/panel/tipos-proyectos'); setSubMenu('lista-tipos-proyectos')}}
                                                     onMouseOver={() => setSeleccionSubMenu('lista-tipos-proyectos')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -168,7 +189,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/tipos-proyectos/nuevo')}
+                                                    onClick={() => {navigate ('/panel/tipos-proyectos/nuevo'); setSubMenu('nuevo-tipo-proyecto')}}
                                                     onMouseOver={() => setSeleccionSubMenu('nuevo-tipo-proyecto')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -209,7 +230,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/proyectos')}
+                                                    onClick={() => {navigate ('/panel/proyectos'); setSubMenu('lista-proyectos')}}
                                                     onMouseOver={() => setSeleccionSubMenu('lista-proyectos')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -222,7 +243,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/proyectos/nuevo')}
+                                                    onClick={() => {navigate ('/panel/proyectos/nuevo'); setSubMenu('nuevo-proyecto')}}
                                                     onMouseOver={() => setSeleccionSubMenu('nuevo-proyecto')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -230,6 +251,142 @@ export default function MenuLateral ({proporcional}) {
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                             marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-proyecto' || sub_menu === 'nuevo-proyecto' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
                                             Nuevo proyecto
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'productos' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('productos')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'productos' ? '' : 'productos')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={productos} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'productos' || seleccion_menu === 'productos' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Productos
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'productos' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'productos' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/productos'); setSubMenu('lista-productos')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-productos')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-productos' || sub_menu === 'lista-productos' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista de productos
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/productos/nuevo'); setSubMenu('nuevo-producto')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-producto')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-producto' || sub_menu === 'nuevo-producto' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nuevo producto
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'favoritos' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('favoritos')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'favoritos' ? '' : 'favoritos')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={favoritos} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'favoritos' || seleccion_menu === 'favoritos' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        favoritos
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'favoritos' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'favoritos' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/favoritos'); setSubMenu('lista-favoritos')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-favoritos')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-favoritos' || sub_menu === 'lista-favoritos' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista de favoritos
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'calificaciones' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('calificaciones')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'calificaciones' ? '' : 'calificaciones')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={calificaciones} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'calificaciones' || seleccion_menu === 'calificaciones' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        calificaciones
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'calificaciones' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'calificaciones' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/calificaciones'); setSubMenu('lista-calificaciones')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-calificaciones')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-calificaciones' || sub_menu === 'lista-calificaciones' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista de calificaciones
                                         </p>
                                     </div>
                                 </div>
@@ -263,7 +420,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/compradores')}
+                                                    onClick={() => {navigate ('/panel/compradores'); setSubMenu('lista-compradores')}}
                                                     onMouseOver={() => setSeleccionSubMenu('lista-compradores')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -304,7 +461,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/compras')}
+                                                    onClick={() => {navigate ('/panel/compras'); setSubMenu('lista-compras')}}
                                                     onMouseOver={() => setSeleccionSubMenu('lista-compras')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -345,7 +502,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/presupuestos')}
+                                                    onClick={() => {navigate ('/panel/presupuestos'); setSubMenu('lista-presupuestos')}}
                                                     onMouseOver={() => setSeleccionSubMenu('lista-presupuestos')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -358,7 +515,7 @@ export default function MenuLateral ({proporcional}) {
                                     <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => navigate ('/presupuestos/nuevo')}
+                                                    onClick={() => {navigate ('/panel/presupuestos/nuevo'); setSubMenu('nuevo-presupuesto')}}
                                                     onMouseOver={() => setSeleccionSubMenu('nuevo-presupuesto')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
@@ -401,7 +558,7 @@ export default function MenuLateral ({proporcional}) {
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
                                                     onMouseOver={() => setSeleccionSubMenu('lista-blog')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}
-                                                    onClick={() => navigate ('/noticias')}>
+                                                    onClick={() => {navigate ('/panel/noticias'); setSubMenu('lista-blog')}}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                                 paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
@@ -414,7 +571,7 @@ export default function MenuLateral ({proporcional}) {
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
                                                     onMouseOver={() => setSeleccionSubMenu('nuevo-blog')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}
-                                                    onClick={() => navigate ('/noticias/nuevo')}>
+                                                    onClick={() => {navigate ('/panel/panel/noticias/nuevo'); setSubMenu('nuevo-blog')}}>
                                         <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                                 paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
@@ -433,7 +590,7 @@ export default function MenuLateral ({proporcional}) {
                             paddingBottom: 5 / proporcional, cursor: 'pointer'}}
                             onMouseOver={() => setSeleccionMenu('settings')} onMouseLeave={() => setSeleccionMenu('')}>
                         <div className={seleccion_menu === 'settings' ? 'd-flex shadow-sm rounded' : 'd-flex'} 
-                                style={{width: '100%', height: 30 / proporcional}} onClick={() => navigate ('/settings')}>
+                                style={{width: '100%', height: 30 / proporcional}} onClick={() => navigate ('/panel/settings')}>
                             <img src={settings} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                     paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                             <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
