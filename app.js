@@ -54,9 +54,9 @@ app.get('/panel/clientes/nuevo', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/clientes/nuevo', 'index'));
 });
 
-app.use(express.static(path.resolve(__dirname, './client/build/panel/clientes')));
-app.get('/panel/clientes/:cliente/:id', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build/panel/clientes', 'index'));
+app.use(express.static(path.resolve(__dirname, './client/build/panel/clientes/cliente')));
+app.get('/panel/clientes/cliente/:cliente/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/clientes/cliente', 'index'));
 });
 
 app.use(express.static(path.resolve(__dirname, './client/build/panel/tipos-proyectos')));
@@ -69,9 +69,9 @@ app.get('/panel/tipos-proyectos/nuevo', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/tipos-proyectos/nuevo', 'index'));
 });
 
-app.use(express.static(path.resolve(__dirname, './client/build/panel/tipos-proyectos')));
-app.get('/panel/tipos-proyectos/:tipo-proyecto/:id', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build/panel/tipos-proyectos', 'index'));
+app.use(express.static(path.resolve(__dirname, './client/build/panel/tipos-proyectos/tipo-proyecto')));
+app.get('/panel/tipos-proyectos/tipo-proyecto/:tipo-proyecto/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/tipos-proyectos/tipo-proyecto', 'index'));
 });
 
 app.use(express.static(path.resolve(__dirname, './client/build/panel/proyectos')));
@@ -84,9 +84,9 @@ app.get('/panel/proyectos/nuevo', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/proyectos/nuevo', 'index'));
 });
 
-app.use(express.static(path.resolve(__dirname, './client/build/panel/proyectos')));
-app.get('/panel/proyectos/:proyecto/:id', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build/panel/proyectos', 'index'));
+app.use(express.static(path.resolve(__dirname, './client/build/panel/proyectos/proyecto')));
+app.get('/panel/proyectos/proyecto/:proyecto/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/proyectos/proyecto', 'index'));
 });
 
 app.use(express.static(path.resolve(__dirname, './client/build/panel/productos')));
@@ -99,9 +99,9 @@ app.get('/panel/productos/nuevo', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/productos/nuevo', 'index'));
 });
 
-app.use(express.static(path.resolve(__dirname, './client/build/panel/productos')));
-app.get('/panel/productos/:producto/:id', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build/panel/productos', 'index'));
+app.use(express.static(path.resolve(__dirname, './client/build/panel/productos/producto')));
+app.get('/panel/productos/producto/:producto/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/productos/producto', 'index'));
 });
 
 app.use(express.static(path.resolve(__dirname, './client/build/panel/compradores')));
@@ -109,9 +109,9 @@ app.get('/panel/compradores', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/compradores', 'index'));
 });
 
-app.use(express.static(path.resolve(__dirname, './client/build/panel/compradores')));
-app.get('/panel/compradores/:comprador/:id', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/build/panel/compradores', 'index'));
+app.use(express.static(path.resolve(__dirname, './client/build/panel/compradores/comprador')));
+app.get('/panel/compradores/comprador/:comprador/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/compradores/comprador', 'index'));
 });
 
 //Iniciar el servidor

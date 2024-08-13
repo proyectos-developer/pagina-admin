@@ -12,7 +12,7 @@ export default function CardNegocioTablet ({proporcional, index, negocio}) {
 
     const ver_negocio = () => {
         dispatch (set_data_negocio(negocio))
-        navigate (`/panel/clientes/${negocio.nombre_negocio.replace(' ', '-')}/${negocio.id}`)
+        navigate (`/panel/clientes/cliente/${negocio.nombre_negocio.replace(' ', '-')}/${negocio.id}`)
     }
 
     return (

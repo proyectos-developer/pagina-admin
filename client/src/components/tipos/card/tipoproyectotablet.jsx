@@ -12,7 +12,7 @@ export default function CardTipoProyectoTablet ({proporcional, index, tipo_proye
 
     const ver_tipo_proyecto = () => {
         dispatch (set_data_tipo_proyecto(tipo_proyecto))
-        navigate (`/panel/tipos-proyectos/${tipo_proyecto.nombre.replace(' ', '-')}/${tipo_proyecto.id}`)
+        navigate (`/panel/tipos-proyectos/tipo-proyecto/${tipo_proyecto.nombre.replace(' ', '-')}/${tipo_proyecto.id}`)
     }
 
     return (

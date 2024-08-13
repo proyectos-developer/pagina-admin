@@ -12,7 +12,7 @@ export default function CardComprador ({proporcional, index, cliente}) {
 
     const ver_cliente = () => {
         dispatch (set_data_cliente(cliente))
-        navigate (`/panel/compradores/${cliente.apellidos}/${cliente.id}`)
+        navigate (`/panel/compradores/comprador/${cliente.apellidos}/${cliente.id}`)
     }
 
     return (

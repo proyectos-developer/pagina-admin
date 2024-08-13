@@ -166,7 +166,7 @@ export default function App() {
                                                    width < 991 ? <NuevoClienteTablet proporcional={991 / width}/> : 
                                                                  <NuevoCliente       proporcional={1920 / width} />}/>
                                                                 
-                      <Route path=':cliente/:id' element={width < 500 ? <DetallesClienteCell   proporcional={499 / width}/> : 
+                      <Route path='/cliente/:cliente/:id' element={width < 500 ? <DetallesClienteCell   proporcional={499 / width}/> : 
                                                           width < 991 ? <DetallesClienteTablet proporcional={991 / width}/> : 
                                                                         <DetallesCliente       proporcional={1920 / width} />}/>
 
@@ -184,7 +184,7 @@ export default function App() {
                                                    width < 991 ? <NuevoTipoProyectoTablet proporcional={991 / width}/> : 
                                                                  <NuevoTipoProyecto       proporcional={1920 / width} />}/>
                                                                 
-                      <Route path=':tipo_proyecto/:id' element={width < 500 ? <DetallesTipoProyectoCell   proporcional={499 / width}/> : 
+                      <Route path='/tipo-proyecto/:tipo_proyecto/:id' element={width < 500 ? <DetallesTipoProyectoCell   proporcional={499 / width}/> : 
                                                                 width < 991 ? <DetallesTipoProyectoTablet proporcional={991 / width}/> : 
                                                                               <DetallesTipoProyecto       proporcional={1920 / width} />}/>
 
@@ -202,7 +202,7 @@ export default function App() {
                                                   width < 991 ? <NuevoProyectoTablet proporcional={991 / width}/> : 
                                                                 <NuevoProyecto       proporcional={1920 / width} />}/>
                                                                 
-                      <Route path=':proyecto/:id' element={width < 500 ? <DetallesProyectoCell   proporcional={499 / width}/> : 
+                      <Route path='proyecto/:proyecto/:id' element={width < 500 ? <DetallesProyectoCell   proporcional={499 / width}/> : 
                                                           width < 991 ? <DetallesProyectoTablet proporcional={991 / width}/> : 
                                                                         <DetallesProyecto       proporcional={1920 / width} />}/>
 
@@ -220,7 +220,7 @@ export default function App() {
                                                    width < 991 ? <NuevoProductoTablet proporcional={991 / width}/> : 
                                                                  <NuevoProducto       proporcional={1920 / width} />}/>
                                                                 
-                      <Route path=':Producto/:id' element={width < 500 ? <DetallesProductoCell   proporcional={499 / width}/> : 
+                      <Route path='producto/:producto/:id' element={width < 500 ? <DetallesProductoCell   proporcional={499 / width}/> : 
                                                            width < 991 ? <DetallesProductoTablet proporcional={991 / width}/> : 
                                                                          <DetallesProducto       proporcional={1920 / width} />}/>
 
@@ -234,7 +234,7 @@ export default function App() {
                                             width < 991 ? <ListaCompradoresTablet proporcional={991 / width}/> : 
                                                           <ListaCompradores       proporcional={1920 / width} />}/>
 
-                      <Route path=':comprador/:id' element={width < 500 ? <DetallesCompradorCell   proporcional={499 / width}/> : 
+                      <Route path='comprador/:comprador/:id' element={width < 500 ? <DetallesCompradorCell   proporcional={499 / width}/> : 
                                                             width < 991 ? <DetallesCompradorTablet proporcional={991 / width}/> : 
                                                                           <DetallesComprador       proporcional={1920 / width} />}/>
 
