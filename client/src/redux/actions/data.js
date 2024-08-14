@@ -6,7 +6,8 @@ export const datatypes = {
     SET_DATA_TIPO_PROYECTO: 'SET_DATA_TIPO_PROYECTO',
     SET_DATA_PROYECTO: 'SET_DATA_PROYECTO',
     SET_DATA_CLIENTE: 'SET_DATA_CLIENTE',
-    SET_DATA_PRODUCTO: 'SET_DATA_PRODUCTO'
+    SET_DATA_PRODUCTO: 'SET_DATA_PRODUCTO',
+    SET_DATA_FAVORITOS: 'SET_DATA_FAVORITOS'
 }
 
 export const set_authenticated = authenticated => {
@@ -55,5 +56,12 @@ export const set_data_producto = data_producto => {
     return {
         data_producto,
         type: datatypes.SET_DATA_PRODUCTO
+    }
+}
+
+export const set_data_favoritos = data_favoritos => {
+    return {
+        data_favoritos,
+        type: datatypes.SET_DATA_FAVORITOS
     }
 }

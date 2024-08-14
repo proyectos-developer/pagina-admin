@@ -12,6 +12,8 @@ import proyectosdata from './redux/slice/proyectosdata.js'
 import begindata from './redux/slice/begindata.js'
 import clientesdata from './redux/slice/clientesdata.js'
 import productosdata from './redux/slice/productosdata.js'
+import favoritosdata from './redux/slice/favoritosdata.js'
+import calificacionesdata from './redux/slice/calificacionesdata.js'
 import correosdata from './redux/slice/correosdata.js'
 
 const store = configureStore ({
@@ -23,6 +25,8 @@ const store = configureStore ({
         begin_data: begindata,
         clientes_data: clientesdata,
         productos_data: productosdata,
+        favoritos_data: favoritosdata,
+        calificaciones_data: calificacionesdata,
         correos_data: correosdata
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({

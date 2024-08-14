@@ -101,7 +101,8 @@ export default function NuevoProducto ({proporcional}) {
 
     useEffect(() => {
         if (new_producto && new_producto.success === true && new_producto.producto){
-            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).new_producto))
+            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).new_producto))
+            window.scrollTo(0, 0)
             resetear_data()
         }
     }, [new_producto])
@@ -154,7 +155,7 @@ export default function NuevoProducto ({proporcional}) {
     }
 
     const guardar_producto = () => {
-        if (producto === '' || descripcion === '' || precio === '' || categoria === ''){
+        if (producto === '' || descripcion === '' || precio === ''){
             setEProducto (producto === '' ? true : false)
             setEDescripcion (descripcion === '' ? true : false)
             setECaracteristica1 (caracteristica_1 === '' ? true : false)
@@ -256,7 +257,7 @@ export default function NuevoProducto ({proporcional}) {
                 id_categoria: id_categoria,
                 categoria: categoria,
                 id_subcategoria: id_subcategoria,
-                sub_categoria: sub_categoria,
+                subcategoria: sub_categoria,
                 servicio: servicio,
                 url_foto_principal: url_foto_principal,
                 url_foto_uno: url_foto_1,
@@ -269,9 +270,10 @@ export default function NuevoProducto ({proporcional}) {
                 precio_mensual: precio_mensual,
                 precio_anual: precio_anual,
                 comentarios: comentarios,
-                sku: codigo_sku
+                codigo_sku: codigo_sku
             }
-            dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).new_producto))
+            console.log (data_nuevo)
+            dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).new_producto))
         }
     }
 

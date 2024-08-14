@@ -8,7 +8,8 @@ const initial_state = {
     data_tipo_proyecto: {},
     data_proyecto: {},
     data_cliente: {},
-    data_producto: {}
+    data_producto: {},
+    data_favoritos: {}
 }
 
 const data = (state = initial_state, action) => {
@@ -53,6 +54,12 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_producto
+        }
+    }else if (action.type === datatypes.SET_DATA_FAVORITOS){
+        const data_favoritos = action.data_favoritos
+        return {
+            ... state,
+            data_favoritos
         }
     }else{
         return state

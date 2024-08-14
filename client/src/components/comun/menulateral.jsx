@@ -323,7 +323,7 @@ export default function MenuLateral ({proporcional}) {
                                             paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                     <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                         marginBottom: 0 / proporcional, color: menu === 'favoritos' || seleccion_menu === 'favoritos' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                        favoritos
+                                        Favoritos
                                     </p>
                                 </div>
                                 <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
@@ -364,7 +364,7 @@ export default function MenuLateral ({proporcional}) {
                                             paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                     <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                         marginBottom: 0 / proporcional, color: menu === 'calificaciones' || seleccion_menu === 'calificaciones' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                        calificaciones
+                                        Calificaciones
                                     </p>
                                 </div>
                                 <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>

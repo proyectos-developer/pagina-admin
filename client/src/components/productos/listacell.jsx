@@ -16,7 +16,7 @@ export default function ListaProductosCell ({proporcional}) {
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
-        dispatch(productosdata(productosConstants(0, 0, 0, 16, {}, false).get_productos_filter))
+        dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_productos_filter))
     }, [])
 
     useEffect(() => {

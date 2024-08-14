@@ -15,6 +15,7 @@ export default function DetallesProductoCell ({proporcional}) {
     const selectServicio = useRef(null)
     const selectSubCategoria = useRef(null)
 
+    const [id_producto, setIdProducto] = useState(0)
     const [producto, setProducto] = useState('')
     const [descripcion, setDescripcion] = useState ('')
     const [caracteristica_1, setCaracteristica1] = useState('')
@@ -106,15 +107,17 @@ export default function DetallesProductoCell ({proporcional}) {
 
     useEffect(() => {
         if (update_producto && update_producto.success === true && update_producto.producto){
-            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).update_producto))
-            resetear_data()
+            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).update_producto))
+            window.scrollTo(0, 0)
+            setEditarInformacion(false)
         }
     }, [update_producto])
 
     useEffect(() => {
         if (data_producto.producto === undefined){
-            dispatch(productosdata(productosConstants(location.pathname.split ('/')[3], 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_producto))
+            dispatch(productosdata(productosConstants(location.pathname.split ('/')[3], 0, 0, 0, 0, 0, 0, 16, {}, false).get_producto))
         }else{
+            setIdProducto (data_producto.id)
             setProducto (data_producto.producto)
             setDescripcion (data_producto.descripcion)
             setCaracteristica1 (data_producto.caracteristica_1)
@@ -159,6 +162,7 @@ export default function DetallesProductoCell ({proporcional}) {
 
     useEffect(() => {
         if (get_producto && get_producto.success === true && get_producto.producto){
+            setIdProducto (get_producto.producto.id)
             setProducto (get_producto.producto.producto)
             setDescripcion (get_producto.producto.descripcion)
             setCaracteristica1 (get_producto.producto.caracteristica_1)
@@ -198,17 +202,18 @@ export default function DetallesProductoCell ({proporcional}) {
             setPrecioAnual (get_producto.producto.precio_anual)
             setComentarios (get_producto.producto.comentarios)
             setCodigoSku (get_producto.producto.codigo_sku)
-            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_producto))
+            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).get_producto))
         }
     }, [get_producto])
 
     const volver_a_lista = () => {
         dispatch(set_data_producto({}))
+        window.scrollTo(0, 0)
         navigate ('/panel/productos')
     }
     
     const actualizar_datos_proyecto = () => {
-        if (producto === '' || descripcion === '' || precio === '' || categoria === ''){
+        if (producto === '' || descripcion === '' || precio === ''){
             setEProducto (producto === '' ? true : false)
             setEDescripcion (descripcion === '' ? true : false)
             setECaracteristica1 (caracteristica_1 === '' ? true : false)
@@ -325,7 +330,7 @@ export default function DetallesProductoCell ({proporcional}) {
                 comentarios: comentarios,
                 sku: codigo_sku
             }
-            dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).update_producto))
+            dispatch (productosdata(productosConstants(id_producto, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).update_producto))
         }
     }
 
@@ -1065,7 +1070,7 @@ export default function DetallesProductoCell ({proporcional}) {
                             <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
                                 style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                 onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
-                                onClick={() => setEditarInformacion(false)}>
+                                onClick={() => {setEditarInformacion(false); window.scrollTo(0, 0)}}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
                                     fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                     Cancelar

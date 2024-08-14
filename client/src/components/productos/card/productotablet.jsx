@@ -12,6 +12,7 @@ export default function CardProductoTablet ({proporcional, index, producto}) {
 
     const ver_producto = () => {
         dispatch (set_data_producto(producto))
+        window.scrollTo(0, 0)
         navigate (`/panel/productos/producto/${producto.producto}/${producto.id}`)
     }
 

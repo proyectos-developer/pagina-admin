@@ -107,6 +107,30 @@ import DetallesProducto from './components/productos/detalles.jsx'
 import DetallesProductoTablet from './components/productos/detallestablet.jsx'
 import DetallesProductoCell from './components/productos/detallescell.jsx'
 
+import FavoritosPanel from './components/favoritos/panel.jsx'
+import FavoritosPanelTablet from './components/favoritos/paneltablet.jsx'
+import FavoritosPanelCell from './components/favoritos/panelcell.jsx'
+
+import ListaFavoritos from './components/favoritos/lista.jsx'
+import ListaFavoritosTablet from './components/favoritos/listatablet.jsx'
+import ListaFavoritosCell from './components/favoritos/listacell.jsx'
+
+import DetallesProductoFavorito from './components/favoritos/detalles.jsx'
+import DetallesProductoFavoritoTablet from './components/favoritos/detallestablet.jsx'
+import DetallesProductoFavoritoCell from './components/favoritos/detallescell.jsx'
+
+import ComentariosPanel from './components/comentarios/panel.jsx'
+import ComentariosPanelTablet from './components/comentarios/paneltablet.jsx'
+import ComentariosPanelCell from './components/comentarios/panelcell.jsx'
+
+import ListaComentarios from './components/comentarios/lista.jsx'
+import ListaComentariosTablet from './components/comentarios/listatablet.jsx'
+import ListaComentariosCell from './components/comentarios/listacell.jsx'
+
+import DetallesComentariosProducto from './components/comentarios/detalles.jsx'
+import DetallesComentariosProductoTablet from './components/comentarios/detallestablet.jsx'
+import DetallesComentariosProductoCell from './components/comentarios/detallescell.jsx'
+
 export default function App() {
     const [width, setWidth] = useState (window.outerWidth)
 
@@ -199,12 +223,12 @@ export default function App() {
                                                           <ListaProyectos       proporcional={1920 / width} />}/>
 
                       <Route path='nuevo' element={width < 500 ? <NuevoProyectoCell   proporcional={499 / width}/> : 
-                                                  width < 991 ? <NuevoProyectoTablet proporcional={991 / width}/> : 
-                                                                <NuevoProyecto       proporcional={1920 / width} />}/>
+                                                   width < 991 ? <NuevoProyectoTablet proporcional={991 / width}/> : 
+                                                                 <NuevoProyecto       proporcional={1920 / width} />}/>
                                                                 
                       <Route path='proyecto/:proyecto/:id' element={width < 500 ? <DetallesProyectoCell   proporcional={499 / width}/> : 
-                                                          width < 991 ? <DetallesProyectoTablet proporcional={991 / width}/> : 
-                                                                        <DetallesProyecto       proporcional={1920 / width} />}/>
+                                                                    width < 991 ? <DetallesProyectoTablet proporcional={991 / width}/> : 
+                                                                                  <DetallesProyecto       proporcional={1920 / width} />}/>
 
                     </Route>
                     
@@ -221,8 +245,36 @@ export default function App() {
                                                                  <NuevoProducto       proporcional={1920 / width} />}/>
                                                                 
                       <Route path='producto/:producto/:id' element={width < 500 ? <DetallesProductoCell   proporcional={499 / width}/> : 
-                                                           width < 991 ? <DetallesProductoTablet proporcional={991 / width}/> : 
-                                                                         <DetallesProducto       proporcional={1920 / width} />}/>
+                                                                    width < 991 ? <DetallesProductoTablet proporcional={991 / width}/> : 
+                                                                                  <DetallesProducto       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='favoritos' element={width < 500 ? <FavoritosPanelCell   proporcional={499 / width}/> : 
+                                                     width < 991 ? <FavoritosPanelTablet proporcional={991 / width}/> : 
+                                                                   <FavoritosPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaFavoritosCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaFavoritosTablet proporcional={991 / width}/> : 
+                                                          <ListaFavoritos       proporcional={1920 / width} />}/>
+
+                      <Route path='producto/:producto/:id' element={width < 500 ? <DetallesProductoFavoritoCell   proporcional={499 / width}/> : 
+                                                                    width < 991 ? <DetallesProductoFavoritoTablet proporcional={991 / width}/> : 
+                                                                                  <DetallesProductoFavorito       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='calificaciones' element={width < 500 ? <ComentariosPanelCell   proporcional={499 / width}/> : 
+                                                          width < 991 ? <ComentariosPanelTablet proporcional={991 / width}/> : 
+                                                                        <ComentariosPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaComentariosCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaComentariosTablet proporcional={991 / width}/> : 
+                                                          <ListaComentarios       proporcional={1920 / width} />}/>
+
+                      <Route path='producto/:producto/:id' element={width < 500 ? <DetallesComentariosProductoCell   proporcional={499 / width}/> : 
+                                                                       width < 991 ? <DetallesComentariosProductoTablet proporcional={991 / width}/> : 
+                                                                                     <DetallesComentariosProducto       proporcional={1920 / width} />}/>
 
                     </Route>
                     

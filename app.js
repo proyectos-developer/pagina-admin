@@ -114,6 +114,26 @@ app.get('/panel/compradores/comprador/:comprador/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/compradores/comprador', 'index'));
 });
 
+app.use(express.static(path.resolve(__dirname, './client/build/panel/favoritos')));
+app.get('/panel/favoritos', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/favoritos', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/favoritos/producto')));
+app.get('/panel/favoritos/producto/:producto/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/favoritos/producto', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/calificaciones')));
+app.get('/panel/calificaciones', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/calificaciones', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/calificaciones/producto')));
+app.get('/panel/calificaciones/producto/:producto/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/calificaciones/producto', 'index'));
+});
+
 //Iniciar el servidor
 app.listen (app.get('port'), () => {
     console.log ('Server en puerto ', app.get ('port'))
