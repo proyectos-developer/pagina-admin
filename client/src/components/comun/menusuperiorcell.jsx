@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import menu from '../../assets/iconos/menu/superior/menu.png'
-import search from '../../assets/iconos/menu/superior/search.png'
 import settings from '../../assets/iconos/menu/superior/settings.png'
 import logout from '../../assets/iconos/menu/superior/logout.png'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { set_open_menu_lateral } from '../../redux/actions/data'
+import { useNavigate } from 'react-router-dom'
 
 export default function MenuSuperiorCell ({proporcional}) {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
@@ -29,8 +30,9 @@ export default function MenuSuperiorCell ({proporcional}) {
                         ) : null
                     }
                     <div style={{width: 'auto', height: 60 / proporcional, paddingTop: 0 / proporcional, paddingBottom: 0 / proporcional}}>
-                        <p style={{fontSize: 28 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
-                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'default'}}>Administrativa</p>
+                        <h1 style={{fontSize: 32 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
+                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'default', cursor: 'pointer'}}
+                            onClick={() => navigate ('/panel')}>Administrativa</h1>
                     </div>
                 </div>
                 <div style={{width: 'auto', height: 60 / proporcional}}>

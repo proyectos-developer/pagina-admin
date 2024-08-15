@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { set_data_favoritos } from '../../../redux/actions/data'
+import { set_data_compras } from '../../../redux/actions/data'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { constantes } from '../../../uri/constantes'
 
-export default function CardFavoritoTablet ({proporcional, index, favorito}) {
+export default function CardCompraCell ({proporcional, index, compra}) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -14,7 +14,7 @@ export default function CardFavoritoTablet ({proporcional, index, favorito}) {
     const [producto, setProducto] = useState({})
 
     useEffect(() => {
-        axios.get (`${constantes().url_principal[0].url}/producto/${favorito.id_producto}`)
+        axios.get (`${constantes().url_principal[0].url}/producto/${compra.id_producto}`)
             .then ((res) => {
                 setProducto(res.data.producto)
             }).catch ((err) => {
@@ -22,17 +22,17 @@ export default function CardFavoritoTablet ({proporcional, index, favorito}) {
             })
     }, [])
 
-    const ver_favorito = () => {
-        dispatch (set_data_favoritos(favorito))
+    const ver_compraes = () => {
+        dispatch (set_data_compras(compra))
         window.scrollTo(0, 0)
-        //navigate (`/panel/favoritos/producto/${producto.producto}/${producto.id}`)
+        //navigate (`/panel/compraes/producto/${producto.producto}/${producto.id}`)
     }
 
     return (
         <div key={index} className={over_card ? 'rounded shadow-lg' : 'rounded shadow'} style={{width: '100%', height: '100%'}}>
             <div style={{width: '100%', height: 'auto', padding: 20 / proporcional, cursor: 'pointer'}}
                 onMouseOver={() => setOverCard(true)} onMouseLeave={() => setOverCard(false)}
-                onClick={() => ver_favorito()}>
+                onClick={() => ver_compraes()}>
                 <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
                     <div className='rounded-circle' style={{width: 150 / proporcional, height: 150 / proporcional}}>
                         <div className='rounded-circle' style={{width: 150 / proporcional, height: 150 / proporcional,

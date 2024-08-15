@@ -10,7 +10,7 @@ export default function ListaCompradoresCell ({proporcional}) {
     const dispatch = useDispatch()
 
     const [lista_clientes, setListaClientes] = useState ([])
-    const [clientes, setClientes] = useState ([])
+    const [total_clientes, setTotalClientes] = useState (0)
 
     const {get_clientes} = useSelector(({clientes_data}) => clientes_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
@@ -21,6 +21,7 @@ export default function ListaCompradoresCell ({proporcional}) {
 
     useEffect(() => {
         if (get_clientes && get_clientes.success === true && get_clientes.clientes){
+            if (get_clientes.total_clientes){setTotalClientes(get_clientes.total_clientes)}
             setListaClientes (get_clientes.clientes)
         }
     }, [get_clientes])

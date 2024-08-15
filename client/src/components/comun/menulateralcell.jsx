@@ -157,6 +157,49 @@ export default function MenuLateralCell ({proporcional}) {
                     <div style={{width: '100%', height: 'auto'}}>
                         <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
                             marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'suscriptores' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('suscriptores')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'suscriptores' ? '' : 'suscriptores')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={suscriptores} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'suscriptores' || seleccion_menu === 'suscriptores' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Nuestros suscriptores
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'suscriptores' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'suscriptores' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/suscriptores'); setSubMenu('lista-suscriptores');
+                                                        dispatch(set_open_menu_lateral(!open_menu_lateral))
+                                                    }}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-suscriptores')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-suscriptores' || sub_menu === 'lista-suscriptores' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista suscriptores
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
                             <div className={seleccion_menu === 'tipo-proyectos' ? 'd-flex justify-content-between rounded shadow-sm' :
                                     'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setSeleccionMenu('tipo-proyectos')} onMouseLeave={() => setSeleccionMenu('')}

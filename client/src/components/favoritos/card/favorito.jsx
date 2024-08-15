@@ -16,7 +16,6 @@ export default function CardFavorito ({proporcional, index, favorito}) {
     useEffect(() => {
         axios.get (`${constantes().url_principal[0].url}/producto/${favorito.id_producto}`)
             .then ((res) => {
-                console.log (res.data)
                 setProducto(res.data.producto)
             }).catch ((err) => {
                 
@@ -26,7 +25,7 @@ export default function CardFavorito ({proporcional, index, favorito}) {
     const ver_favorito = () => {
         dispatch (set_data_favoritos(favorito))
         window.scrollTo(0, 0)
-        //navigate (`/panel/favoritos/${producto.producto}/${producto.id}`)
+        //navigate (`/panel/favoritos/producto/${producto.producto}/${producto.id}`)
     }
 
     return (

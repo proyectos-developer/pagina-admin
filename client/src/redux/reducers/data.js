@@ -9,7 +9,10 @@ const initial_state = {
     data_proyecto: {},
     data_cliente: {},
     data_producto: {},
-    data_favoritos: {}
+    data_favoritos: {},
+    data_calificaciones: {},
+    data_compras: {},
+    data_suscriptores: {}
 }
 
 const data = (state = initial_state, action) => {
@@ -60,6 +63,24 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_favoritos
+        }
+    }else if (action.type === datatypes.SET_DATA_CALIFICACIONES){
+        const data_calificaciones = action.data_calificaciones
+        return {
+            ... state,
+            data_calificaciones
+        }
+    }else if (action.type === datatypes.SET_DATA_COMPRAS){
+        const data_compras = action.data_compras
+        return {
+            ... state,
+            data_compras
+        }
+    }else if (action.type === datatypes.SET_DATA_SUSCRIPTORES){
+        const data_suscriptores = action.data_suscriptores
+        return {
+            ... state,
+            data_suscriptores
         }
     }else{
         return state

@@ -14,7 +14,9 @@ import clientesdata from './redux/slice/clientesdata.js'
 import productosdata from './redux/slice/productosdata.js'
 import favoritosdata from './redux/slice/favoritosdata.js'
 import calificacionesdata from './redux/slice/calificacionesdata.js'
+import comprasdata from './redux/slice/comprasdata.js'
 import correosdata from './redux/slice/correosdata.js'
+import suscripcionesdata from './redux/slice/suscripcionesdata.js'
 
 const store = configureStore ({
     reducer: ({
@@ -27,7 +29,9 @@ const store = configureStore ({
         productos_data: productosdata,
         favoritos_data: favoritosdata,
         calificaciones_data: calificacionesdata,
-        correos_data: correosdata
+        compras_data: comprasdata,
+        correos_data: correosdata,
+        suscripciones_data: suscripcionesdata
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
       immutableCheck: false,

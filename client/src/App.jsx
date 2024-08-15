@@ -131,6 +131,30 @@ import DetallesComentariosProducto from './components/comentarios/detalles.jsx'
 import DetallesComentariosProductoTablet from './components/comentarios/detallestablet.jsx'
 import DetallesComentariosProductoCell from './components/comentarios/detallescell.jsx'
 
+import CarritoComprasPanel from './components/carrito/panel.jsx'
+import CarritoComprasPanelTablet from './components/carrito/paneltablet.jsx'
+import CarritoComprasPanelCell from './components/carrito/panelcell.jsx'
+
+import ListaCarritoCompras from './components/carrito/lista.jsx'
+import ListaCarritoComprasTablet from './components/carrito/listatablet.jsx'
+import ListaCarritoComprasCell from './components/carrito/listacell.jsx'
+
+import DetallesCompra from './components/carrito/detalles.jsx'
+import DetallesCompraTablet from './components/carrito/detallestablet.jsx'
+import DetallesCompraCell from './components/carrito/detallescell.jsx'
+
+import SuscriptoresPanel from './components/suscripcion/panel.jsx'
+import SuscriptoresPanelTablet from './components/suscripcion/paneltablet.jsx'
+import SuscriptoresPanelCell from './components/suscripcion/panelcell.jsx'
+
+import ListaSuscriptores from './components/suscripcion/lista.jsx'
+import ListaSuscriptoresTablet from './components/suscripcion/listatablet.jsx'
+import ListaSuscriptoresCell from './components/suscripcion/listacell.jsx'
+
+import DetallesSuscriptor from './components/suscripcion/detalles.jsx'
+import DetallesSuscriptorTablet from './components/suscripcion/detallestablet.jsx'
+import DetallesSuscriptorCell from './components/suscripcion/detallescell.jsx'
+
 export default function App() {
     const [width, setWidth] = useState (window.outerWidth)
 
@@ -289,6 +313,34 @@ export default function App() {
                       <Route path='comprador/:comprador/:id' element={width < 500 ? <DetallesCompradorCell   proporcional={499 / width}/> : 
                                                             width < 991 ? <DetallesCompradorTablet proporcional={991 / width}/> : 
                                                                           <DetallesComprador       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='compras' element={width < 500 ? <CarritoComprasPanelCell   proporcional={499 / width}/> : 
+                                                   width < 991 ? <CarritoComprasPanelTablet proporcional={991 / width}/> : 
+                                                                 <CarritoComprasPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaCarritoComprasCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaCarritoComprasTablet proporcional={991 / width}/> : 
+                                                          <ListaCarritoCompras       proporcional={1920 / width} />}/>
+
+                      <Route path='productos/:shop_id' element={width < 500 ? <DetallesCompraCell   proporcional={499 / width}/> : 
+                                                                width < 991 ? <DetallesCompraTablet proporcional={991 / width}/> : 
+                                                                              <DetallesCompra       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='suscriptores' element={width < 500 ? <SuscriptoresPanelCell   proporcional={499 / width}/> : 
+                                                        width < 991 ? <SuscriptoresPanelTablet proporcional={991 / width}/> : 
+                                                                      <SuscriptoresPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaSuscriptoresCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaSuscriptoresTablet proporcional={991 / width}/> : 
+                                                          <ListaSuscriptores       proporcional={1920 / width} />}/>
+
+                      <Route path='suscriptor/:usuario' element={width < 500 ? <DetallesSuscriptorCell   proporcional={499 / width}/> : 
+                                                                 width < 991 ? <DetallesSuscriptorTablet proporcional={991 / width}/> : 
+                                                                               <DetallesSuscriptor       proporcional={1920 / width} />}/>
 
                     </Route>
                   </Route>

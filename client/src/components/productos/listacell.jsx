@@ -21,8 +21,8 @@ export default function ListaProductosCell ({proporcional}) {
 
     useEffect(() => {
         if (get_productos_filter && get_productos_filter.success === true && get_productos_filter.productos){
+            if (get_productos_filter.total_productos){setTotalProductos(get_productos_filter.total_productos)}
             setListaProductos (get_productos_filter.productos)
-             (lista)
         }
     }, [get_productos_filter])
 

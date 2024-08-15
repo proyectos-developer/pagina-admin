@@ -7,7 +7,10 @@ export const datatypes = {
     SET_DATA_PROYECTO: 'SET_DATA_PROYECTO',
     SET_DATA_CLIENTE: 'SET_DATA_CLIENTE',
     SET_DATA_PRODUCTO: 'SET_DATA_PRODUCTO',
-    SET_DATA_FAVORITOS: 'SET_DATA_FAVORITOS'
+    SET_DATA_FAVORITOS: 'SET_DATA_FAVORITOS',
+    SET_DATA_CALIFICACIONES: 'SET_DATA_CALIFICACIONES',
+    SET_DATA_COMPRAS: 'SET_DATA_COMPRAS',
+    SET_DATA_SUSCRIPTORES: 'SET_DATA_SUSCRIPTORES'
 }
 
 export const set_authenticated = authenticated => {
@@ -52,6 +55,13 @@ export const set_data_cliente = data_cliente => {
     }
 }
 
+export const set_data_calificaciones = data_calificaciones => {
+    return {
+        data_calificaciones,
+        type: datatypes.SET_DATA_CALIFICACIONES
+    }
+}
+
 export const set_data_producto = data_producto => {
     return {
         data_producto,
@@ -63,5 +73,19 @@ export const set_data_favoritos = data_favoritos => {
     return {
         data_favoritos,
         type: datatypes.SET_DATA_FAVORITOS
+    }
+}
+
+export const set_data_compras = data_compras => {
+    return {
+        data_compras,
+        type: datatypes.SET_DATA_COMPRAS
+    }
+}
+
+export const set_data_suscriptores = data_suscriptores => {
+    return {
+        data_suscriptores,
+        type: datatypes.SET_DATA_SUSCRIPTORES
     }
 }

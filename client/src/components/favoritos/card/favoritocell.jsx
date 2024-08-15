@@ -14,7 +14,6 @@ export default function CardFavoritoCell ({proporcional, index, favorito}) {
     const [producto, setProducto] = useState({})
 
     useEffect(() => {
-        console.log (`${constantes().url_principal[0].url}/producto/${favorito.id_producto}`)
         axios.get (`${constantes().url_principal[0].url}/producto/${favorito.id_producto}`)
             .then ((res) => {
                 console.log (res.data)
@@ -27,7 +26,7 @@ export default function CardFavoritoCell ({proporcional, index, favorito}) {
     const ver_favorito = () => {
         dispatch (set_data_favoritos(favorito))
         window.scrollTo(0, 0)
-        //navigate (`/panel/favoritos/${producto.producto}/${producto.id}`)
+        //navigate (`/panel/favoritos/producto/${producto.producto}/${producto.id}`)
     }
 
     return (

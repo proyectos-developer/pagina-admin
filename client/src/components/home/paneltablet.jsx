@@ -21,10 +21,12 @@ export default function HomePanelTablet({proporcional}) {
             <div className='position-relative' style={{width: '100%', height: '100%'}}>
                 {
                     !open_menu_lateral ? (
-                        <div className='shadow-lg position-absolute top-0 start-0' 
+                        <div className='position-absolute top-0 start-0' 
                             style={{width: '40%', height: '100%', borderRight: '1px solid rgba(229, 229, 229, 1)',
                                 background: 'white'}}>
-                            <MenuLateralTablet proporcional={proporcional}/>
+                            <div className='shadow-lg' style={{width: '100%', height: '100vh'}}>
+                                <MenuLateralTablet proporcional={proporcional}/>
+                            </div>
                             <div className={`position-absolute ${arrow_left ? 'shadow' : 'shadow-lg'} rounded-circle`} 
                                 style={{width: 48 / proporcional, height: 48 / proporcional,
                                     top: 246 / proporcional, right: -24 / proporcional, background: '#28A745', cursor: 'pointer'}}

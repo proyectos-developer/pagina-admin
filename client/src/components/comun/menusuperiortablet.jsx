@@ -7,9 +7,11 @@ import logout from '../../assets/iconos/menu/superior/logout.png'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { set_open_menu_lateral } from '../../redux/actions/data'
+import { useNavigate } from 'react-router-dom'
 
 export default function MenuSuperiorTablet ({proporcional}) {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const [search_word, setSearchWord] = useState('')
@@ -34,8 +36,9 @@ export default function MenuSuperiorTablet ({proporcional}) {
                         ) : null
                     }
                     <div style={{width: 'auto', height: 60 / proporcional, paddingTop: 0 / proporcional, paddingBottom: 0 / proporcional}}>
-                        <p style={{fontSize: 32 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
-                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'default'}}>Administrativa</p>
+                        <h1 style={{fontSize: 32 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
+                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'default', cursor: 'pointer'}}
+                            onClick={() => navigate ('/panel')}>Administrativa</h1>
                     </div>
                 </div>
                 <div className='' style={{width: 350 / proporcional, height: 50 / proporcional, margin: 10 / proporcional}}>
