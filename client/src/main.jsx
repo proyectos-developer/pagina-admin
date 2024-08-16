@@ -16,6 +16,11 @@ import favoritosdata from './redux/slice/favoritosdata.js'
 import calificacionesdata from './redux/slice/calificacionesdata.js'
 import comprasdata from './redux/slice/comprasdata.js'
 import correosdata from './redux/slice/correosdata.js'
+import noticiasdata from './redux/slice/noticiasdata.js'
+import categoriasdata from './redux/slice/categoriasdata.js'
+import subcategoriasdata from './redux/slice/subcategoriasdata.js'
+import unidadesdata from './redux/slice/unidadesdata.js'
+import serviciosdata from './redux/slice/serviciosdata.js'
 import suscripcionesdata from './redux/slice/suscripcionesdata.js'
 
 const store = configureStore ({
@@ -31,6 +36,11 @@ const store = configureStore ({
         calificaciones_data: calificacionesdata,
         compras_data: comprasdata,
         correos_data: correosdata,
+        noticias_data: noticiasdata,
+        categorias_data: categoriasdata,
+        subcategorias_data: subcategoriasdata,
+        unidades_data: unidadesdata,
+        servicios_data: serviciosdata,
         suscripciones_data: suscripcionesdata
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({

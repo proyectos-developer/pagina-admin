@@ -12,7 +12,12 @@ const initial_state = {
     data_favoritos: {},
     data_calificaciones: {},
     data_compras: {},
-    data_suscriptores: {}
+    data_suscriptores: {},
+    data_noticia: {},
+    data_categoria: {},
+    data_subcategoria: {},
+    data_servicio: {},
+    data_unidad: {}
 }
 
 const data = (state = initial_state, action) => {
@@ -81,6 +86,36 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_suscriptores
+        }
+    }else if (action.type === datatypes.SET_DATA_NOTICIA){
+        const data_noticia = action.data_noticia
+        return {
+            ... state,
+            data_noticia
+        }
+    }else if (action.type === datatypes.SET_DATA_CATEGORIA){
+        const data_categoria = action.data_categoria
+        return {
+            ... state,
+            data_categoria
+        }
+    }else if (action.type === datatypes.SET_DATA_SUBCATEGORIA){
+        const data_subcategoria = action.data_subcategoria
+        return {
+            ... state,
+            data_subcategoria
+        }
+    }else if (action.type === datatypes.SET_DATA_SERVICIO){
+        const data_servicio = action.data_servicio
+        return {
+            ... state,
+            data_servicio
+        }
+    }else if (action.type === datatypes.SET_DATA_UNIDAD){
+        const data_unidad = action.data_unidad
+        return {
+            ... state,
+            data_unidad
         }
     }else{
         return state

@@ -10,7 +10,12 @@ export const datatypes = {
     SET_DATA_FAVORITOS: 'SET_DATA_FAVORITOS',
     SET_DATA_CALIFICACIONES: 'SET_DATA_CALIFICACIONES',
     SET_DATA_COMPRAS: 'SET_DATA_COMPRAS',
-    SET_DATA_SUSCRIPTORES: 'SET_DATA_SUSCRIPTORES'
+    SET_DATA_SUSCRIPTORES: 'SET_DATA_SUSCRIPTORES',
+    SET_DATA_NOTICIA: 'SET_DATA_NOTICIA',
+    SET_DATA_CATEGORIA: 'SET_DATA_CATEGORIA',
+    SET_DATA_SUBCATEGORIA: 'SET_DATA_SUBCATEGORIA',
+    SET_DATA_SERVICIO: 'SET_DATA_SERVICIO',
+    SET_DATA_UNIDAD: 'SET_DATA_UNIDAD'
 }
 
 export const set_authenticated = authenticated => {
@@ -87,5 +92,40 @@ export const set_data_suscriptores = data_suscriptores => {
     return {
         data_suscriptores,
         type: datatypes.SET_DATA_SUSCRIPTORES
+    }
+}
+
+export const set_data_noticia = data_noticia => {
+    return {
+        data_noticia,
+        type: datatypes.SET_DATA_NOTICIA
+    }
+}
+
+export const set_data_categoria = data_categoria => {
+    return {
+        data_categoria,
+        type: datatypes.SET_DATA_CATEGORIA
+    }
+}
+
+export const set_data_subcategoria = data_subcategoria => {
+    return {
+        data_subcategoria,
+        type: datatypes.SET_DATA_SUBCATEGORIA
+    }
+}
+
+export const set_data_servicio = data_servicio => {
+    return {
+        data_servicio,
+        type: datatypes.SET_DATA_SERVICIO
+    }
+}
+
+export const set_data_unidad = data_unidad => {
+    return {
+        data_unidad,
+        type: datatypes.SET_DATA_UNIDAD
     }
 }

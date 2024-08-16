@@ -155,6 +155,86 @@ import DetallesSuscriptor from './components/suscripcion/detalles.jsx'
 import DetallesSuscriptorTablet from './components/suscripcion/detallestablet.jsx'
 import DetallesSuscriptorCell from './components/suscripcion/detallescell.jsx'
 
+import NoticiasPanel from './components/noticias/panel.jsx'
+import NoticiasPanelTablet from './components/noticias/paneltablet.jsx'
+import NoticiasPanelCell from './components/noticias/panelcell.jsx'
+
+import ListaNoticias from './components/noticias/lista.jsx'
+import ListaNoticiasTablet from './components/noticias/listatablet.jsx'
+import ListaNoticiasCell from './components/noticias/listacell.jsx'
+
+import NuevaNoticia from './components/noticias/nuevo.jsx'
+import NuevaNoticiaTablet from './components/noticias/nuevotablet.jsx'
+import NuevaNoticiaCell from './components/noticias/nuevocell.jsx'
+
+import DetallesNoticia from './components/noticias/detalles.jsx'
+import DetallesNoticiaTablet from './components/noticias/detallestablet.jsx'
+import DetallesNoticiaCell from './components/noticias/detallescell.jsx'
+
+import CategoriasPanel from './components/categorias/panel.jsx'
+import CategoriasPanelTablet from './components/categorias/paneltablet.jsx'
+import CategoriasPanelCell from './components/categorias/panelcell.jsx'
+
+import ListaCategorias from './components/categorias/lista.jsx'
+import ListaCategoriasTablet from './components/categorias/listatablet.jsx'
+import ListaCategoriasCell from './components/categorias/listacell.jsx'
+
+import NuevaCategoria from './components/categorias/nuevo.jsx'
+import NuevaCategoriaTablet from './components/categorias/nuevotablet.jsx'
+import NuevaCategoriaCell from './components/categorias/nuevocell.jsx'
+
+import DetallesCategoria from './components/categorias/detalles.jsx'
+import DetallesCategoriaTablet from './components/categorias/detallestablet.jsx'
+import DetallesCategoriaCell from './components/categorias/detallescell.jsx'
+
+import SubCategoriasPanel from './components/subcategorias/panel.jsx'
+import SubCategoriasPanelTablet from './components/subcategorias/paneltablet.jsx'
+import SubCategoriasPanelCell from './components/subcategorias/panelcell.jsx'
+
+import ListaSubCategorias from './components/subcategorias/lista.jsx'
+import ListaSubCategoriasTablet from './components/subcategorias/listatablet.jsx'
+import ListaSubCategoriasCell from './components/subcategorias/listacell.jsx'
+
+import NuevaSubCategoria from './components/subcategorias/nuevo.jsx'
+import NuevaSubCategoriaTablet from './components/subcategorias/nuevotablet.jsx'
+import NuevaSubCategoriaCell from './components/subcategorias/nuevocell.jsx'
+
+import DetallesSubCategoria from './components/subcategorias/detalles.jsx'
+import DetallesSubCategoriaTablet from './components/subcategorias/detallestablet.jsx'
+import DetallesSubCategoriaCell from './components/subcategorias/detallescell.jsx'
+
+import ServiciosPanel from './components/servicios/panel.jsx'
+import ServiciosPanelTablet from './components/servicios/paneltablet.jsx'
+import ServiciosPanelCell from './components/servicios/panelcell.jsx'
+
+import ListaServicios from './components/servicios/lista.jsx'
+import ListaServiciosTablet from './components/servicios/listatablet.jsx'
+import ListaServiciosCell from './components/servicios/listacell.jsx'
+
+import NuevoServicio from './components/servicios/nuevo.jsx'
+import NuevoServicioTablet from './components/servicios/nuevotablet.jsx'
+import NuevoServicioCell from './components/servicios/nuevocell.jsx'
+
+import DetallesServicio from './components/servicios/detalles.jsx'
+import DetallesServicioTablet from './components/servicios/detallestablet.jsx'
+import DetallesServicioCell from './components/servicios/detallescell.jsx'
+
+import UnidadesPanel from './components/unidades/panel.jsx'
+import UnidadesPanelTablet from './components/unidades/paneltablet.jsx'
+import UnidadesPanelCell from './components/unidades/panelcell.jsx'
+
+import ListaUnidades from './components/unidades/lista.jsx'
+import ListaUnidadesTablet from './components/unidades/listatablet.jsx'
+import ListaUnidadesCell from './components/unidades/listacell.jsx'
+
+import NuevaUnidad from './components/unidades/nuevo.jsx'
+import NuevaUnidadTablet from './components/unidades/nuevotablet.jsx'
+import NuevaUnidadCell from './components/unidades/nuevocell.jsx'
+
+import DetallesUnidad from './components/unidades/detalles.jsx'
+import DetallesUnidadTablet from './components/unidades/detallestablet.jsx'
+import DetallesUnidadCell from './components/unidades/detallescell.jsx'
+
 export default function App() {
     const [width, setWidth] = useState (window.outerWidth)
 
@@ -343,6 +423,97 @@ export default function App() {
                                                                                <DetallesSuscriptor       proporcional={1920 / width} />}/>
 
                     </Route>
+                    
+                    <Route path='noticias' element={width < 500 ? <NoticiasPanelCell   proporcional={499 / width}/> : 
+                                                    width < 991 ? <NoticiasPanelTablet proporcional={991 / width}/> : 
+                                                                  <NoticiasPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaNoticiasCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaNoticiasTablet proporcional={991 / width}/> : 
+                                                          <ListaNoticias       proporcional={1920 / width} />}/>
+
+                      <Route path='nuevo' element={width < 500 ? <NuevaNoticiaCell   proporcional={499 / width}/> : 
+                                                   width < 991 ? <NuevaNoticiaTablet proporcional={991 / width}/> : 
+                                                                 <NuevaNoticia       proporcional={1920 / width} />}/>
+                                                                
+                      <Route path='noticia/:noticia/:id' element={width < 500 ? <DetallesNoticiaCell   proporcional={499 / width}/> : 
+                                                                  width < 991 ? <DetallesNoticiaTablet proporcional={991 / width}/> : 
+                                                                                <DetallesNoticia       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='categorias' element={width < 500 ? <CategoriasPanelCell   proporcional={499 / width}/> : 
+                                                      width < 991 ? <CategoriasPanelTablet proporcional={991 / width}/> : 
+                                                                    <CategoriasPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaCategoriasCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaCategoriasTablet proporcional={991 / width}/> : 
+                                                          <ListaCategorias       proporcional={1920 / width} />}/>
+
+                      <Route path='nuevo' element={width < 500 ? <NuevaCategoriaCell   proporcional={499 / width}/> : 
+                                                   width < 991 ? <NuevaCategoriaTablet proporcional={991 / width}/> : 
+                                                                 <NuevaCategoria       proporcional={1920 / width} />}/>
+                                                                
+                      <Route path='categoria/:categoria/:id' element={width < 500 ? <DetallesCategoriaCell   proporcional={499 / width}/> : 
+                                                                      width < 991 ? <DetallesCategoriaTablet proporcional={991 / width}/> : 
+                                                                                    <DetallesCategoria       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='unidades' element={width < 500 ? <UnidadesPanelCell   proporcional={499 / width}/> : 
+                                                    width < 991 ? <UnidadesPanelTablet proporcional={991 / width}/> : 
+                                                                  <UnidadesPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaUnidadesCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaUnidadesTablet proporcional={991 / width}/> : 
+                                                          <ListaUnidades       proporcional={1920 / width} />}/>
+
+                      <Route path='nuevo' element={width < 500 ? <NuevaUnidadCell   proporcional={499 / width}/> : 
+                                                   width < 991 ? <NuevaUnidadTablet proporcional={991 / width}/> : 
+                                                                 <NuevaUnidad       proporcional={1920 / width} />}/>
+                                                                
+                      <Route path='unidad/:unidad/:id' element={width < 500 ? <DetallesUnidadCell   proporcional={499 / width}/> : 
+                                                                width < 991 ? <DetallesUnidadTablet proporcional={991 / width}/> : 
+                                                                              <DetallesUnidad       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='subcategorias' element={width < 500 ? <SubCategoriasPanelCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <SubCategoriasPanelTablet proporcional={991 / width}/> : 
+                                                                       <SubCategoriasPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaSubCategoriasCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaSubCategoriasTablet proporcional={991 / width}/> : 
+                                                          <ListaSubCategorias       proporcional={1920 / width} />}/>
+
+                      <Route path='nuevo' element={width < 500 ? <NuevaSubCategoriaCell   proporcional={499 / width}/> : 
+                                                   width < 991 ? <NuevaSubCategoriaTablet proporcional={991 / width}/> : 
+                                                                 <NuevaSubCategoria       proporcional={1920 / width} />}/>
+                                                                
+                      <Route path='subcategoria/:subcategoria/:id' element={width < 500 ? <DetallesSubCategoriaCell   proporcional={499 / width}/> : 
+                                                                            width < 991 ? <DetallesSubCategoriaTablet proporcional={991 / width}/> : 
+                                                                                          <DetallesSubCategoria       proporcional={1920 / width} />}/>
+
+                    </Route>
+                    
+                    <Route path='servicios' element={width < 500 ? <ServiciosPanelCell   proporcional={499 / width}/> : 
+                                                     width < 991 ? <ServiciosPanelTablet proporcional={991 / width}/> : 
+                                                                   <ServiciosPanel       proporcional={1920 / width} />}>
+
+                      <Route index element={width < 500 ? <ListaServiciosCell   proporcional={499 / width}/> : 
+                                            width < 991 ? <ListaServiciosTablet proporcional={991 / width}/> : 
+                                                          <ListaServicios       proporcional={1920 / width} />}/>
+
+                      <Route path='nuevo' element={width < 500 ? <NuevoServicioCell   proporcional={499 / width}/> : 
+                                                   width < 991 ? <NuevoServicioTablet proporcional={991 / width}/> : 
+                                                                 <NuevoServicio       proporcional={1920 / width} />}/>
+                                                                
+                      <Route path='servicio/:servicio/:id' element={width < 500 ? <DetallesServicioCell   proporcional={499 / width}/> : 
+                                                                    width < 991 ? <DetallesServicioTablet proporcional={991 / width}/> : 
+                                                                                  <DetallesServicio       proporcional={1920 / width} />}/>
+
+                    </Route>
+
                   </Route>
 
               </Route>

@@ -31,8 +31,8 @@ export default function MenuSuperiorCell ({proporcional}) {
                     }
                     <div style={{width: 'auto', height: 60 / proporcional, paddingTop: 0 / proporcional, paddingBottom: 0 / proporcional}}>
                         <h1 style={{fontSize: 32 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
-                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'default', cursor: 'pointer'}}
-                            onClick={() => navigate ('/panel')}>Administrativa</h1>
+                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'pointer'}}
+                            onClick={() => {navigate ('/panel'); dispatch(set_open_menu_lateral(false))}}>Administrativa</h1>
                     </div>
                 </div>
                 <div style={{width: 'auto', height: 60 / proporcional}}>

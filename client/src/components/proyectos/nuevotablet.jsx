@@ -97,7 +97,7 @@ export default function NuevoProyectoTablet ({proporcional}) {
 
     const volver_a_lista = () => {
         resetear_data()
-        navigate ('/proyectos')
+        navigate ('/nuevo/proyectos')
     }
 
     const guardar_proyecto = () => {
