@@ -20,9 +20,8 @@ export const proyectosdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_proyectos_todo':
+        case 'get_proyectos_filter':
         case 'get_tipo_proyectos_negocios':
-        case 'get_proyectos':
         case 'get_proyecto':
         case 'delete_proyecto':
             if (params.reset){ 

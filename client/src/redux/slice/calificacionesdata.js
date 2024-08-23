@@ -19,8 +19,8 @@ export const calificacionesdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_calificaciones':
-        case 'get_calificaciones_producto':
+        case 'get_calificaciones_filter':
+        case 'get_clientes_producto_calificacion_filter':
         case 'delete_calificacion_cliente':
             if (params.reset){ 
                 return {success: false}

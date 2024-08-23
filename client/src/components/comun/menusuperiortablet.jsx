@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import menu from '../../assets/iconos/menu/superior/menu.png'
 import search from '../../assets/iconos/menu/superior/search.png'
@@ -7,19 +7,92 @@ import logout from '../../assets/iconos/menu/superior/logout.png'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { set_open_menu_lateral } from '../../redux/actions/data'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import {negociosdata} from '../../redux/slice/negociosdata'
+import { negociosConstants } from '../../uri/negocios-constants'
+import {tipoproyectosdata} from '../../redux/slice/tipoproyectosdata'
+import { tipoproyectoConstants } from '../../uri/tipoproyecto-constants'
+import {proyectosdata} from '../../redux/slice/proyectosdata'
+import { proyectosConstants } from '../../uri/proyectos-constants'
+import {categoriasdata} from '../../redux/slice/categoriasdata'
+import { categoriasConstants } from '../../uri/categorias-constants'
+import {subcategoriasdata} from '../../redux/slice/subcategoriasdata'
+import { subcategoriasConstants } from '../../uri/subcategorias-constants'
+import {unidadesdata} from '../../redux/slice/unidadesdata'
+import { unidadesConstants } from '../../uri/unidades-constants'
+import {productosdata} from '../../redux/slice/productosdata'
+import { productosConstants } from '../../uri/productos-constants'
+import {serviciosdata} from '../../redux/slice/serviciosdata'
+import { serviciosConstants } from '../../uri/servicios-constants'
 
 export default function MenuSuperiorTablet ({proporcional}) {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
 
+    const [menu_pagina, setMenuPagina] = useState('')
     const [search_word, setSearchWord] = useState('')
 
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
-    const buscar_por_palabra = () => {
+    useEffect(() => {
+        if (location.pathname.split('/') [2] === undefined){
+            setMenuPagina('panel')
+        }else if (location.pathname.split ('/')[2] !== undefined){
+            setMenuPagina (location.pathname.split ('/')[2])
+        }
+    }, [location.pathname.split ('/')[2]])
 
+    const buscar_por_palabra = () => {
+        if (menu_pagina === 'clientes' && search_word !== ''){
+            dispatch (negociosdata(negociosConstants(0, search_word, 0, 0, 0, 16, {}, false).get_negocios_filter))
+            navigate('/panel/clientes')
+        }else if (menu_pagina === 'clientes' && search_word === ''){
+            dispatch (negociosdata(negociosConstants(0, 0, 0, 0, 0, 16, {}, false).get_negocios_filter))
+        }
+        else if (menu_pagina === 'tipos-proyectos' && search_word !== ''){
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, search_word, 0, 0, 0, 16, {}, false).get_tipo_proyectos_filter))
+            navigate('/panel/tipos-proyectos')
+        }else if (menu_pagina === 'tipos-proyectos' && search_word === ''){
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 16, {}, false).get_tipo_proyectos_filter))
+        }
+        else if (menu_pagina === 'proyectos' && search_word !== ''){
+            dispatch (proyectosdata(proyectosConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
+            navigate('/panel/proyectos')
+        }else if (menu_pagina === 'proyectos' && search_word === ''){
+            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
+        }
+        else if (menu_pagina === 'categorias' && search_word !== ''){
+            dispatch (categoriasdata(categoriasConstants(0, search_word, 0, 0, 0, 16, {}, false).get_categorias_filter))
+            navigate('/panel/categorias')
+        }else if (menu_pagina === 'categorias' && search_word === ''){
+            dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 16, {}, false).get_categorias_filter))
+        }
+        else if (menu_pagina === 'subcategorias' && search_word !== ''){
+            dispatch (subcategoriasdata(subcategoriasConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_subcategorias_filter))
+            navigate('/panel/subcategorias')
+        }else if (menu_pagina === 'subcategorias' && search_word === ''){
+            dispatch (subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_subcategorias_filter))
+        }
+        else if (menu_pagina === 'unidades' && search_word !== ''){
+            dispatch (unidadesdata(unidadesConstants(0, search_word, 0, 0, 0, 16, {}, false).get_unidades_filter))
+            navigate('/panel/unidades')
+        }else if (menu_pagina === 'unidades' && search_word === ''){
+            dispatch (unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 16, {}, false).get_unidades_filter))
+        }
+        else if (menu_pagina === 'servicios' && search_word !== ''){
+            dispatch (serviciosdata(serviciosConstants(0, search_word, 0, 0, 0, 16, {}, false).get_servicios_filter))
+            navigate('/panel/servicios')
+        }else if (menu_pagina === 'servicios' && search_word === ''){
+            dispatch (serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).get_servicios_filter))
+        }
+        else if (menu_pagina === 'productos' && search_word !== ''){
+            dispatch (productosdata(productosConstants(0, search_word, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_productos_filter))
+            navigate('/panel/productos')
+        }else if (menu_pagina === 'productos' && search_word === ''){
+            dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_productos_filter))
+        }
     }
 
     return (

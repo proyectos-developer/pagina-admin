@@ -20,7 +20,7 @@ export const serviciosdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_servicios':
+        case 'get_servicios_filter':
         case 'get_servicio':
         case 'delete_servicio':
             if (params.reset){ 

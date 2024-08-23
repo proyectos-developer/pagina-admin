@@ -1,51 +1,147 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {categoriasdata} from '../../redux/slice/categoriasdata'
-import { categoriasConstants } from '../../uri/categorias-constants.js'
+import next from '../../assets/iconos/comun/next_v2.png'
+import next_select from '../../assets/iconos/comun/next_v1.png'
+import preview from '../../assets/iconos/comun/preview_v2.png'
+import preview_select from '../../assets/iconos/comun/preview_v1.png'
+
+import view_list_v1 from '../../assets/iconos/comun/view_list_v1.png'
+import view_grid_v1 from '../../assets/iconos/comun/view_grid_v1.png'
+import view_list_v2 from '../../assets/iconos/comun/view_list_v2.png'
+import view_grid_v2 from '../../assets/iconos/comun/view_grid_v2.png'
 
 import CardCategoria from './card/categoria.jsx'
+import {categoriasdata} from '../../redux/slice/categoriasdata.js'
+import { categoriasConstants } from '../../uri/categorias-constants.js'
 
 export default function ListaCategorias ({proporcional}) {
 
     const dispatch = useDispatch()
 
-    const [lista_categorias, setListaCategorias] = useState ([])
-    const [categorias, setCategorias] = useState ([])
-    const [total_categorias, setTotalCategorias] = useState(0)
+    const [view_categoria, setViewCategoria] = useState ('grid')
+    const [begin, setBegin] = useState(0)
+    const [amount, setAmount] = useState(16)
 
-    const {get_categorias} = useSelector(({categorias_data}) => categorias_data)
+    const [lista_grid_categorias, setListaGridCategorias] = useState ([])
+    const [lista_categorias, setListaCategorias] = useState ([])
+    const [total_categorias, setTotalCategorias] = useState(0)
+    const [categorias, setCategorias] = useState ([])
+
+    const [mouse_next_up, setMouseNextUp] = useState(false)
+    const [mouse_preview_up, setMousePreviewUp] = useState(false)
+    const [mouse_next_down, setMouseNextDown] = useState(false)
+    const [mouse_preview_down, setMousePreviewDown] = useState(false)
+
+    const {get_categorias_filter, delete_categoria} = useSelector(({categorias_data}) => categorias_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
-        dispatch(categoriasdata(categoriasConstants(0, {}, false).get_categorias))
+        dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, begin, amount, {}, false).get_categorias_filter))
     }, [])
 
     useEffect(() => {
-        if (get_categorias && get_categorias.success === true && get_categorias.categorias){
-            let data = get_categorias.categorias.length
-            let lista = []
-            let cuenta = data / 4 < 1 ? 1 : data % 4 !== 0 ? (data / 4) + 1 : data / 4
-            for (let count = 0; count < cuenta; count ++){
-                lista.push ({num: `${count + 1}`})
-            }
-            if (get_categorias.total_categorias){setTotalCategorias(get_categorias.total_categorias)}
-            setCategorias (get_categorias.categorias)
-            setListaCategorias (lista)
+        if (get_categorias_filter && get_categorias_filter.success === true && get_categorias_filter.categorias){
+            dividir_nro_columnas(get_categorias_filter)
         }
-    }, [get_categorias])
+    }, [get_categorias_filter])
+
+    useEffect(() => {
+        if (delete_categoria && delete_categoria.success === true && delete_categoria.categorias){
+            window.scrollTo(0, 0)
+            setBegin(0)
+            dividir_nro_columnas(delete_categoria)
+            dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 16, {}, true).delete_categoria))
+        }
+    }, [delete_categoria])
+
+    const next_categorias = () => {
+        if (begin + amount > total_categorias){
+
+        }else{
+            setBegin (begin + amount)
+            dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, begin + amount, amount, {}, false).get_categorias_filter))
+        }
+    }
+
+    const previous_categorias = () => {
+        if (begin - amount < 0){
+            
+        }else{
+            setBegin (begin - amount)
+            dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, begin - amount, amount, {}, false).get_categorias_filter))
+        }
+    }
+
+    const dividir_nro_columnas = (data_categorias) => {
+        if (data_categorias.total_categorias){setTotalCategorias(data_categorias.total_categorias)}
+        let data = data_categorias.categorias.length
+        let lista = []
+        let cuenta = data / 4 < 1 ? 1 : data % 4 !== 0 ? (data / 4) + 1 : data / 4
+        for (let count = 0; count < cuenta; count ++){
+            lista.push ({num: `${count + 1}`})
+        }
+        setCategorias (data_categorias.categorias)
+        setListaGridCategorias (lista)
+        setListaCategorias (data_categorias.categorias)
+    }
+
+    useEffect(() => {
+        return () => {
+            setListaGridCategorias([])
+            setListaCategorias ([])
+            setCategorias([])
+        }
+    },[])
 
     return (
         <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 150 / proporcional : 250 / proporcional,
             paddingRight: open_menu_lateral ? 150 / proporcional : 250 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                <div style={{width: '48%', height: 'auto'}}>
+                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Tus categorías
+                        <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
+                            {`mostrando del ${begin} al 
+                                ${get_categorias_filter && get_categorias_filter.categorias ? begin + get_categorias_filter.categorias.length : 0} de ${total_categorias}`}
+                        </span>
+                    </h2>
+                </div>
+                <div className='d-flex justify-content-end' style={{width: '48%', height: 'auto'}}>
+                    <img src={view_categoria === 'lista' ? view_list_v1 : view_list_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 4 / proporcional,
+                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        }} onClick={() => setViewCategoria('lista')}/>
+                    <img src={view_categoria === 'grid' ? view_grid_v1 : view_grid_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
+                            cursor: 'pointer'
+                        }} onClick={() => setViewCategoria('grid')}/>
+                </div>
+            </div>
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
+                    <img src={mouse_preview_up ? preview_select : preview}
+                        onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
+                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
+                                cursor: 'pointer'}}
+                        onClick={() => previous_categorias()}/>
+                </div>
+                <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
+                    <img src={mouse_next_up ? next_select : next} 
+                        onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
+                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
+                                cursor: 'pointer'}}
+                        onClick={() => next_categorias()}/>
+                </div>
+            </div>
             {
-                lista_categorias && lista_categorias.length > 0 ? (
-                    lista_categorias.map ((categoria, numcat) => {
+                lista_grid_categorias && lista_grid_categorias.length > 0 && view_categoria === 'grid' ? (
+                    lista_grid_categorias.map ((categoria, numcat) => {
                         return (
                             <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
                                 {
                                     categorias [(4 * numcat)] ? (
                                         <div style={{width: '24%', height: 'auto'}}>
-                                            <CardCategoria categoria={categorias[(4 * numcat)]} key={(4 * numcat)} index={(4 * numcat)} proporcional={proporcional}/>
+                                            <CardCategoria categoria={categorias[(4 * numcat)]} key={(4 * numcat)} index={(4 * numcat)} proporcional={proporcional} view_categoria={view_categoria}/>
                                         </div>
                                     ) : (
                                         <div style={{width: '24%', height: 'auto'}}/>
@@ -54,7 +150,7 @@ export default function ListaCategorias ({proporcional}) {
                                 {
                                     categorias [((4 * numcat) + 1)] ? (
                                         <div style={{width: '24%', height: 'auto'}}>
-                                            <CardCategoria categoria={categorias[((4 * numcat) + 1)]} key={((4 * numcat) + 1)} index={((4 * numcat) + 1)} proporcional={proporcional}/>
+                                            <CardCategoria categoria={categorias[((4 * numcat) + 1)]} key={((4 * numcat) + 1)} index={((4 * numcat) + 1)} proporcional={proporcional} view_categoria={view_categoria}/>
                                         </div>
                                     ) : (
                                         <div style={{width: '24%', height: 'auto'}}/>
@@ -63,7 +159,7 @@ export default function ListaCategorias ({proporcional}) {
                                 {
                                     categorias [((4 * numcat) + 2)] ? (
                                         <div style={{width: '24%', height: 'auto'}}>
-                                            <CardCategoria categoria={categorias[((4 * numcat) + 2)]} key={((4 * numcat) + 2)} index={((4 * numcat) + 2)} proporcional={proporcional}/>
+                                            <CardCategoria categoria={categorias[((4 * numcat) + 2)]} key={((4 * numcat) + 2)} index={((4 * numcat) + 2)} proporcional={proporcional} view_categoria={view_categoria}/>
                                         </div>
                                     ) : (
                                         <div style={{width: '24%', height: 'auto'}}/>
@@ -72,7 +168,7 @@ export default function ListaCategorias ({proporcional}) {
                                 {
                                     categorias [((4 * numcat) + 3)] ? (
                                         <div style={{width: '24%', height: 'auto'}}>
-                                            <CardCategoria categoria={categorias[((4 * numcat) + 3)]} key={((4 * numcat) + 3)} index={((4 * numcat) + 3)} proporcional={proporcional}/>
+                                            <CardCategoria categoria={categorias[((4 * numcat) + 3)]} key={((4 * numcat) + 3)} index={((4 * numcat) + 3)} proporcional={proporcional} view_categoria={view_categoria}/>
                                         </div>
                                     ) : (
                                         <div style={{width: '24%', height: 'auto'}}/>
@@ -81,8 +177,33 @@ export default function ListaCategorias ({proporcional}) {
                             </div>
                         )
                     })
+                ) : 
+                    lista_categorias && lista_categorias.length > 0 && view_categoria === 'lista' ? (
+                        lista_categorias.map ((categoria, numcat) => {
+                            return (
+                                <CardCategoria categoria={categoria} key={numcat} index={numcat} proporcional={proporcional} view_categoria={view_categoria}/>
+                            )
+                        })
                 ) : null
             }            
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
+                    marginTop: view_categoria === 'grid' ? 0 : 16 / proporcional
+            }}>
+                <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
+                    <img src={mouse_preview_down ? preview_select : preview} 
+                        onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
+                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
+                                cursor: 'pointer'}}
+                        onClick={() => {previous_categorias(); window.scrollTo(0, 0)}}/>
+                </div>
+                <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
+                    <img src={mouse_next_down ? next_select : next} 
+                        onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
+                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
+                                cursor: 'pointer'}}
+                        onClick={() => {next_categorias(); window.scrollTo(0, 0)}}/>
+                </div>
+            </div>
         </div>
     )
 }

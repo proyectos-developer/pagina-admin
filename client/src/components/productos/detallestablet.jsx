@@ -3,7 +3,11 @@ import {useLocation, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {productosdata} from '../../redux/slice/productosdata'
 import {productosConstants} from '../../uri/productos-constants'
-import { set_data_producto } from '../../redux/actions/data'
+import { set_data_productos } from '../../redux/actions/data'
+import {subcategoriasdata} from '../../redux/slice/subcategoriasdata'
+import { subcategoriasConstants } from '../../uri/subcategorias-constants'
+import {filesdata} from '../../redux/slice/filesdata'
+import {filesConstants} from '../../uri/files-constants'
 
 export default function DetallesProductoTablet ({proporcional}) {
 
@@ -11,9 +15,17 @@ export default function DetallesProductoTablet ({proporcional}) {
     const navigate = useNavigate ()
     const dispatch = useDispatch()
 
-    const selectCategoria = useRef(null)
-    const selectServicio = useRef(null)
-    const selectSubCategoria = useRef(null)
+    const [file_imagen_1, setFileImagen1] = useState (null)
+    const [file_imagen_2, setFileImagen2] = useState (null)
+    const [file_imagen_3, setFileImagen3] = useState (null)
+    const [file_imagen_4, setFileImagen4] = useState (null)
+    const [file_imagen_5, setFileImagen5] = useState (null)
+    const [file_imagen_6, setFileImagen6] = useState (null)
+
+    const selectRefCategoria = useRef(null)
+    const selectRefServicio = useRef(null)
+    const selectRefSubCategoria = useRef(null)
+    const selectRefUnidad = useRef(null)
 
     const [id_producto, setIdProducto] = useState(0)
     const [producto, setProducto] = useState('')
@@ -42,6 +54,8 @@ export default function DetallesProductoTablet ({proporcional}) {
     const [categoria, setCategoria] = useState('')
     const [id_subcategoria, setIdSubCategoria] = useState ('')
     const [sub_categoria, setSubCategoria] = useState('')
+    const [id_unidad, setIdUnidad] = useState('')
+    const [unidad, setUnidad] = useState('')
     const [servicio, setServicio] = useState('')
     const [url_foto_principal, setUrlFotoPrincipal] = useState('')
     const [url_foto_1, setUrlFoto1] = useState('')
@@ -56,6 +70,7 @@ export default function DetallesProductoTablet ({proporcional}) {
     const [precio_anual, setPrecioAnual] = useState (0)
     const [comentarios, setComentarios] = useState ('')
     const [codigo_sku, setCodigoSku] = useState ('')
+    const [stock, setStock] = useState(0)
 
     const [eproducto, setEProducto] = useState(false)
     const [edescripcion, setEDescripcion] = useState (false)
@@ -81,6 +96,7 @@ export default function DetallesProductoTablet ({proporcional}) {
     const [ecaracteristica_20, setECaracteristica20] = useState(false)
     const [ecategoria, setECategoria] = useState(false)
     const [esub_categoria, setESubCategoria] = useState(false)
+    const [eunidad, setEUnidad] = useState('')
     const [eservicio, setEServicio] = useState(false)
     const [eurl_foto_principal, setEUrlFotoPrincipal] = useState(false)
     const [eurl_foto_1, setEUrlFoto1] = useState(false)
@@ -95,6 +111,20 @@ export default function DetallesProductoTablet ({proporcional}) {
     const [eprecio_anual, setEPrecioAnual] = useState (false)
     const [ecomentarios, setEComentarios] = useState (false)
     const [ecodigo_sku, setECodigoSku] = useState (false)
+    const [estock, setEStock] = useState(false)
+
+    const [boton_nro_foto, setBotonNroFoto] = useState(0)
+    const [boton_subif_foto_1, setBotonSubirFoto1] = useState(false)
+    const [boton_subif_foto_2, setBotonSubirFoto2] = useState(false)
+    const [boton_subif_foto_3, setBotonSubirFoto3] = useState(false)
+    const [boton_subif_foto_4, setBotonSubirFoto4] = useState(false)
+    const [boton_subif_foto_5, setBotonSubirFoto5] = useState(false)
+    const [boton_subif_foto_6, setBotonSubirFoto6] = useState(false)
+
+    const [lista_categorias, setListaCategorias] = useState([])
+    const [lista_unidades, setListaUnidades] = useState([])
+    const [lista_servicios, setListaServicios] = useState([])
+    const [lista_subcategorias, setListaSubCategorias] = useState([])
 
     const [editar_informacion, setEditarInformacion] = useState(false)
     const [boton_actualizar, setBotonActualizar] = useState(false)
@@ -102,61 +132,95 @@ export default function DetallesProductoTablet ({proporcional}) {
     const [boton_cancelar, setBotonCancelar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
 
-    const {get_producto, update_producto} = useSelector(({productos_data}) => productos_data)
-    const {data_producto, open_menu_lateral} = useSelector(({data_actions}) => data_actions)
+    const {get_producto, update_producto, get_producto_categorias_unidades_servicios} = useSelector(({productos_data}) => productos_data)
+    const {get_subcategorias_categoria} = useSelector(({subcategorias_data}) => subcategorias_data)
+    const {file_upload} = useSelector(({files_data}) => files_data)
+    const {data_productos, open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
         if (update_producto && update_producto.success === true && update_producto.producto){
-            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).update_producto))
+            dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).update_producto))
             window.scrollTo(0, 0)
             setEditarInformacion(false)
         }
     }, [update_producto])
 
     useEffect(() => {
-        if (data_producto.producto === undefined){
-            dispatch(productosdata(productosConstants(location.pathname.split ('/')[3], 0, 0, 0, 0, 0, 0, 16, {}, false).get_producto))
+        if (file_upload && file_upload.success === true && file_upload.message === true){
+            if (boton_nro_foto === 1){setUrlFotoPrincipal(`https://api.developer-ideas.com/proyectos/${file_imagen_1.name}`)}
+            if (boton_nro_foto === 2){setUrlFoto1(`https://api.developer-ideas.com/proyectos/${file_imagen_2.name}`)}
+            if (boton_nro_foto === 3){setUrlFoto2(`https://api.developer-ideas.com/proyectos/${file_imagen_3.name}`)}
+            if (boton_nro_foto === 4){setUrlFoto3(`https://api.developer-ideas.com/proyectos/${file_imagen_4.name}`)}
+            if (boton_nro_foto === 5){setUrlFoto4(`https://api.developer-ideas.com/proyectos/${file_imagen_5.name}`)}
+            if (boton_nro_foto === 6){setUrlFoto4(`https://api.developer-ideas.com/proyectos/${file_imagen_6.name}`)}
+            dispatch (filesdata(filesConstants(0, {}, true).file_upload))
+        }
+    }, [file_upload])
+
+    useEffect(() => {
+        if (get_subcategorias_categoria && get_subcategorias_categoria.success === true &&
+                get_subcategorias_categoria.sub_categorias){
+            setListaSubCategorias(get_subcategorias_categoria.sub_categorias)
+        }
+    }, [get_subcategorias_categoria])
+
+    useEffect(() => {
+        if (get_producto_categorias_unidades_servicios && get_producto_categorias_unidades_servicios.success === true &&
+            get_producto_categorias_unidades_servicios.categorias && get_producto_categorias_unidades_servicios.unidades &&
+            get_producto_categorias_unidades_servicios.servicios){
+                setListaCategorias(get_producto_categorias_unidades_servicios.categorias)
+                setListaUnidades(get_producto_categorias_unidades_servicios.unidades)
+                setListaServicios(get_producto_categorias_unidades_servicios.servicios)
+                setEditarInformacion(true)
+                window.scrollTo(0, 0)
+                dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).get_producto_categorias_unidades_servicios))
+        }
+    }, [get_producto_categorias_unidades_servicios])
+    
+    useEffect(() => {
+        if (data_productos.producto === undefined){
+            dispatch(productosdata(productosConstants(location.pathname.split ('/')[5], 0, 0, 0, 0, 0, 0, 16, {}, false).get_producto))
         }else{
-            setIdProducto (data_producto.id)
-            setProducto (data_producto.producto)
-            setDescripcion (data_producto.descripcion)
-            setCaracteristica1 (data_producto.caracteristica_1)
-            setCaracteristica2 (data_producto.caracteristica_2)
-            setCaracteristica3 (data_producto.caracteristica_3)
-            setCaracteristica4 (data_producto.caracteristica_4)
-            setCaracteristica5 (data_producto.caracteristica_5)
-            setCaracteristica6 (data_producto.caracteristica_6)
-            setCaracteristica7 (data_producto.caracteristica_7)
-            setCaracteristica8 (data_producto.caracteristica_8)
-            setCaracteristica9 (data_producto.caracteristica_9)
-            setCaracteristica10 (data_producto.caracteristica_10)
-            setCaracteristica11 (data_producto.caracteristica_11)
-            setCaracteristica12 (data_producto.caracteristica_12)
-            setCaracteristica13 (data_producto.caracteristica_13)
-            setCaracteristica14 (data_producto.caracteristica_14)
-            setCaracteristica15 (data_producto.caracteristica_15)
-            setCaracteristica16 (data_producto.caracteristica_16)
-            setCaracteristica17 (data_producto.caracteristica_17)
-            setCaracteristica18 (data_producto.caracteristica_18)
-            setCaracteristica19 (data_producto.caracteristica_19)
-            setCaracteristica20 (data_producto.caracteristica_20)
-            setIdCategoria (data_producto.id_categoria)
-            setCategoria (data_producto.categoria)
-            setIdSubCategoria (data_producto.id_subcategoria)
-            setSubCategoria (data_producto.sub_categoria)
-            setServicio (data_producto.servicio)
-            setUrlFotoPrincipal (data_producto.url_foto_principal)
-            setUrlFoto1 (data_producto.url_foto_1)
-            setUrlFoto2 (data_producto.url_foto_2)
-            setUrlFoto3 (data_producto.url_foto_3)
-            setUrlFoto4 (data_producto.url_foto_4)
-            setUrlFoto5 (data_producto.url_foto_5)
-            setPrecio (data_producto.precio)
-            setOferta (data_producto.oferta)
-            setPrecioMensual (data_producto.precio_mensual)
-            setPrecioAnual (data_producto.precio_anual)
-            setComentarios (data_producto.comentarios)
-            setCodigoSku (data_producto.codigo_sku)
+            setIdProducto (data_productos.id)
+            setProducto (data_productos.producto)
+            setDescripcion (data_productos.descripcion)
+            setCaracteristica1 (data_productos.caracteristica_1)
+            setCaracteristica2 (data_productos.caracteristica_2)
+            setCaracteristica3 (data_productos.caracteristica_3)
+            setCaracteristica4 (data_productos.caracteristica_4)
+            setCaracteristica5 (data_productos.caracteristica_5)
+            setCaracteristica6 (data_productos.caracteristica_6)
+            setCaracteristica7 (data_productos.caracteristica_7)
+            setCaracteristica8 (data_productos.caracteristica_8)
+            setCaracteristica9 (data_productos.caracteristica_9)
+            setCaracteristica10 (data_productos.caracteristica_10)
+            setCaracteristica11 (data_productos.caracteristica_11)
+            setCaracteristica12 (data_productos.caracteristica_12)
+            setCaracteristica13 (data_productos.caracteristica_13)
+            setCaracteristica14 (data_productos.caracteristica_14)
+            setCaracteristica15 (data_productos.caracteristica_15)
+            setCaracteristica16 (data_productos.caracteristica_16)
+            setCaracteristica17 (data_productos.caracteristica_17)
+            setCaracteristica18 (data_productos.caracteristica_18)
+            setCaracteristica19 (data_productos.caracteristica_19)
+            setCaracteristica20 (data_productos.caracteristica_20)
+            setIdCategoria (data_productos.id_categoria)
+            setCategoria (data_productos.categoria)
+            setIdSubCategoria (data_productos.id_subcategoria)
+            setSubCategoria (data_productos.subcategoria)
+            setServicio (data_productos.servicio)
+            setUrlFotoPrincipal (data_productos.url_foto_principal)
+            setUrlFoto1 (data_productos.url_foto_1)
+            setUrlFoto2 (data_productos.url_foto_2)
+            setUrlFoto3 (data_productos.url_foto_3)
+            setUrlFoto4 (data_productos.url_foto_4)
+            setUrlFoto5 (data_productos.url_foto_5)
+            setPrecio (data_productos.precio)
+            setOferta (data_productos.oferta)
+            setPrecioMensual (data_productos.precio_mensual)
+            setPrecioAnual (data_productos.precio_anual)
+            setComentarios (data_productos.comentarios)
+            setCodigoSku (data_productos.codigo_sku)
         }
     }, [])
 
@@ -207,7 +271,7 @@ export default function DetallesProductoTablet ({proporcional}) {
     }, [get_producto])
 
     const volver_a_lista = () => {
-        dispatch(set_data_producto({}))
+        dispatch(set_data_productos({}))
         window.scrollTo(0, 0)
         navigate ('/panel/productos')
     }
@@ -315,7 +379,9 @@ export default function DetallesProductoTablet ({proporcional}) {
                 id_categoria: id_categoria,
                 categoria: categoria,
                 id_subcategoria: id_subcategoria,
-                sub_categoria: sub_categoria,
+                subcategoria: sub_categoria,
+                id_unidad: id_unidad,
+                unidad: unidad,
                 servicio: servicio,
                 url_foto_principal: url_foto_principal,
                 url_foto_uno: url_foto_1,
@@ -328,82 +394,194 @@ export default function DetallesProductoTablet ({proporcional}) {
                 precio_mensual: precio_mensual,
                 precio_anual: precio_anual,
                 comentarios: comentarios,
-                sku: codigo_sku
+                codigo_sku: codigo_sku,
+                stock: stock
             }
-            dispatch (productosdata(productosConstants(id_producto, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).update_producto))
+            dispatch (productosdata(productosConstants(id_producto, 0, 0, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).update_producto))
         }
+    }
+
+    const obtener_data_editar = () => {
+        dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 100, {}, false).get_producto_categorias_unidades_servicios))
+    }
+
+    const seleccionar_categoria = (value) => {
+        if (value !== '0'){
+            setIdCategoria(value.split ('-')[0])
+            setCategoria(value.split ('-')[1])
+            dispatch (subcategoriasdata(subcategoriasConstants(value.split('-')[0], 0, 0, 0, 0, 0, 100, {}, false).get_subcategorias_categoria))
+        }
+    }
+
+    const seleccionar_sub_categoria = (value) => {
+        if (value !== '0'){
+            setIdSubCategoria(value.split ('-')[0])
+            setSubCategoria(value.split ('-')[1])
+        }
+    }
+
+    const seleccionar_unidad = (value) => {
+        if (value !== '0'){
+            setIdUnidad(value.split ('-')[0])
+            setUnidad(value.split ('-')[1])
+        }
+    }
+
+    const seleccionar_servicio = (value) => {
+        if (value !== '0'){
+            setIdServicio(value.split ('-')[0])
+            setServicio(value.split ('-')[1])
+        }
+    }
+    
+    const handleFileChange_1 = (event) => {
+        setFileImagen1(event.target.files[0])
+    }
+
+    const handleUpload_1 = (event) => {
+        event.preventDefault()
+        setBotonNroFoto(1)
+        const data = new FormData()
+        data.append('file', file_imagen_1, file_imagen_1.name)
+        dispatch(filesdata(filesConstants('productos', data, false).file_upload))
+    }
+    
+    const handleFileChange_2 = (event) => {
+        setFileImagen2(event.target.files[0])
+    }
+
+    const handleUpload_2 = (event) => {
+        event.preventDefault()
+        setBotonNroFoto(2)
+        const data = new FormData()
+        data.append('file', file_imagen_2, file_imagen_2.name)
+        dispatch(filesdata(filesConstants('productos', data, false).file_upload))
+    }
+    
+    const handleFileChange_3 = (event) => {
+        setFileImagen3(event.target.files[0])
+    }
+
+    const handleUpload_3 = (event) => {
+        event.preventDefault()
+        setBotonNroFoto(3)
+        const data = new FormData()
+        data.append('file', file_imagen_3, file_imagen_3.name)
+        dispatch(filesdata(filesConstants('productos', data, false).file_upload))
+    }
+    
+    const handleFileChange_4 = (event) => {
+        setFileImagen4(event.target.files[0])
+    }
+
+    const handleUpload_4 = (event) => {
+        event.preventDefault()
+        setBotonNroFoto(4)
+        const data = new FormData()
+        data.append('file', file_imagen_4, file_imagen_4.name)
+        dispatch(filesdata(filesConstants('productos', data, false).file_upload))
+    }
+    
+    const handleFileChange_5 = (event) => {
+        setFileImagen5(event.target.files[0])
+    }
+
+    const handleUpload_5 = (event) => {
+        event.preventDefault()
+        setBotonNroFoto(5)
+        const data = new FormData()
+        data.append('file', file_imagen_5, file_imagen_5.name)
+        dispatch(filesdata(filesConstants('productos', data, false).file_upload))
+    }
+    
+    const handleFileChange_6 = (event) => {
+        setFileImagen6(event.target.files[0])
+    }
+
+    const handleUpload_6 = (event) => {
+        event.preventDefault()
+        setBotonNroFoto(6)
+        const data = new FormData()
+        data.append('file', file_imagen_6, file_imagen_6.name)
+        dispatch(filesdata(filesConstants('productos', data, false).file_upload))
     }
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
             paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                    <div className='' style={{width: '48%', height: 'auto'}}>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Producto: <span style={{fontSize: 28 / proporcional, color: '#007BFF'}}>{producto}</span>
+                    </h2>
+                </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto',
                                 marginBottom: 16 / proporcional}}>
-                            <div className='rounded' style={{width:  350 / proporcional, height: 350 / proporcional,
+                            <div className='rounded' style={{width:  400 / proporcional, height: 400 / proporcional,
                                 border: '1px solid #4a4a4a'}}>
                                 {
                                     url_foto_principal !== '' ? (
                                         <img className='rounded' src={url_foto_principal} 
-                                            style={{width: 350 / proporcional, height: 350 / proporcional}}/>
+                                            style={{width: 398 / proporcional, height: 398 / proporcional}}/>
                                     ) : null
                                 }
                             </div>
                         </div>
                         <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto'}}>
-                            <div className='d-flex justify-content-between' style={{width: 350 / proporcional, height: 'auto'}}>
-                                <div className='rounded' style={{width:  65 / proporcional, height: 65 / proporcional,
+                            <div className='d-flex justify-content-between' style={{width: 400 / proporcional, height: 'auto'}}>
+                                <div className='rounded' style={{width:  70 / proporcional, height: 70 / proporcional,
                                     border: '1px solid #4a4a4a'}}>
                                     {
                                         url_foto_1 !== '' ? (
                                             <img className='rounded' src={url_foto_1} 
-                                                style={{width: 65 / proporcional, height: 65 / proporcional}}/>
+                                                style={{width: 68 / proporcional, height: 68 / proporcional}}/>
                                         ) : null
                                     }
                                 </div>
-                                <div className='rounded' style={{width:  65 / proporcional, height: 65 / proporcional,
+                                <div className='rounded' style={{width:  70 / proporcional, height: 70 / proporcional,
                                     border: '1px solid #4a4a4a'}}>
                                     {
                                         url_foto_2 !== '' ? (
                                             <img className='rounded' src={url_foto_2} 
-                                                style={{width: 65 / proporcional, height: 65 / proporcional}}/>
+                                                style={{width: 68 / proporcional, height: 68 / proporcional}}/>
                                         ) : null
                                     }
                                 </div>
-                                <div className='rounded' style={{width:  65 / proporcional, height: 65 / proporcional,
+                                <div className='rounded' style={{width:  70 / proporcional, height: 70 / proporcional,
                                     border: '1px solid #4a4a4a'}}>
                                     {
                                         url_foto_3 !== '' ? (
                                             <img className='rounded' src={url_foto_3} 
-                                                style={{width: 65 / proporcional, height: 65 / proporcional}}/>
+                                                style={{width: 68 / proporcional, height: 68 / proporcional}}/>
                                         ) : null
                                     }
                                 </div>
-                                <div className='rounded' style={{width:  65 / proporcional, height: 65 / proporcional,
+                                <div className='rounded' style={{width:  70 / proporcional, height: 70 / proporcional,
                                     border: '1px solid #4a4a4a'}}>
                                     {
                                         url_foto_4 !== '' ? (
                                             <img className='rounded' src={url_foto_4} 
-                                                style={{width: 65 / proporcional, height: 65 / proporcional}}/>
+                                                style={{width: 68 / proporcional, height: 68 / proporcional}}/>
                                         ) : null
                                     }
                                 </div>
-                                <div className='rounded' style={{width:  65 / proporcional, height: 65 / proporcional,
+                                <div className='rounded' style={{width:  70 / proporcional, height: 70 / proporcional,
                                     border: '1px solid #4a4a4a'}}>
                                     {
                                         url_foto_5 !== '' ? (
                                             <img className='rounded' src={url_foto_5} 
-                                                style={{width: 65 / proporcional, height: 65 / proporcional}}/>
+                                                style={{width: 68 / proporcional, height: 68 / proporcional}}/>
                                         ) : null
                                     }
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
@@ -434,7 +612,7 @@ export default function DetallesProductoTablet ({proporcional}) {
                                 className='form-control rounded'
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
-                                style={{width: '100%', height: 225 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                style={{width: '100%', height: 190 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Descripción del producto'/>
@@ -493,102 +671,157 @@ export default function DetallesProductoTablet ({proporcional}) {
                                     placeholder='Precio de oferta'/>
                             </div>
                         </div>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto'}}>
+                            <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Precio mensual(S/.)
+                                </span>
+                                <input
+                                    disabled={!editar_informacion} 
+                                    id='precio_mensual'
+                                    type='number'
+                                    className='form-control rounded'
+                                    value={precio_mensual}
+                                    onChange={(event) => setPrecioMensual(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: eprecio_mensual ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}
+                                    placeholder='Precio mensual'/>
+                            </div>
+                            <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Precio anual(S/.)
+                                </span>
+                                <input
+                                    disabled={!editar_informacion} 
+                                    id='precio_anual'
+                                    type='number'
+                                    className='form-control rounded'
+                                    value={precio_anual}
+                                    onChange={(event) => setPrecioAnual(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: eprecio_anual ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}
+                                    placeholder='Precio anual'/>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto'}}>
-                    <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Precio mensual(S/.)
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='precio_mensual'
-                            type='number'
-                            className='form-control rounded'
-                            value={precio_mensual}
-                            onChange={(event) => setPrecioMensual(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eprecio_mensual ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Precio mensual'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div className='d-flex justify-content-between' style={{width: '48%', height: 'auto'}}>
+                            <div style={{width: '48%', height: 'auto'}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Categoría 
+                                </span>
+                                <select
+                                    disabled={!editar_informacion}
+                                    id='categoria'
+                                    ref={selectRefCategoria}
+                                    className='form-select rounded'
+                                    onChange={(event) => seleccionar_categoria(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: ecategoria ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}>
+                                    <option value='0'>{categoria === '' ? 'Seleccionar categoría' : categoria}</option>
+                                    {
+                                        lista_categorias && lista_categorias.length > 0 ? (
+                                            lista_categorias.map ((categoria, index) => {
+                                                return (
+                                                    <option key={index} value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
+                                                )
+                                            })
+                                        ) : null
+                                    }
+                                </select>
+                            </div>
+                            <div style={{width: '48%', height: 'auto'}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Sub categoría 
+                                </span>
+                                <select
+                                    disabled={!editar_informacion}
+                                    id='sub_categoria'
+                                    ref={selectRefSubCategoria}
+                                    className='form-select rounded'
+                                    onChange={(event) => seleccionar_sub_categoria(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: esub_categoria ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}>
+                                        <option value='0'>{sub_categoria === '' ? 'Seleccionar categoría' : sub_categoria}</option>
+                                        {
+                                            lista_subcategorias && lista_subcategorias.length > 0 ? (
+                                                lista_subcategorias.map ((sub_categoria, index) => {
+                                                    return (
+                                                        <option key={index} value={sub_categoria.id + '-' + sub_categoria.sub_categoria}>{sub_categoria.sub_categoria}</option>
+                                                    )
+                                                })
+                                            ) : null
+                                        }
+                                </select>
+                            </div>
+                        </div>
+                        <div className='d-flex justify-content-between' style={{width: '48%', height: 'auto'}}>
+                            <div style={{width: '48%', height: 'auto'}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Unidad 
+                                </span>
+                                <select
+                                    disabled={!editar_informacion}
+                                    id='unidad'
+                                    ref={selectRefUnidad}
+                                    className='form-select rounded'
+                                    onChange={(event) => seleccionar_unidad(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: eunidad ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}>
+                                        <option value='0'>{unidad === '' ? 'Seleccionar unidad' : unidad}</option>
+                                        {
+                                            lista_unidades && lista_unidades.length > 0 ? (
+                                                lista_unidades.map ((unidad, index) => {
+                                                    return (
+                                                        <option key={index} value={unidad.id + '-' + unidad.unidad}>{unidad.unidad}</option>
+                                                    )
+                                                })
+                                            ) : null
+                                        }
+                                </select>
+                            </div>
+                            <div style={{width: '48%', height: 'auto'}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Servicio 
+                                </span>
+                                <select
+                                    disabled={!editar_informacion}
+                                    id='servicio'
+                                    ref={selectRefServicio}
+                                    className='form-select rounded'
+                                    onChange={(event) => seleccionar_servicio(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: eservicio ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}>
+                                        <option value='0'>{servicio === '' ? 'Seleccionar servicio' : servicio}</option>
+                                        {
+                                            lista_servicios && lista_servicios.length > 0 ? (
+                                                lista_servicios.map ((servicio, index) => {
+                                                    return (
+                                                        <option key={index} value={servicio.id + '-' + servicio.servicio}>{servicio.servicio}</option>
+                                                    )
+                                                })
+                                            ) : null
+                                        }
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Precio anual(S/.)
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='precio_anual'
-                            type='number'
-                            className='form-control rounded'
-                            value={precio_anual}
-                            onChange={(event) => setPrecioAnual(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eprecio_anual ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Precio anual'/>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Categoría 
-                        </span>
-                        <select
-                            disabled={!editar_informacion}
-                            id='categoria'
-                            ref={selectCategoria}
-                            className='form-select rounded'
-                            onChange={(event) => setCategoria(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecategoria ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar categoría</option>
-                        </select>
-                    </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Sub categoría 
-                        </span>
-                        <select
-                            disabled={!editar_informacion}
-                            id='sub_categoria'
-                            ref={selectSubCategoria}
-                            className='form-select rounded'
-                            onChange={(event) => setSubCategoria(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: esub_categoria ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar sub categoría</option>
-                        </select>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' style={{width: '48%', height: 'auto'}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Servicio 
-                        </span>
-                        <select
-                            disabled={!editar_informacion}
-                            id='servicio'
-                            ref={selectServicio}
-                            className='form-select rounded'
-                            onChange={(event) => setServicio(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eservicio ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar servicio</option>
-                        </select>
-                    </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <div className='d-flex justify-content-between' style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Código SKU
@@ -605,552 +838,602 @@ export default function DetallesProductoTablet ({proporcional}) {
                                         padding: 10 / proporcional}}
                                 placeholder='Código Sku'/>
                         </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Stock
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='stock'
+                                type='number'
+                                className='form-control rounded'
+                                value={stock}
+                                onChange={(event) => setStock(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: estock ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Stock'/>
+                        </div>
                     </div>
-                </div>
-                <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                        fontFamily: 'Poppins, sans-serif'}}>
-                        Comentarios
-                    </span>
-                    <textarea
-                        disabled={!editar_informacion} 
-                        id='comentarios'
-                        rows={3}
-                        type='default'
-                        className='form-control rounded'
-                        value={comentarios}
-                        onChange={(event) => setComentarios(event.target.value)}
-                        style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                fontFamily: 'Poppins, sans-serif', border: ecomentarios ? '1px solid red' : '1px solid #007BFF',
-                                padding: 10 / proporcional}}
-                        placeholder='Comentarios del producto'/>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
-                            Característica uno
+                            Comentarios
                         </span>
-                        <input
+                        <textarea
                             disabled={!editar_informacion} 
-                            id='caracteristica_1'
+                            id='comentarios'
+                            rows={3}
                             type='default'
                             className='form-control rounded'
-                            value={caracteristica_1}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_1 ? '1px solid red' : '1px solid #007BFF',
+                            value={comentarios}
+                            onChange={(event) => setComentarios(event.target.value)}
+                            style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: ecomentarios ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Característica uno'/>
+                            placeholder='Comentarios'/>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica dos
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_2'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_2}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_2 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica dos'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica uno
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_1'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_1}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_1 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica uno'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica dos
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_2'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_2}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_2 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica dos'/>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica tres
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_3'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_3}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_3 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica tres'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica tres
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_3'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_3}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_3 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica tres'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica cuatro
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_4'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_4}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_4 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica cuatro'/>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica cuatro
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_4'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_4}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_4 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica cuatro'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica cinco
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_5'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_5}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_5 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica cinco'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica seis
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_6'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_6}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_6 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica seis'/>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica cinco
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_5'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_5}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_5 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica cinco'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica siete
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_7'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_7}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_7 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica siete'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica ocho
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_8'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_8}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_8 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica ocho'/>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica seis
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_6'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_6}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_6 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica seis'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica nueve
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_9'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_9}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_9 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica nueve'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica diez
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_10'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_10}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_10 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica diez'/>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica siete
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_7'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_7}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_7 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica siete'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica once
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_11'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_11}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_11 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica once'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica doce
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_12'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_12}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_12 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica doce'/>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica ocho
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_8'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_8}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_8 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica ocho'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica trece
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_13'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_13}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_13 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica trece'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica catorce
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_14'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_14}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_14 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica catorce'/>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica nueve
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_9'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_9}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_9 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica nueve'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica quince
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_15'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_15}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_15 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica quince'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica diez y seis
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_16'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_16}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_16 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica diez y seis'/>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica diez
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_10'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_10}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_10 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica diez'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica diez y siete
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_17'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_17}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_17 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica diez y siete'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica diez y ocho
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_18'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_18}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_18 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica diez y ocho'/>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica once
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_11'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_11}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_11 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica once'/>
+                    <div className='d-flex justify-content-between' 
+                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica diez y nueve
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_19'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_19}
+                                onChange={(event) => setCaracteristica1(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_19 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica diez y nueve'/>
+                        </div>
+                        <div style={{width: '48%', height: 'auto'}}>
+                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif'}}>
+                                Característica veinte
+                            </span>
+                            <input
+                                disabled={!editar_informacion} 
+                                id='caracteristica_20'
+                                type='default'
+                                className='form-control rounded'
+                                value={caracteristica_20}
+                                onChange={(event) => setCaracteristica2(event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_20 ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                placeholder='Característica veinte'/>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica doce
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_12'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_12}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_12 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica doce'/>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica trece
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_13'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_13}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_13 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica trece'/>
-                    </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica catorce
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_14'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_14}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_14 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica catorce'/>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica quince
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_15'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_15}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_15 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica quince'/>
-                    </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica diez y seis
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_16'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_16}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_16 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica diez y seis'/>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica diez y siete
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_17'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_17}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_17 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica diez y siete'/>
-                    </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica diez y ocho
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_18'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_18}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_18 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica diez y ocho'/>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica diez y nueve
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_19'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_19}
-                            onChange={(event) => setCaracteristica1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_19 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica diez y nueve'/>
-                    </div>
-                    <div style={{width: '48%', height: 'auto'}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Característica veinte
-                        </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='caracteristica_20'
-                            type='default'
-                            className='form-control rounded'
-                            value={caracteristica_20}
-                            onChange={(event) => setCaracteristica2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecaracteristica_20 ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Característica veinte'/>
-                    </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
                             Url foto principal
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='url_foto_principal'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_foto_principal}
-                            onChange={(event) => setUrlFotoPrincipal(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                disable={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_foto_principal ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto principal'/>
+                                onChange={handleFileChange_1}/>
+                            <div className={boton_subif_foto_1 ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload_1 : null}
+                                    onMouseOver={() => setBotonSubirFoto1(true)} onMouseLeave={() => setBotonSubirFoto1(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
                             Url foto uno
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='url_foto_1'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_foto_1}
-                            onChange={(event) => setUrlFoto1(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                disable={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_foto_1 ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto uno'/>
+                                onChange={handleFileChange_2}/>
+                            <div className={boton_subif_foto_2 ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload_2 : null}
+                                    onMouseOver={() => setBotonSubirFoto2(true)} onMouseLeave={() => setBotonSubirFoto2(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
                             Url foto dos
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='url_foto_2'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_foto_2}
-                            onChange={(event) => setUrlFoto2(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                disable={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_foto_2 ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto dos'/>
+                                onChange={handleFileChange_3}/>
+                            <div className={boton_subif_foto_3 ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload_3 : null}
+                                    onMouseOver={() => setBotonSubirFoto3(true)} onMouseLeave={() => setBotonSubirFoto3(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
                             Url foto tres
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='url_foto_3'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_foto_3}
-                            onChange={(event) => setUrlFoto3(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                disable={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_foto_3 ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto tres'/>
+                                onChange={handleFileChange_4}/>
+                            <div className={boton_subif_foto_4 ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload_4 : null}
+                                    onMouseOver={() => setBotonSubirFoto4(true)} onMouseLeave={() => setBotonSubirFoto4(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className='d-flex justify-content-between' 
-                    style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
                             Url foto cuatro
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='url_foto_4'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_foto_4}
-                            onChange={(event) => setUrlFoto4(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                disable={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_foto_4 ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto cuatro'/>
+                                onChange={handleFileChange_5}/>
+                            <div className={boton_subif_foto_5 ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload_5 : null}
+                                    onMouseOver={() => setBotonSubirFoto5(true)} onMouseLeave={() => setBotonSubirFoto5(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{width: '48%', height: 'auto'}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
                             Url foto cinco
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
-                            id='url_foto_5'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_foto_5}
-                            onChange={(event) => setUrlFoto5(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                disable={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_foto_5 ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto cinco'/>
+                                onChange={handleFileChange_6}/>
+                            <div className={boton_subif_foto_6 ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload_6 : null}
+                                    onMouseOver={() => setBotonSubirFoto6(true)} onMouseLeave={() => setBotonSubirFoto6(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
+                    {
+                        editar_informacion ? (
+                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                                <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
+                                    onClick={() => actualizar_datos_proyecto()}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Actualizar datos
+                                    </p>
+                                </div>
+                                <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
+                                    onClick={() => {setEditarInformacion(false); window.scrollTo(0, 0)}}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Cancelar
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                                <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
+                                    onClick={() => obtener_data_editar()}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Editar datos
+                                    </p>
+                                </div>
+                                <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
+                                    onClick={() => volver_a_lista()}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Volver
+                                    </p>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
-                {
-                    editar_informacion ? (
-                        <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                            <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
-                                onClick={() => actualizar_datos_proyecto()}>
-                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                    Actualizar datos
-                                </p>
-                            </div>
-                            <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
-                                onClick={() => {setEditarInformacion(false); window.scrollTo(0, 0)}}>
-                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                    Cancelar
-                                </p>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                            <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
-                                >
-                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                    Editar datos
-                                </p>
-                            </div>
-                            <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
-                                onClick={() => volver_a_lista()}>
-                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                    Volver
-                                </p>
-                            </div>
-                        </div>
-                    )
-                }
             </div>
         </div>
     )

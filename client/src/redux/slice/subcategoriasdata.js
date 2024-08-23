@@ -20,7 +20,7 @@ export const subcategoriasdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_subcategorias':
+        case 'get_subcategorias_filter':
         case 'get_subcategorias_categoria':
         case 'get_subcategoria':
         case 'delete_subcategoria':

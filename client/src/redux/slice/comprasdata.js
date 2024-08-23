@@ -20,9 +20,9 @@ export const comprasdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_compras':
+        case 'get_compras_filter':
         case 'get_productos_compra':
-        case 'delete_compra':
+        case 'delete_producto_compra':
             if (params.reset){ 
                 return {success: false}
             }else{

@@ -24,6 +24,14 @@ import compras from '../../assets/iconos/menu/lateral/compras.png'
 import presupuestos from '../../assets/iconos/menu/lateral/presupuestos.png'
 import blog from '../../assets/iconos/menu/lateral/blog.png'
 import suscriptores from '../../assets/iconos/menu/lateral/suscripciones.png'
+import agenda from '../../assets/iconos/menu/lateral/agenda.png'
+import facturacion from '../../assets/iconos/menu/lateral/facturacion.png'
+import facturas from '../../assets/iconos/menu/lateral/facturas.png'
+import finanzas from '../../assets/iconos/menu/lateral/finanzas.png'
+import reportes from '../../assets/iconos/menu/lateral/reportes.png'
+import trabajadores from '../../assets/iconos/menu/lateral/trabajadores.png'
+import administradores from '../../assets/iconos/menu/lateral/administradores.png'
+import empresa from '../..//assets/iconos/menu/lateral/area_empresa.png'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -39,6 +47,8 @@ export default function MenuLateral ({proporcional}) {
 
     const [menu, setMenu] = useState('dashboard')
     const [seleccion_menu, setSeleccionMenu] = useState ('')
+
+    const [over_menu, setOverMenu] = useState (false)
 
     const [sub_menu, setSubMenu] = useState('')
     const [seleccion_sub_menu, setSeleccionSubMenu] = useState ('')
@@ -71,7 +81,7 @@ export default function MenuLateral ({proporcional}) {
     }
 
     return (
-        <div style={{width: '100%', height: '100%'}}>
+        <div className='vh-100' style={{width: '100%', background: 'white'}}>
             <div style={{width: '100%', height: 'auto', padding: 40 / proporcional, background: '#007BFF'}}>
                 <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                     <div className='rounded-circle' style={{width: 150 / proporcional, height: 150 / proporcional, 
@@ -85,8 +95,10 @@ export default function MenuLateral ({proporcional}) {
                     Nombre administrador
                 </p>
             </div>
-            <div style={{width: '100%', height: '100%', padding: 40 / proporcional, paddingLeft: 20 / proporcional, paddingRight: 20 / proporcional}}>
-                <div style={{width: '100%', height: '100%'}}>
+            <div className='' style={{width: '100%', height: '100%'}}>
+                <div className={over_menu ? 'overflow-auto' : 'overflow-hidden'} 
+                    style={{width: '100%', height: '55%', paddingTop: 40 / proporcional, paddingLeft: 20 / proporcional, paddingRight: 20 / proporcional}}
+                    onMouseOver={() => setOverMenu(true)} onMouseLeave={() => setOverMenu(false)}>
                     <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, 
                         marginBottom: 5 / proporcional, paddingTop: 5 / proporcional, 
                             paddingBottom: 5 / proporcional, cursor: 'pointer'}}
@@ -149,47 +161,6 @@ export default function MenuLateral ({proporcional}) {
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                             marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-cliente' || sub_menu === 'nuevo-cliente' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
                                             Nuevo cliente
-                                        </p>
-                                    </div>
-                                </div>
-                            ) : null
-                        }
-                    </div>
-                    <div style={{width: '100%', height: 'auto'}}>
-                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
-                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
-                            <div className={seleccion_menu === 'suscriptores' ? 'd-flex justify-content-between rounded shadow-sm' :
-                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
-                                onMouseOver={() => setSeleccionMenu('suscriptores')} onMouseLeave={() => setSeleccionMenu('')}
-                                onClick={() => setMenu(menu === 'suscriptores' ? '' : 'suscriptores')}>
-                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
-                                    <img src={suscriptores} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
-                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
-                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
-                                        marginBottom: 0 / proporcional, color: menu === 'suscriptores' || seleccion_menu === 'suscriptores' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                        Nuestros suscriptores
-                                    </p>
-                                </div>
-                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
-                                    <img src={menu === 'suscriptores' ? down : right} style={{width: 30 / proporcional, 
-                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
-                                </div>
-                            </div>
-                        </div>
-                        {
-                            menu === 'suscriptores' ? (
-                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
-                                    <div className='d-flex'
-                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
-                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => {navigate ('/panel/suscriptores'); setSubMenu('lista-suscriptores')}}
-                                                    onMouseOver={() => setSeleccionSubMenu('lista-suscriptores')}
-                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
-                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
-                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
-                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
-                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-suscriptores' || sub_menu === 'lista-suscriptores' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                            Lista suscriptores
                                         </p>
                                     </div>
                                 </div>
@@ -741,6 +712,101 @@ export default function MenuLateral ({proporcional}) {
                     <div style={{width: '100%', height: 'auto'}}>
                         <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
                             marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'suscriptores' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('suscriptores')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'suscriptores' ? '' : 'suscriptores')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={suscriptores} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'suscriptores' || seleccion_menu === 'suscriptores' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Nuestros suscriptores
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'suscriptores' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'suscriptores' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/suscriptores'); setSubMenu('lista-suscriptores')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-suscriptores')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-suscriptores' || sub_menu === 'lista-suscriptores' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista suscriptores
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'agenda' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('agenda')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'agenda' ? '' : 'agenda')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={agenda} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'agenda' || seleccion_menu === 'agenda' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Agenda
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'agenda' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'agenda' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/agenda'); setSubMenu('lista-agenda')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-agenda')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-agenda' || sub_menu === 'lista-agenda' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Citas / reuniones
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/agenda/nuevo'); setSubMenu('nuevo-agenda')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-agenda')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-agenda' || sub_menu === 'nuevo-agenda' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nueva cita / reunión
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
                             <div className={seleccion_menu === 'presupuestos' ? 'd-flex justify-content-between rounded shadow-sm' :
                                     'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setSeleccionMenu('presupuestos')} onMouseLeave={() => setSeleccionMenu('')}
@@ -750,7 +816,7 @@ export default function MenuLateral ({proporcional}) {
                                             paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                     <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                         marginBottom: 0 / proporcional, color: menu === 'presupuestos' || seleccion_menu === 'presupuestos' ? '#28a745' : '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                        Presupuestos
+                                        Cotizaciones
                                     </p>
                                 </div>
                                 <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
@@ -772,7 +838,7 @@ export default function MenuLateral ({proporcional}) {
                                                 paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                             marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-presupuestos' || sub_menu === 'lista-presupuestos' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                            Lista de presupuestos
+                                            Lista de cotizaciones
                                         </p>
                                     </div>
                                     <div className='d-flex'
@@ -785,7 +851,7 @@ export default function MenuLateral ({proporcional}) {
                                                 paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                             marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-presupuesto' || sub_menu === 'nuevo-presupuesto' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                            Nuevo presupuesto
+                                            Nueva cotización
                                         </p>
                                     </div>
                                 </div>
@@ -846,6 +912,350 @@ export default function MenuLateral ({proporcional}) {
                             ) : null
                         }
                     </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'empresa' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('empresa')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'empresa' ? '' : 'empresa')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={empresa} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'empresa' || seleccion_menu === 'empresa' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Áreas de la empresa
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'empresa' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'empresa' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/areas-empresa'); setSubMenu('lista-empresa')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-empresa')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-empresa' || sub_menu === 'lista-empresa' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista áreas empresa
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/areas-empresa/nuevo'); setSubMenu('nuevo-empresa')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-empresa')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-empresa' || sub_menu === 'nuevo-empresa' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nueva área empresa
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'trabajadores' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('trabajadores')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'trabajadores' ? '' : 'trabajadores')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={trabajadores} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'trabajadores' || seleccion_menu === 'trabajadores' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Trabajadores
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'trabajadores' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'trabajadores' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/trabajadores'); setSubMenu('lista-trabajadores')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-trabajadores')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-trabajadores' || sub_menu === 'lista-trabajadores' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista trabajadores
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/trabajadores/nuevo'); setSubMenu('nuevo-trabajador')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-trabajador')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-trabajador' || sub_menu === 'nuevo-trabajador' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nuevo trabajador
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'administradores' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('administradores')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'administradores' ? '' : 'administradores')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={administradores} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'administradores' || seleccion_menu === 'administradores' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Administradores
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'administradores' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'administradores' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/administradores'); setSubMenu('lista-administradores')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-administradores')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-administradores' || sub_menu === 'lista-administradores' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista administradores
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/administradores/nuevo'); setSubMenu('nuevo-admnistrador')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-admnistrador')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-admnistrador' || sub_menu === 'nuevo-admnistrador' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nuevo administrador
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'facturaciones' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('facturaciones')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'facturaciones' ? '' : 'facturaciones')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={facturacion} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'facturaciones' || seleccion_menu === 'facturaciones' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Facturación electrónica
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'facturaciones' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'facturaciones' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/facturacion-electronica'); setSubMenu('lista-facturaciones')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-facturaciones')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-facturaciones' || sub_menu === 'lista-facturaciones' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista facturación electrónica
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/facturacion-electronica/nuevo'); setSubMenu('nuevo-facturacion')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-facturacion')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-facturacion' || sub_menu === 'nuevo-facturacion' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nueva facturación
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'facturas' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('facturas')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'facturas' ? '' : 'facturas')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={facturas} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'facturas' || seleccion_menu === 'facturas' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Facturas / boletas
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'facturas' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'facturas' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/facturas'); setSubMenu('lista-facturas')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-facturas')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-facturas' || sub_menu === 'lista-facturas' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista facturas / boletas
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/factura/nuevo'); setSubMenu('nuevo-factura')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-factura')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-factura' || sub_menu === 'nuevo-factura' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nueva factura / boleta
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'finanzas' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('finanzas')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'finanzas' ? '' : 'finanzas')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={finanzas} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'finanzas' || seleccion_menu === 'finanzas' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Finanzas
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{width: '100%', height: 'auto'}}>
+                        <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
+                            marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
+                            <div className={seleccion_menu === 'reportes' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                    'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setSeleccionMenu('reportes')} onMouseLeave={() => setSeleccionMenu('')}
+                                onClick={() => setMenu(menu === 'reportes' ? '' : 'reportes')}>
+                                <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
+                                    <img src={reportes} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                            paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                    <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                        marginBottom: 0 / proporcional, color: menu === 'reportes' || seleccion_menu === 'reportes' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                        Reportes
+                                    </p>
+                                </div>
+                                <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
+                                    <img src={menu === 'reportes' ? down : right} style={{width: 30 / proporcional, 
+                                        height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        {
+                            menu === 'reportes' ? (
+                                <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/reportes'); setSubMenu('lista-reportes')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('lista-reportes')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-reportes' || sub_menu === 'lista-reportes' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Lista reportes
+                                        </p>
+                                    </div>
+                                    <div className='d-flex'
+                                            style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
+                                                    cursor: 'pointer', marginBottom: 5 / proporcional}} 
+                                                    onClick={() => {navigate ('/panel/reporte/nuevo'); setSubMenu('nuevo-reporte')}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-reporte')}
+                                                    onMouseLeave={() => setSeleccionSubMenu('')}>
+                                        <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                                paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
+                                        <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
+                                            marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-reporte' || sub_menu === 'nuevo-reporte' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Nuevo reporte
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
+                    </div>
+                </div>
+                <div style={{width: '100%', height: 'auto', padding: 40 / proporcional, paddingLeft: 20 / proporcional, paddingRight: 20 / proporcional}}>
                     <div className='rounded-pill' style={{width: '100%', height: 2 / proporcional, background: '#007BFF',
                         marginTop: 5 / proporcional, marginBottom: 5 / proporcional}}/>
                     <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, 

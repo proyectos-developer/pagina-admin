@@ -8,16 +8,19 @@ const initial_state = {
     data_tipo_proyecto: {},
     data_proyecto: {},
     data_cliente: {},
-    data_producto: {},
+    data_productos: {},
     data_favoritos: {},
     data_calificaciones: {},
-    data_compras: {},
+    data_compras: [],
     data_suscriptores: {},
     data_noticia: {},
     data_categoria: {},
     data_subcategoria: {},
     data_servicio: {},
-    data_unidad: {}
+    data_unidad: {},
+    data_areas_empresa: {},
+    data_trabajadores: {},
+    data_administradores: {}
 }
 
 const data = (state = initial_state, action) => {
@@ -57,11 +60,11 @@ const data = (state = initial_state, action) => {
             ... state,
             data_cliente
         }
-    }else if (action.type === datatypes.SET_DATA_PRODUCTO){
-        const data_producto = action.data_producto
+    }else if (action.type === datatypes.SET_DATA_PRODUCTOS){
+        const data_productos = action.data_productos
         return {
             ... state,
-            data_producto
+            data_productos
         }
     }else if (action.type === datatypes.SET_DATA_FAVORITOS){
         const data_favoritos = action.data_favoritos
@@ -116,6 +119,24 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_unidad
+        }
+    }else if (action.type === datatypes.SET_DATA_AREAS_EMPRESA){
+        const data_areas_empresa = action.data_areas_empresa
+        return {
+            ... state,
+            data_areas_empresa
+        }
+    }else if (action.type === datatypes.SET_DATA_TRABAJADORES){
+        const data_trabajadores = action.data_trabajadores
+        return {
+            ... state,
+            data_trabajadores
+        }
+    }else if (action.type === datatypes.SET_DATA_ADMINISTRADORES){
+        const data_administradores = action.data_administradores
+        return {
+            ... state,
+            data_administradores
         }
     }else{
         return state

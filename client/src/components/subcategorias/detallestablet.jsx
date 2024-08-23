@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import {subcategoriasdata} from '../../redux/slice/subcategoriasdata'
 import { set_data_subcategoria } from '../../redux/actions/data'
 import { subcategoriasConstants } from '../../uri/subcategorias-constants'
+import {categoriasdata} from '../../redux/slice/categoriasdata'
+import { categoriasConstants } from '../../uri/categorias-constants'
 
 export default function DetallesSubCategoriaTablet ({proporcional}) {
 
     const navigate = useNavigate ()
     const dispatch = useDispatch()
     const location = useLocation()
+
+    const selectCategoria = useRef(null)
 
     const [editar_informacion, setEditarInformacion] = useState(false)
 
@@ -23,39 +27,49 @@ export default function DetallesSubCategoriaTablet ({proporcional}) {
     const [esubcategoria, setESubCategoria] = useState (false)
     const [edescripcion, setEDescripcion] = useState(false)
 
+    const [lista_categorias, setListaCategorias] = useState([])
+
     const [boton_actualizar, setBotonActualizar] = useState(false)
     const [boton_editar, setBotonEditar] = useState(false)
     const [boton_cancelar, setBotonCancelar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
 
     const {update_subcategoria, get_subcategoria} = useSelector(({subcategorias_data}) => subcategorias_data)
+    const {get_categorias_filter} = useSelector(({categorias_data}) => categorias_data)
     const {data_subcategoria, open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
-        if (data_subcategoria.subcategoria === undefined){
-            dispatch(subcategoriasdata(subcategoriasConstants(location.pathname.split ('/')[3], {}, false).get_subcategoria))
+        if (get_categorias_filter && get_categorias_filter.success === true && get_categorias_filter.categorias){
+            setEditarInformacion(true)
+            setListaCategorias(get_categorias_filter.categorias)
+        }
+    }, [get_categorias_filter])
+
+    useEffect(() => {
+        if (data_subcategoria.categoria === undefined){
+            dispatch(subcategoriasdata(subcategoriasConstants(location.pathname.split ('/')[5], 0, 0, 0, 0, 0, 16, {}, false).get_subcategoria))
         }else{
             setIdSubCategoria(data_subcategoria.id)
             setIdCategoria(data_subcategoria.id_categoria)
             setCategoria(data_subcategoria.categoria)
-            setSubCategoria(data_subcategoria.subcategoria)
+            setSubCategoria(data_subcategoria.sub_categoria)
             setDescripcion(data_subcategoria.descripcion)
         }
     }, [])
 
     useEffect(() => {
-        if (get_subcategoria && get_subcategoria.success === true && get_subcategoria.subcategoria){
-            setIdSubCategoria(get_subcategoria.subcategoria.id)
-            setIdCategoria(get_subcategoria.subcategoria.id_categoria)
-            setCategoria(get_subcategoria.subcategoria.categoria)
-            setSubCategoria(get_subcategoria.subcategoria.subcategoria)
-            setDescripcion(get_subcategoria.subcategoria.descripcion)
+        if (get_subcategoria && get_subcategoria.success === true && get_subcategoria.sub_categoria){
+            setIdSubCategoria(get_subcategoria.sub_categoria.id)
+            setIdCategoria(get_subcategoria.sub_categoria.id_categoria)
+            setCategoria(get_subcategoria.sub_categoria.categoria)
+            setSubCategoria(get_subcategoria.sub_categoria.sub_categoria)
+            setDescripcion(get_subcategoria.sub_categoria.descripcion)
             dispatch(subcategoriasdata(subcategoriasConstants(0, {}, true).get_subcategoria))
         }
     }, [get_subcategoria])
 
     useEffect(() => {
-        if (update_subcategoria && update_subcategoria.success === true && update_subcategoria.subcategoria){
+        if (update_subcategoria && update_subcategoria.success === true && update_subcategoria.sub_categoria){
             dispatch(subcategoriasdata(subcategoriasConstants(0, {}, true).update_subcategoria))
             setEditarInformacion(false)
         }
@@ -65,30 +79,51 @@ export default function DetallesSubCategoriaTablet ({proporcional}) {
         dispatch(set_data_subcategoria({}))
         navigate ('/panel/subcategorias')
     }
+
+    const editar_informacion_subcategoria = () => {
+        dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 100, {}, false).get_categorias_filter))
+    }
     
     const actualizar_data_subcategoria = () => {
-        const data_nuevo = {
-            id_categoria: id_categoria,
-            categoria: categoria,
-            subcategoria: subcategoria,
-            descripcion: descripcion,
+        if (subcategoria === ''){
+            setESubCategoria(subcategoria === '' ? true : false)
+        }else{
+            const data_nuevo = {
+                id_categoria: id_categoria,
+                categoria: categoria,
+                sub_categoria: subcategoria,
+                descripcion: descripcion,
+            }
+            dispatch (subcategoriasdata(subcategoriasConstants(id_subcategoria, 0, 0, 0, 0, 0, 16, data_nuevo, false).update_subcategoria))
         }
-        dispatch (subcategoriasdata(subcategoriasConstants(id_categoria, data_nuevo, false).update_subcategoria))
     }
+
+    useEffect (() => {
+        return () => {
+            setListaCategorias([])
+        }
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
             paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
-                <div className='d-flex justify-content-center' 
-                    style={{width: '100%', height: 'auto'}}>
-                    <div className='' style={{width: '48%', height: 'auto'}}>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Sub categoría: <span style={{fontSize: 28 / proporcional, color: '#007bff'}}>{subcategoria}</span>
+                    </h2>
+                </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: '100%'}}>
+                    <div className='' style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Sub categoría
                             </span>
                             <input
+                                disabled={!editar_informacion}
                                 type='default' 
                                 id='subcategoria'
                                 value={subcategoria}
@@ -105,6 +140,7 @@ export default function DetallesSubCategoriaTablet ({proporcional}) {
                                 Categoría
                             </span>
                             <select
+                                disabled={!editar_informacion}
                                 ref={selectCategoria}
                                 id='categoria'
                                 value={categoria}
@@ -113,12 +149,12 @@ export default function DetallesSubCategoriaTablet ({proporcional}) {
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: ecategoria ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar categoría</option>
+                                <option value='0'>{categoria === '' ? 'Seleccionar categoría' : categoria}</option>
                                 {
                                     lista_categorias && lista_categorias.length > 0 ? (
                                         lista_categorias.map ((categoria, index) => {
                                             return (
-                                                <option value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
+                                                <option key={index} value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
                                             )
                                         })
                                     ) : null
@@ -131,6 +167,7 @@ export default function DetallesSubCategoriaTablet ({proporcional}) {
                                 Descripción de la subcategoría
                             </span>
                             <textarea 
+                                disabled={!editar_informacion}
                                 id='descripcion'
                                 type='default'
                                 rows={3}
@@ -169,7 +206,7 @@ export default function DetallesSubCategoriaTablet ({proporcional}) {
                                     <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
                                         style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                         onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
-                                        >
+                                        onClick={() => editar_informacion_subcategoria()}>
                                         <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
                                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                             Editar datos

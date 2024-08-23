@@ -20,7 +20,7 @@ export const tipoproyectosdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_tipo_proyectos':
+        case 'get_tipo_proyectos_filter':
         case 'get_tipo_proyecto':
         case 'delete_tipo_proyecto':
             if (params.reset){ 

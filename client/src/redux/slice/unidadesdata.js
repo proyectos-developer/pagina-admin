@@ -20,7 +20,7 @@ export const unidadesdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_unidades':
+        case 'get_unidades_filter':
         case 'get_unidad':
         case 'delete_unidad':
             if (params.reset){ 

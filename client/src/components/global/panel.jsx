@@ -13,7 +13,6 @@ export default function GlobalPanel({proporcional}) {
     useEffect(() => {
         if (window.localStorage.getItem('session_id')){
             dispatch(set_authenticated(true))
-            navigate ('/panel')
         }else{
             navigate ('/')
         }

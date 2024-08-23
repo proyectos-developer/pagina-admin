@@ -1,6 +1,7 @@
 import { constantes } from "./constantes"
 
-export const tipoproyectoConstants = (id = 1, data = {}, reset = false) => {
+export const tipoproyectoConstants = (id = 1, search = 0, order_by = 0, order = 0, begin = 0, amount = 16, 
+        data = {}, reset = false) => {
     return {
         url: `${constantes().url_principal[0].url}`,
         new_tipo_proyecto: {
@@ -15,9 +16,9 @@ export const tipoproyectoConstants = (id = 1, data = {}, reset = false) => {
             reset: reset,
             data: data
         },  
-        get_tipo_proyectos: {
-            path: `tipo_proyectos`,
-            stateType: 'get_tipo_proyectos',
+        get_tipo_proyectos_filter: {
+            path: `tipo_proyectos/search/${search}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            stateType: 'get_tipo_proyectos_filter',
             reset: reset
         }, 
         get_tipo_proyecto: {

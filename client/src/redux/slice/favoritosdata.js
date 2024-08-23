@@ -8,7 +8,7 @@ let stateType = ''
 export const favoritosdata = createAsyncThunk ('', async (params) => {
     stateType = params.stateType
     switch (stateType){
-        case 'new_favoritos':
+        case 'new_favorito':
             if (params.reset){ 
                 return {success: false}
             }else{
@@ -19,8 +19,8 @@ export const favoritosdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_favoritos':
-        case 'get_clientes_producto_favorito':
+        case 'get_favoritos_filter':
+        case 'get_clientes_producto_favorito_filter':
         case 'delete_favorito_cliente':
             if (params.reset){ 
                 return {success: false}

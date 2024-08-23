@@ -21,19 +21,20 @@ export default function HomePanelTablet({proporcional}) {
             <div className='position-relative' style={{width: '100%', height: '100%'}}>
                 {
                     !open_menu_lateral ? (
-                        <div className='position-absolute top-0 start-0' 
-                            style={{width: '40%', height: '100%', borderRight: '1px solid rgba(229, 229, 229, 1)',
-                                background: 'white'}}>
-                            <div className='shadow-lg' style={{width: '100%', height: '100vh'}}>
-                                <MenuLateralTablet proporcional={proporcional}/>
-                            </div>
-                            <div className={`position-absolute ${arrow_left ? 'shadow' : 'shadow-lg'} rounded-circle`} 
-                                style={{width: 48 / proporcional, height: 48 / proporcional,
-                                    top: 246 / proporcional, right: -24 / proporcional, background: '#28A745', cursor: 'pointer'}}
-                                    onMouseOver={() => setArrowLeft(true)} onMouseLeave={() => setArrowLeft(false)}
-                                    onClick={() => dispatch (set_open_menu_lateral(!open_menu_lateral))}>
-                                <img className='rounded-circle' src={left} style={{width: 48 / proporcional, height: 48 / proporcional,
-                                        padding: arrow_left ? 3 / proporcional : 6 / proporcional}}/>
+                        <div className='shadow-lg position-absolute min-vh-100' style={{width: '40%', borderRight: '1px solid rgba(229, 229, 229, 1)',
+                                background: 'white', zIndex: 99999}}>
+                            <div className='position-fixed'>
+                                <div className='' style={{width: '140%'}}>
+                                    <MenuLateralTablet proporcional={proporcional}/>
+                                    <div className={`position-absolute ${arrow_left ? 'shadow' : 'shadow-lg'} rounded-circle`} 
+                                        style={{width: 48 / proporcional, height: 48 / proporcional,
+                                            top: 246 / proporcional, left: '130%', background: '#28A745', cursor: 'pointer'}}
+                                            onMouseOver={() => setArrowLeft(true)} onMouseLeave={() => setArrowLeft(false)}
+                                            onClick={() => dispatch (set_open_menu_lateral(!open_menu_lateral))}>
+                                        <img className='rounded-circle' src={left} style={{width: 48 / proporcional, height: 48 / proporcional,
+                                                padding: arrow_left ? 3 / proporcional : 6 / proporcional}}/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ) : null

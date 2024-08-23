@@ -30,7 +30,7 @@ export default function DetallesUnidadCell ({proporcional}) {
 
     useEffect(() => {
         if (data_unidad.unidad === undefined){
-            dispatch(unidadesdata(unidadesConstants(location.pathname.split ('/')[3], {}, false).get_unidad))
+            dispatch(unidadesdata(unidadesConstants(location.pathname.split ('/')[5], 0, 0, 0, 0, 16, {}, false).get_unidad))
         }else{
             setIdUnidad(data_unidad.id)
             setUnidad(data_unidad.unidad)
@@ -60,19 +60,29 @@ export default function DetallesUnidadCell ({proporcional}) {
     }
     
     const actualizar_data_unidad = () => {
-        const data_nuevo = {
-            unidad: unidad,
-            descripcion: descripcion,
+        if (unidad === ''){
+
+        }else{
+            const data_nuevo = {
+                unidad: unidad,
+                descripcion: descripcion,
+            }
+            dispatch (unidadesdata(unidadesConstants(id_unidad, 0, 0, 0, 0, 16, data_nuevo, false).update_unidad))
         }
-        dispatch (unidadesdata(unidadesConstants(id_unidad, data_nuevo, false).update_unidad))
     }
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
             paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
-                <div className='d-flex justify-content-center' 
-                    style={{width: '100%', height: 'auto'}}>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Unidad: <span style={{fontSize: 28 / proporcional, color: '#007bff'}}>{unidad}</span>
+                    </h2>
+                </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: '100%'}}>
                     <div className='' style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
@@ -80,6 +90,7 @@ export default function DetallesUnidadCell ({proporcional}) {
                                 Unidad
                             </span>
                             <input
+                                disabled={!editar_informacion}
                                 type='default' 
                                 id='unidad'
                                 value={unidad}
@@ -96,6 +107,7 @@ export default function DetallesUnidadCell ({proporcional}) {
                                 Descripción de la unidad
                             </span>
                             <textarea 
+                                disabled={!editar_informacion}
                                 id='descripcion'
                                 type='default'
                                 rows={3}
@@ -111,7 +123,9 @@ export default function DetallesUnidadCell ({proporcional}) {
                             editar_informacion ? (
                                 <div className='' style={{width: '100%', height: 'auto'}}>
                                     <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer', marginBottom: 16 / proporcional}}
+                                        style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
+                                            marginBottom: 16 / proporcional
+                                        }}
                                         onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
                                         onClick={() => actualizar_data_unidad()}>
                                         <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -132,9 +146,11 @@ export default function DetallesUnidadCell ({proporcional}) {
                             ) : (
                                 <div className='' style={{width: '100%', height: 'auto'}}>
                                     <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer', marginBottom: 16 / proporcional}}
+                                        style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
+                                            marginBottom: 16 / proporcional
+                                        }}
                                         onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
-                                        >
+                                        onClick={() => setEditarInformacion(true)}>
                                         <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
                                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                             Editar datos

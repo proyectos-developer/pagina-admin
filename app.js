@@ -35,7 +35,7 @@ app.get('/olvido-password', (req, res) => {
 });
 
 app.use(express.static(path.resolve(__dirname, './client/build/cambiar-password')));
-app.get('/cambiar-password', (req, res) => {
+app.get('/cambiar-password/:usuario', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/cambiar-password', 'index'));
 });
 
@@ -132,6 +132,26 @@ app.get('/panel/calificaciones', (req, res) => {
 app.use(express.static(path.resolve(__dirname, './client/build/panel/calificaciones/producto')));
 app.get('/panel/calificaciones/producto/:producto/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/calificaciones/producto', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/compradores')));
+app.get('/panel/compradores', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/compradores', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/compradores/comprador')));
+app.get('/panel/compradores/comprador/:comprador/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/compradores/comprador', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/compras')));
+app.get('/panel/compras', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/compras', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/compras/productos')));
+app.get('/panel/compras/productos/:shop_id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/compras/productos', 'index'));
 });
 
 //Iniciar el servidor

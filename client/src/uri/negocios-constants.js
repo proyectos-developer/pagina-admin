@@ -1,6 +1,6 @@
 import { constantes } from "./constantes"
 
-export const negociosConstants = (id = 1, begin = 0, amount = 16,  data = {}, reset = false) => {
+export const negociosConstants = (id = 1, search = 0, order_by = 0, order = 0, begin = 0, amount = 16,  data = {}, reset = false) => {
     return {
         url: `${constantes().url_principal[0].url}`,
         new_negocio: {
@@ -15,9 +15,9 @@ export const negociosConstants = (id = 1, begin = 0, amount = 16,  data = {}, re
             reset: reset,
             data: data
         },  
-        get_negocios: {
-            path: `negocios/${begin}/${amount}`,
-            stateType: 'get_negocios',
+        get_negocios_filter: {
+            path: `negocios/search/${search}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            stateType: 'get_negocios_filter',
             reset: reset
         }, 
         get_negocio: {

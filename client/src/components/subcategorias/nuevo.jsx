@@ -28,22 +28,22 @@ export default function NuevaSubCategoria ({proporcional}) {
     const [boton_volver, setBotonVolver] = useState(false)
 
     const {new_subcategoria} = useSelector(({subcategorias_data}) => subcategorias_data)
-    const {get_categorias} = useSelector(({categorias_data}) => categorias_data)
+    const {get_categorias_filter} = useSelector(({categorias_data}) => categorias_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
-        dispatch (categoriasdata(categoriasConstants(0, {}, false).get_categoria))
+        dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 100, {}, false).get_categorias_filter))
     }, [])
 
     useEffect(() => {
-        if (get_categorias && get_categorias.success === true && get_categorias.categorias){
-            setListaCategorias(get_categorias.categorias)
+        if (get_categorias_filter && get_categorias_filter.success === true && get_categorias_filter.categorias){
+            setListaCategorias(get_categorias_filter.categorias)
         }
-    }, [get_categorias])
+    }, [get_categorias_filter])
 
     useEffect(() => {
-        if (new_subcategoria && new_subcategoria.success === true && new_subcategoria.subcategoria){
-            dispatch(subcategoriasdata(subcategoriasConstants(0, {}, true).new_subcategoria))
+        if (new_subcategoria && new_subcategoria.success === true && new_subcategoria.sub_categoria){
+            dispatch(subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 16, {}, true).new_subcategoria))
             resetear_data()
         }
     }, [new_subcategoria])
@@ -62,6 +62,9 @@ export default function NuevaSubCategoria ({proporcional}) {
         setSubCategoria('')
         setCategoria('')
         setDescripcion('')
+        if (selectCategoria.current){
+            selectCategoria.current.value = '0'
+        }
     }
 
     const volver_a_lista = () => {
@@ -71,31 +74,35 @@ export default function NuevaSubCategoria ({proporcional}) {
     }
 
     const guardar_categoria = () => {
-        if (subcategoria === '' || descripcion === ''){
+        if (subcategoria === '' || categoria === ''){
           setESubCategoria(subcategoria === '' ? true : false)
-          setEDescripcion(descripcion === '' ? true : false)
           setECategoria(categoria === '' ? true : false)
         }else{
             setESubCategoria(false)
-            setEDescripcion(false)
             setECategoria(false)
             const data_nuevo = {
                 id_categoria: id_categoria,
                 categoria: categoria,
-                subcategoria: subcategoria,
+                sub_categoria: subcategoria,
                 descripcion: descripcion
             }
-            dispatch (subcategoriasdata(subcategoriasConstants(0, data_nuevo, false).new_subcategoria))
+            dispatch (subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 16, data_nuevo, false).new_subcategoria))
         }
     }
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 150 / proporcional : 250 / proporcional,
             paddingRight: open_menu_lateral ? 150 / proporcional : 250 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
-                <div className='d-flex justify-content-center' 
-                    style={{width: '100%', height: 'auto'}}>
-                    <div className='' style={{width: '48%', height: 'auto'}}>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Nueva sub categoría
+                    </h2>
+                </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: '100%'}}>
+                    <div className='' style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
@@ -131,7 +138,7 @@ export default function NuevaSubCategoria ({proporcional}) {
                                     lista_categorias && lista_categorias.length > 0 ? (
                                         lista_categorias.map ((categoria, index) => {
                                             return (
-                                                <option value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
+                                                <option key={index} value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
                                             )
                                         })
                                     ) : null

@@ -19,7 +19,7 @@ export const clientesdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_clientes':
+        case 'get_clientes_filter':
         case 'get_cliente':
             if (params.reset){ 
                 return {success: false}

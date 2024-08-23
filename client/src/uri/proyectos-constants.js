@@ -1,6 +1,6 @@
 import { constantes } from "./constantes"
 
-export const proyectosConstants = (id = 1, search = '', id_tipo = '', data = {}, reset = false) => {
+export const proyectosConstants = (id = 1, search = '', id_tipo = '', order_by = '', order = '', begin = '', amount = '', data = {}, reset = false) => {
     return {
         url: `${constantes().url_principal[0].url}`,
         new_proyecto: {
@@ -15,21 +15,16 @@ export const proyectosConstants = (id = 1, search = '', id_tipo = '', data = {},
             reset: reset,
             data: data
         },  
-        get_proyectos: {
-            path: `proyectos/search/${search}/tipo/${id_tipo}`,
-            stateType: 'get_proyectos',
+        get_proyectos_filter: {
+            path: `proyectos/search/${search}/tipo/${id_tipo}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            stateType: 'get_proyectos_filter',
             reset: reset
         },   
         get_tipo_proyectos_negocios: {
-            path: `tipo_proyectos/clientes`,
+            path: `/proyecto/tipo_proyectos/clientes`,
             stateType: 'get_tipo_proyectos_negocios',
             reset: reset
         },
-        get_proyectos_todo: {
-            path: `proyectos/tipo_proyectos/clientes`,
-            stateType: 'get_proyectos_todo',
-            reset: reset
-        }, 
         get_proyecto: {
             path: `proyecto/${id}`,
             stateType: 'get_proyecto',

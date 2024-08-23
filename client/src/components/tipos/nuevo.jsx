@@ -3,11 +3,15 @@ import {useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {tipoproyectosdata} from '../../redux/slice/tipoproyectosdata'
 import {tipoproyectoConstants} from '../../uri/tipoproyecto-constants'
+import {filesdata} from '../../redux/slice/filesdata'
+import {filesConstants} from '../../uri/files-constants'
 
 export default function NuevoTipoProyecto ({proporcional}) {
 
     const navigate = useNavigate ()
     const dispatch = useDispatch()
+
+    const [file_imagen, setFileImagen] = useState (null)
 
     const [nombre, setNombre] = useState('')
     const [descripcion, setDescripcion] = useState('')
@@ -17,33 +21,28 @@ export default function NuevoTipoProyecto ({proporcional}) {
     const [edescripcion, setEDescripcion] = useState(false)
     const [eurl_tipo, setEUrlTipo] = useState (false)
 
+    const [boton_subif_foto, setBotonSubirFoto] = useState(false)
+
     const [boton_guardar, setBotonGuardar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
-    const [show_lista, setShowLista] = useState(false)
 
-    const [lista_tipo_proyectos, setListaTipoProyectos] = useState([])
-
-    const {new_tipo_proyecto, get_tipo_proyectos} = useSelector(({tipoproyectos_data}) => tipoproyectos_data)
+    const {new_tipo_proyecto} = useSelector(({tipoproyectos_data}) => tipoproyectos_data)
+    const {file_upload} = useSelector(({files_data}) => files_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
-        dispatch(tipoproyectosdata(tipoproyectoConstants(0, {}, false).get_tipo_proyectos))
-    }, [])
-
-    useEffect(() => {
-        if (get_tipo_proyectos && get_tipo_proyectos.success === true && get_tipo_proyectos.tipo_proyectos){
-            setListaTipoProyectos(get_tipo_proyectos.tipo_proyectos)
-            dispatch(tipoproyectosdata(tipoproyectoConstants(0, {}, true).get_tipo_proyectos))
-        }
-    }, [get_tipo_proyectos])
-
-    useEffect(() => {
-        if (new_tipo_proyecto && new_tipo_proyecto.success === true && new_tipo_proyecto.tipo_proyectos){
-            setListaTipoProyectos(new_tipo_proyecto.tipo_proyectos)
-            dispatch(tipoproyectosdata(tipoproyectoConstants(0, {}, true).new_tipo_proyecto))
+        if (new_tipo_proyecto && new_tipo_proyecto.success === true && new_tipo_proyecto.tipo_proyecto){
+            dispatch(tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 16, {}, true).new_tipo_proyecto))
             resetear_data()
         }
     }, [new_tipo_proyecto])
+
+    useEffect(() => {
+        if (file_upload && file_upload.success === true && file_upload.message === true){
+            setUrlTipo(`https://api.developer-ideas.com/tipo_proyectos/${file_imagen.name}`)
+            dispatch (filesdata(filesConstants(0, {}, true).file_upload))
+        }
+    }, [file_upload])
 
     const resetear_data = () => {
         setNombre('')
@@ -66,37 +65,33 @@ export default function NuevoTipoProyecto ({proporcional}) {
                 descripcion: descripcion,
                 url_tipo: url_tipo
             }
-            dispatch (tipoproyectosdata(tipoproyectoConstants(0, data_nuevo, false).new_tipo_proyecto))
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 16, data_nuevo, false).new_tipo_proyecto))
         }
+    }
+    
+    const handleFileChange = (event) => {
+        setFileImagen(event.target.files[0])
+    }
+
+    const handleUpload = (event) => {
+        event.preventDefault()
+        const data = new FormData()
+        data.append('file', file_imagen, file_imagen.name)
+        dispatch(filesdata(filesConstants('tipo_proyectos', data, false).file_upload))
     }
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 150 / proporcional : 250 / proporcional,
             paddingRight: open_menu_lateral ? 150 / proporcional : 250 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: '100%'}}>
-                <div style={{width: '25%', height: '100%'}}>
-                    <h3 style={{fontSize: 20 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16 / proporcional, fontWeight: 500,
-                        fontFamily: 'Poppins, sans-serif', color: 'rgb (89, 89, 89)'}}>
-                        Tipo proyectos ya agregados
-                    </h3>
-                    <div className={show_lista ? 'rounded overflow-auto' : 'rounded overflow-hidden'} style={{width: '100%', height: 530 / proporcional,
-                            border: '1px solid #f2f2f2', padding: 5 / proporcional}}
-                        onMouseOver={() => setShowLista(true)} onMouseLeave={() => setShowLista(false)}>
-                        {
-                            lista_tipo_proyectos && lista_tipo_proyectos.length > 0 ? (
-                                lista_tipo_proyectos.map ((negocio, index) => {
-                                    return (
-                                        <p style={{color: '#4a4a4a', marginBottom: 8 / proporcional, fontSize: 16 / proporcional, lineHeight: `${20 / proporcional}px`,
-                                            fontFamily: 'Poppins, sans-serif', fontWeight: 500}}>
-                                            <strong>{index + 1}.</strong> {negocio.nombre}
-                                        </p>
-                                    )
-                                })
-                            ) : null
-                        }
-                    </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Nuevo tipo de proyecto
+                    </h2>
                 </div>
-                <div style={{width: '68%', height: '100%'}}>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: '100%'}}>
                     <div className='d-flex justify-content-center' style={{width: '100%', height: 174 / proporcional,
                         marginBottom: 32 / proporcional }}>
                         <div className='rounded-circle' style={{width:  174 / proporcional, height: 174 / proporcional,
@@ -144,21 +139,28 @@ export default function NuevoTipoProyecto ({proporcional}) {
                                     padding: 10 / proporcional}}
                             placeholder='Descripción'/>
                     </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
-                            URL Tipo proyecto
+                            Url foto tipo proyecto
                         </span>
-                        <input 
-                            id='url_tipo'
-                            type='web'
-                            className='form-control rounded'
-                            value={url_tipo}
-                            onChange={(event) => setUrlTipo(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                            <input 
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eurl_tipo ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='URL Tipo proyecto'/>
+                                onChange={handleFileChange}/>
+                            <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={handleUpload}
+                                    onMouseOver={() => setBotonSubirFoto(true)} onMouseLeave={() => setBotonSubirFoto(false)}>Subir foto</p>
+                            </div>
+                        </div>
                     </div>
                     <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
                         <div className={boton_guardar ? 'shadow rounded' : 'shadow-sm rounded'} 

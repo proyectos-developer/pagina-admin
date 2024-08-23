@@ -10,6 +10,7 @@ export const productosdata = createAsyncThunk ('', async (params) => {
     switch (stateType){
         case 'new_producto':
         case 'update_producto':
+        case 'update_habilitar_producto':
             if (params.reset){ 
                 return {success: false}
             }else{
@@ -21,6 +22,7 @@ export const productosdata = createAsyncThunk ('', async (params) => {
                 }
             }
         case 'get_productos_filter':
+        case 'get_producto_categorias_unidades_servicios':
         case 'get_producto':
         case 'delete_producto':
             if (params.reset){ 

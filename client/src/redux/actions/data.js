@@ -6,7 +6,7 @@ export const datatypes = {
     SET_DATA_TIPO_PROYECTO: 'SET_DATA_TIPO_PROYECTO',
     SET_DATA_PROYECTO: 'SET_DATA_PROYECTO',
     SET_DATA_CLIENTE: 'SET_DATA_CLIENTE',
-    SET_DATA_PRODUCTO: 'SET_DATA_PRODUCTO',
+    SET_DATA_PRODUCTOS: 'SET_DATA_PRODUCTOS',
     SET_DATA_FAVORITOS: 'SET_DATA_FAVORITOS',
     SET_DATA_CALIFICACIONES: 'SET_DATA_CALIFICACIONES',
     SET_DATA_COMPRAS: 'SET_DATA_COMPRAS',
@@ -15,7 +15,10 @@ export const datatypes = {
     SET_DATA_CATEGORIA: 'SET_DATA_CATEGORIA',
     SET_DATA_SUBCATEGORIA: 'SET_DATA_SUBCATEGORIA',
     SET_DATA_SERVICIO: 'SET_DATA_SERVICIO',
-    SET_DATA_UNIDAD: 'SET_DATA_UNIDAD'
+    SET_DATA_UNIDAD: 'SET_DATA_UNIDAD',
+    SET_DATA_TRABAJADORES: 'SET_DATA_TRABAJADORES',
+    SET_DATA_ADMINISTRADORES: 'SET_DATA_ADMINISTRADORES',
+    SET_DATA_AREAS_EMPRESA: 'SET_DATA_AREAS_EMPRESA'
 }
 
 export const set_authenticated = authenticated => {
@@ -67,10 +70,10 @@ export const set_data_calificaciones = data_calificaciones => {
     }
 }
 
-export const set_data_producto = data_producto => {
+export const set_data_productos = data_productos => {
     return {
-        data_producto,
-        type: datatypes.SET_DATA_PRODUCTO
+        data_productos,
+        type: datatypes.SET_DATA_PRODUCTOS
     }
 }
 
@@ -127,5 +130,26 @@ export const set_data_unidad = data_unidad => {
     return {
         data_unidad,
         type: datatypes.SET_DATA_UNIDAD
+    }
+}
+
+export const set_data_areas_empresa = data_areas_empresa => {
+    return {
+        data_areas_empresa,
+        type: datatypes.SET_DATA_AREAS_EMPRESA
+    }
+}
+
+export const set_data_trabajadores = data_trabajadores => {
+    return {
+        data_trabajadores,
+        type: datatypes.SET_DATA_TRABAJADORES
+    }
+}
+
+export const set_data_administradores = data_administradores => {
+    return {
+        data_administradores,
+        type: datatypes.SET_DATA_ADMINISTRADORES
     }
 }

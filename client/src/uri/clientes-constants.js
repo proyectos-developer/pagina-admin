@@ -1,6 +1,6 @@
 import { constantes } from "./constantes"
 
-export const clientesConstants = (id = 1, search = '', begin = 0, amount = 16, data = {}, reset = false) => {
+export const clientesConstants = (id = 1, search = '', order_by = 0, order = 0, begin = 0, amount = 16, data = {}, reset = false) => {
     return {
         url: `${constantes().url_principal[0].url}`,
         update_estado_cliente: {
@@ -9,9 +9,9 @@ export const clientesConstants = (id = 1, search = '', begin = 0, amount = 16, d
             reset: reset,
             data: data
         },
-        get_clientes: {
-            path: `clientes/search/${search}/${begin}/${amount}`,
-            stateType: 'get_clientes',
+        get_clientes_filter: {
+            path: `clientes/search/${search}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            stateType: 'get_clientes_filter',
             reset: reset
         }, 
         get_cliente: {

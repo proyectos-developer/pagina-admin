@@ -23,7 +23,7 @@ export default function NuevaUnidadCell ({proporcional}) {
 
     useEffect(() => {
         if (new_unidad && new_unidad.success === true && new_unidad.unidad){
-            dispatch(unidadesdata(unidadesConstants(0, {}, true).new_unidad))
+            dispatch(unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 16, {}, true).new_unidad))
             resetear_data()
         }
     }, [new_unidad])
@@ -41,27 +41,31 @@ export default function NuevaUnidadCell ({proporcional}) {
     }
 
     const guardar_unidad = () => {
-        if (descripcion === '' || unidad === ''){
-          setEDescripcion(descripcion === '' ? true : false)
+        if (unidad === ''){
           setEUnidad(unidad === '' ? true : false)
         }else{
-            setEDescripcion(false)
             setEUnidad(false)
             const data_nuevo = {
               unidad: unidad,
               descripcion: descripcion
             }
-            dispatch (unidadesdata(unidadesConstants(0, data_nuevo, false).new_unidad))
+            dispatch (unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 16, data_nuevo, false).new_unidad))
         }
     }
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
             paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
-                <div className='d-flex justify-content-center' 
-                    style={{width: '100%', height: 'auto'}}>
-                    <div className='' style={{width: '48%', height: 'auto'}}>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Nueva unidad
+                    </h2>
+                </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: '100%'}}>
+                    <div className='' style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
@@ -97,7 +101,8 @@ export default function NuevaUnidadCell ({proporcional}) {
                         </div>
                         <div className='' style={{width: '100%', height: 'auto'}}>
                             <div className={boton_guardar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer', marginBottom: 16 / proporcional}}
+                                style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
+                                        marginBottom: 16 / proporcional}}
                                 onMouseOver={() => setBotonGuardar(true)} onMouseLeave={() => setBotonGuardar(false)}
                                 onClick={() => guardar_unidad()}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,

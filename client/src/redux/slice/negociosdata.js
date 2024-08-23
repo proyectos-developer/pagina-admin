@@ -20,7 +20,7 @@ export const negociosdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_negocios':
+        case 'get_negocios_filter':
         case 'get_negocio':
         case 'delete_negocio':
             if (params.reset){ 

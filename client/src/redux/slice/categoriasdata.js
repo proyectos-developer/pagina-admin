@@ -20,7 +20,7 @@ export const categoriasdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_categorias':
+        case 'get_categorias_filter':
         case 'get_categoria':
         case 'delete_categoria':
             if (params.reset){ 
