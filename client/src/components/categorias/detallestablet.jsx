@@ -21,10 +21,7 @@ export default function DetallesCategoriaTablet ({proporcional}) {
     const [categoria, setCategoria] = useState ('')
     const [descripcion, setDescripcion] = useState('')
 
-    const [eurl_foto, setEUrlFoto] = useState('')
     const [ecategoria, setECategoria] = useState (false)
-    const [edescripcion, setEDescripcion] = useState(false)
-
 
     const [boton_subif_foto, setBotonSubirFoto] = useState(false)
 
@@ -59,7 +56,7 @@ export default function DetallesCategoriaTablet ({proporcional}) {
             setIdCategoria(get_categoria.categoria.id)
             setCategoria(get_categoria.categoria.categoria)
             setDescripcion(get_categoria.categoria.descripcion)
-            dispatch(categoriasdata(categoriasConstants(0, {}, true).get_categoria))
+            dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 16, {}, true).get_categoria))
         }
     }, [get_categoria])
 
@@ -99,6 +96,13 @@ export default function DetallesCategoriaTablet ({proporcional}) {
         data.append('file', file_imagen, file_imagen.name)
         dispatch(filesdata(filesConstants('categorias', data, false).file_upload))
     }
+
+    useEffect(() => {
+        return (() => {
+            dispatch(filesdata(filesConstants('', {}, true).file_upload))
+            dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 0, {}, true).update_categoria))
+        })
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
@@ -157,7 +161,7 @@ export default function DetallesCategoriaTablet ({proporcional}) {
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
                                 style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Descripción de la categoría'/>
                         </div>
@@ -173,7 +177,7 @@ export default function DetallesCategoriaTablet ({proporcional}) {
                                     type="file" 
                                     id="formFile" 
                                     style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: eurl_foto ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                     onChange={handleFileChange}/>
                                 <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 

@@ -55,6 +55,7 @@ export default function DetallesCompradorCell ({proporcional}) {
         if (data_cliente.correo === undefined){
             dispatch(clientesdata(clientesConstants(location.pathname.split ('/')[3], 0, 0, 16, {}, false).get_cliente))
         }else{
+            setUrlFoto(data_cliente.url_foto)
             setIdCliente(data_cliente.id)
             setNombres(data_cliente.nombres)
             setApellidos(data_cliente.apellidos)
@@ -75,6 +76,7 @@ export default function DetallesCompradorCell ({proporcional}) {
 
     useEffect(() => {
         if (get_cliente && get_cliente.success === true && get_cliente.cliente){
+            setUrlFoto(get_cliente.cliente.url_foto)
             setIdCliente(get_cliente.cliente.id)
             setNombres(get_cliente.cliente.nombres)
             setApellidos(get_cliente.cliente.apellidos)
@@ -112,7 +114,7 @@ export default function DetallesCompradorCell ({proporcional}) {
                             {
                                 url_foto !== '' ? (
                                     <img className='rounded-circle' src={url_foto} 
-                                        style={{width: 292 / proporcional, height: 292 / proporcional}}/>
+                                        style={{width: 190 / proporcional, height: 190 / proporcional}}/>
                                 ) : null
                             }
                         </div>

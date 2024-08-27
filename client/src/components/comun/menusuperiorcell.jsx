@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react'
 
-import menu from '../../assets/iconos/menu/superior/menu.png'
-import search from '../../assets/iconos/menu/superior/search.png'
-import settings from '../../assets/iconos/menu/superior/settings.png'
-import logout from '../../assets/iconos/menu/superior/logout.png'
+import menu from '../../assets/iconos/menu/superior/menu_v1.png'
+import menu_select from '../../assets/iconos/menu/superior/menu_v2.png'
+import search from '../../assets/iconos/menu/superior/search_v2.png'
+import search_select from '../../assets/iconos/menu/superior/search_v1.png'
+import settings from '../../assets/iconos/menu/superior/settings_v2.png'
+import settings_select from '../../assets/iconos/menu/superior/settings_v1.png'
+import chat from '../../assets/iconos/menu/superior/chat_v1.png'
+import chat_select from '../../assets/iconos/menu/superior/chat_v2.png'
+import notifications from '../../assets/iconos/menu/superior/notifications_v1.png'
+import notifications_select from '../../assets/iconos/menu/superior/notifications_v2.png'
+import logout from '../../assets/iconos/menu/superior/logout_v2.png'
+import logout_select from '../../assets/iconos/menu/superior/logout_v1.png'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { set_open_menu_lateral } from '../../redux/actions/data'
@@ -24,6 +32,12 @@ import {productosdata} from '../../redux/slice/productosdata'
 import { productosConstants } from '../../uri/productos-constants'
 import {serviciosdata} from '../../redux/slice/serviciosdata'
 import { serviciosConstants } from '../../uri/servicios-constants'
+import {favoritosdata} from '../../redux/slice/favoritosdata'
+import { favoritosConstants } from '../../uri/favoritos-constants'
+import {calificacionesdata} from '../../redux/slice/calificacionesdata'
+import { calificacionesConstants } from '../../uri/calificaciones-constants'
+import {clientesdata} from '../../redux/slice/clientesdata'
+import { clientesConstants } from '../../uri/clientes-constants'
 
 export default function MenuSuperiorCell ({proporcional}) {
 
@@ -33,6 +47,13 @@ export default function MenuSuperiorCell ({proporcional}) {
 
     const [menu_pagina, setMenuPagina] = useState('')
     const [search_word, setSearchWord] = useState('')
+
+    const [boton_menu, setBotonMenu] = useState(false)
+    const [boton_search, setBotonSearch] = useState(false)
+    const [boton_notifications, setBotonNotifications] = useState(false)
+    const [boton_chat, setBotonChat] = useState(false)
+    const [boton_settings, setBotonSettings] = useState(false)
+    const [boton_logout, setBotonLogout] = useState(false)
 
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
@@ -93,34 +114,60 @@ export default function MenuSuperiorCell ({proporcional}) {
         }else if (menu_pagina === 'productos' && search_word === ''){
             dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_productos_filter))
         }
+        else if (menu_pagina === 'favoritos' && search_word !== ''){
+            dispatch (favoritosdata(favoritosConstants(0, 0, search_word, 0, 0, 0, 0, 16, {}, false).get_favoritos_filter))
+            navigate('/panel/favoritos')
+        }else if (menu_pagina === 'favoritos' && search_word === ''){
+            dispatch (favoritosdata(favoritosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_favoritos_filter))
+        }
+        else if (menu_pagina === 'calificaciones' && search_word !== ''){
+            dispatch (calificacionesdata(calificacionesConstants(0, search_word, 0, 0, 0, 0, 0, 16, {}, false).get_calificaciones_filter))
+            navigate('/panel/calificaciones')
+        }else if (menu_pagina === 'calificaciones' && search_word === ''){
+            dispatch (calificacionesdata(calificacionesConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_calificaciones_filter))
+        }
+        else if (menu_pagina === 'compradores' && search_word !== ''){
+            dispatch (clientesdata(clientesConstants(0, search_word, 0, 0, 0, 16, {}, false).get_clientes_filter))
+            navigate('/panel/compradores')
+        }else if (menu_pagina === 'compradores' && search_word === ''){
+            dispatch (clientesdata(clientesConstants(0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+        }
     }
 
     return (
-        <div style={{width: '100%', height: 160 / proporcional, padding: 10 / proporcional, paddingTop: 20 / proporcional,
+        <div style={{width: '100%', height: 220 / proporcional, padding: 10 / proporcional, paddingTop: 20 / proporcional,
                 paddingBottom: 20 / proporcional}}>
             <div className='d-flex justify-content-between' style={{width: '100%', height: 60 / proporcional}}>
                 <div className='d-flex' style={{width: 'auto', height: 60 / proporcional}}>
                     {
                         open_menu_lateral ? (
                             <div style={{width: 60 / proporcional, height: 60 / proporcional, marginRight: 10 / proporcional}}>
-                                <img src={menu} style={{width: 60 / proporcional, height: 60 / proporcional, cursor: 'pointer', 
-                                    padding: 17 / proporcional}}
-                                    onClick={() => dispatch (set_open_menu_lateral(false))}/>
+                            <img src={boton_menu ? menu_select : menu} style={{width: 60 / proporcional, height: 60 / proporcional, cursor: 'pointer', 
+                                padding: 15 / proporcional}} onMouseOver={() => setBotonMenu(true)}
+                                onMouseLeave={() => setBotonMenu(false)}
+                                onClick={() => dispatch (set_open_menu_lateral(false))}/>
                             </div>
                         ) : null
                     }
-                    <div style={{width: 'auto', height: 60 / proporcional, paddingTop: 0 / proporcional, paddingBottom: 0 / proporcional}}>
-                        <h1 style={{fontSize: 32 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
-                            marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'pointer'}}
-                            onClick={() => {navigate ('/panel'); dispatch(set_open_menu_lateral(false))}}>Administrativa</h1>
-                    </div>
                 </div>
                 <div style={{width: 'auto', height: 60 / proporcional}}>
                     <div className='d-flex' style={{width: 'auto', height: 60 / proporcional}}>
-                        <img src={settings} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional}}/>
-                        <img src={logout} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional}}/>    
+                        <img src={boton_notifications ? notifications_select : notifications} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional,
+                                cursor: 'pointer'}} onMouseOver={() => setBotonNotifications(true)} onMouseLeave={() => setBotonNotifications(false)}/>
+                        <img src={boton_chat ? chat_select : chat} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional,
+                                cursor: 'pointer'}} onMouseOver={() => setBotonChat(true)} onMouseLeave={() => setBotonChat(false)}/>
+                        <img src={boton_settings ? settings_select : settings} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional,
+                                cursor: 'pointer'}} onMouseOver={() => setBotonSettings(true)} onMouseLeave={() => setBotonSettings(false)}/>
+                        <img src={boton_logout ? logout_select : logout} style={{width: 60 / proporcional, height: 60 / proporcional, padding: 15 / proporcional,
+                                cursor: 'pointer'}} onMouseOver={() => setBotonLogout(true)} onMouseLeave={() => setBotonLogout(false)}
+                                onClick={() => cerrar_sesion()}/>
                     </div>
                 </div>
+            </div>
+            <div style={{width: 'auto', height: 60 / proporcional, paddingTop: 0 / proporcional, paddingBottom: 0 / proporcional}}>
+                <h1 style={{fontSize: 32 / proporcional, lineHeight: `${60 / proporcional}px`, fontFamily: 'Merriweather',
+                    marginBottom: 0, color: '#007bff', fontWeight: 600, cursor: 'pointer', textAlign: 'center'}}
+                    onClick={() => {navigate ('/panel'); dispatch(set_open_menu_lateral(false))}}>Administrativa</h1>
             </div>
             <div className='d-flex justify-content-center' style={{width: '100%', height: 60 / proporcional, padding: 5 / proporcional}}>
                 <div className='rounded' 
@@ -135,7 +182,9 @@ export default function MenuSuperiorCell ({proporcional}) {
                             style={{width: '90%', height: 48 / proporcional, fontSize: 14 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif'}}
                             placeholder='Buscar cliente, proyecto, producto...'/>
-                        <img src={search} style={{width: 48 / proporcional, height: 48 / proporcional}}
+                        <img src={boton_search ? search_select : search} 
+                            style={{width: 48 / proporcional, height: 48 / proporcional, cursor: 'pointer'
+                        }} onMouseOver={() => setBotonSearch(true)} onMouseLeave={() => setBotonSearch(false)}
                             onClick={() => buscar_por_palabra()}/>
                     </div>
                 </div>

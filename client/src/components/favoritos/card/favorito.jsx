@@ -78,13 +78,13 @@ export default function CardFavorito ({proporcional, index, favorito, view_favor
                             onMouseOver={() => setOverCard(true)} onMouseLeave={() => setOverCard(false)}>
                             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional}}>
                                 <div style={{width: '50%', height: 'auto'}}>
-                                    <h4 style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 16 / proporcional, 
+                                    <h4 style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
                                         color: 'rgb(89, 89, 89)', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left'}}>
                                         <span style={{fonstSize: 16 / proporcional}}><strong>{index + 1}. </strong></span>Producto: <span style={{color: '#007BFF', fontSize: 18 / proporcional}}>{favorito.producto}</span>
                                     </h4>
                                 </div>
                                 <div style={{width: '40%', height: 'auto'}}>
-                                    <h6 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 16 / proporcional, 
+                                    <h6 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
                                         color: 'rgb(89, 89, 89)', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left'}}>
                                         # Clientes: <span style={{color: '#007BFF', fontSize: 16 / proporcional}}>{total_favoritos}</span>
                                     </h6>

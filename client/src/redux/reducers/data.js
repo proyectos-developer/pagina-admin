@@ -14,6 +14,7 @@ const initial_state = {
     data_compras: [],
     data_suscriptores: {},
     data_noticia: {},
+    data_categoria_noticia: {},
     data_categoria: {},
     data_subcategoria: {},
     data_servicio: {},
@@ -101,6 +102,12 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_categoria
+        }
+    }else if (action.type === datatypes.SET_DATA_CATEGORIA_NOTICIA){
+        const data_categoria_noticia = action.data_categoria_noticia
+        return {
+            ... state,
+            data_categoria_noticia
         }
     }else if (action.type === datatypes.SET_DATA_SUBCATEGORIA){
         const data_subcategoria = action.data_subcategoria

@@ -13,6 +13,7 @@ export const datatypes = {
     SET_DATA_SUSCRIPTORES: 'SET_DATA_SUSCRIPTORES',
     SET_DATA_NOTICIA: 'SET_DATA_NOTICIA',
     SET_DATA_CATEGORIA: 'SET_DATA_CATEGORIA',
+    SET_DATA_CATEGORIA_NOTICIA: 'SET_DATA_CATEGORIA_NOTICIA',
     SET_DATA_SUBCATEGORIA: 'SET_DATA_SUBCATEGORIA',
     SET_DATA_SERVICIO: 'SET_DATA_SERVICIO',
     SET_DATA_UNIDAD: 'SET_DATA_UNIDAD',
@@ -109,6 +110,13 @@ export const set_data_categoria = data_categoria => {
     return {
         data_categoria,
         type: datatypes.SET_DATA_CATEGORIA
+    }
+}
+
+export const set_data_categoria_noticia = data_categoria_noticia => {
+    return {
+        data_categoria_noticia,
+        type: datatypes.SET_DATA_CATEGORIA_NOTICIA
     }
 }
 

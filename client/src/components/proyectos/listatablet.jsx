@@ -38,10 +38,8 @@ export default function ListaProyectosTablet ({proporcional}) {
     const [proyectos, setProyectos] = useState ([])
 
     const [boton_reset, setBotonReset] = useState (false)
-    const [mouse_next_up, setMouseNextUp] = useState(false)
-    const [mouse_preview_up, setMousePreviewUp] = useState(false)
-    const [mouse_next_down, setMouseNextDown] = useState(false)
-    const [mouse_preview_down, setMousePreviewDown] = useState(false)
+    const [mouse_next, setMouseNext] = useState(false)
+    const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_proyectos_filter, delete_proyecto} = useSelector(({proyectos_data}) => proyectos_data)
     const {get_tipo_proyectos_filter} = useSelector(({tipoproyectos_data}) => tipoproyectos_data)
@@ -122,7 +120,11 @@ export default function ListaProyectosTablet ({proporcional}) {
             selectRefTipoProyecto.current.value = '0'
         }
         setTipoProyecto('Tipo de proyecto')
+        setListaGridProyectos([])
+        setListaProyectos ([])
+        setProyectos([])
         dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
+        dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).delete_proyecto))
     }
 
     useEffect(() => {
@@ -130,6 +132,8 @@ export default function ListaProyectosTablet ({proporcional}) {
             setListaGridProyectos([])
             setListaProyectos ([])
             setProyectos([])
+            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).get_proyectos_filter))
+            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).delete_proyecto))
         }
     },[])
 
@@ -137,69 +141,55 @@ export default function ListaProyectosTablet ({proporcional}) {
         <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
             paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
             <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                <div style={{width: '58%', height: 'auto'}}>
+                <div style={{width: '80%', height: 'auto'}}>
                     <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
-                        color: '#4A4A4A'}}>Tus proyectos
+                        color: '#4A4A4A'}}>Proyectos
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                             {`mostrando del ${begin} al 
                                 ${get_proyectos_filter && get_proyectos_filter.proyectos ? begin + get_proyectos_filter.proyectos.length : 0} de ${total_proyectos}`}
                         </span>
                     </h2>
                 </div>
-                <div className='d-flex justify-content-end' style={{width: '38%', height: 'auto'}}>
+                <div className='d-flex justify-content-end' style={{width: '20%', height: 'auto'}}>
                     <img src={view_proyecto === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 4 / proporcional,
-                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            marginRight: 10 / proporcional, cursor: 'pointer'
                         }} onClick={() => setViewProyecto('lista')}/>
-                    <img src={view_proyecto === 'grid' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
-                            cursor: 'pointer'
+                    <img src={view_proyecto === 'grid' || view_proyecto === '' ? view_grid_v1 : view_grid_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer', marginRight: 10 / proporcional
                         }} onClick={() => setViewProyecto('grid')}/>
                     <img src={boton_reset ? reset_v1 : reset_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 2 / proporcional,
-                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer'
                         }} onClick={() => resetear_data()}
                         onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
                 </div>
             </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-start' style={{width: '10%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_up ? preview_select : preview}
-                        onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => previous_proyectos()}/>
-                </div>
-                <div className='d-flex justify-content-center' style={{width: '80%', height: 40 / proporcional}}>
-                    <p style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
-                        marginRight: 10 / proporcional, fontFamily: 'Poppins, sans-serif', fontWeight: 500,
-                        cursor: 'default', fontWeight: 500}}>Filtrar por:</p>
-                    <select
-                        ref={selectRefTipoProyecto}
-                        className='rounded form-select'
-                        id='tipo_proyecto'
-                        style={{width: 300 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
-                                fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif'}}
-                        onChange={(event) => seleccionar_tipo_proyecto(event.target.value)}>
-                        <option value='0'>{tipo_proyecto === '' ? 'Tipo de proyecto' : tipo_proyecto}</option>
-                        {
-                            lista_tipos_proyectos && lista_tipos_proyectos.length > 0 ? (
-                                lista_tipos_proyectos.map ((tipo_proyecto, index) => {
-                                    return (
-                                        <option key={index} value={tipo_proyecto.id + '-' + tipo_proyecto.nombre}>{tipo_proyecto.nombre}</option>
-                                    )
-                                })
-                            ) : null
-                        }
-                    </select>
-                </div>
-                <div className='d-flex justify-content-end' style={{width: '10%', height: 40 / proporcional}}>
-                    <img src={mouse_next_up ? next_select : next} 
-                        onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => next_proyectos()}/>
-                </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: 40 / proporcional,
+                    marginBottom: 16 / proporcional
+            }}>
+                <p style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                    marginRight: 10 / proporcional, fontFamily: 'Poppins, sans-serif', fontWeight: 500,
+                    cursor: 'default', fontWeight: 500}}>Filtrar por:</p>
+                <select
+                    ref={selectRefTipoProyecto}
+                    className='rounded form-select'
+                    id='tipo_proyecto'
+                    style={{width: 300 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
+                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif'}}
+                    onChange={(event) => seleccionar_tipo_proyecto(event.target.value)}>
+                    <option value='0'>{tipo_proyecto === '' ? 'Tipo de proyecto' : tipo_proyecto}</option>
+                    {
+                        lista_tipos_proyectos && lista_tipos_proyectos.length > 0 ? (
+                            lista_tipos_proyectos.map ((tipo_proyecto, index) => {
+                                return (
+                                    <option key={index} value={tipo_proyecto.id + '-' + tipo_proyecto.nombre}>{tipo_proyecto.nombre}</option>
+                                )
+                            })
+                        ) : null
+                    }
+                </select>
             </div>
             {
                 lista_grid_proyectos && lista_grid_proyectos.length > 0 && view_proyecto === 'grid' ? (
@@ -235,23 +225,43 @@ export default function ListaProyectosTablet ({proporcional}) {
                             )
                         })
                 ) : null
-            }            
+            }         
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_proyecto === 'grid' ? 0 : 16 / proporcional
+                    marginTop: view_proyecto === 'grid' || view_proyecto === '' ? 0 : 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_down ? preview_select : preview} 
-                        onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {previous_proyectos(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin !== 0 ? (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
+                                onClick={() => {previous_proyectos(); window.scrollTo(0, 0)}}>
+                                <img src={mouse_preview ? preview_select : preview} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginLeft: 5 / proporcional, color: mouse_preview ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Anteriores
+                                </span>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_down ? next_select : next} 
-                        onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {next_proyectos(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin + 16 >= total_proyectos ? ( 
+                            null
+                        ) : (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
+                                onClick={() => {next_proyectos(); window.scrollTo(0, 0)}}>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Siguientes
+                                </span>
+                                <img src={mouse_next ? next_select : next} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

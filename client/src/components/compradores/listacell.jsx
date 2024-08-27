@@ -9,6 +9,8 @@ import view_list_v1 from '../../assets/iconos/comun/view_list_v1.png'
 import view_grid_v1 from '../../assets/iconos/comun/view_grid_v1.png'
 import view_list_v2 from '../../assets/iconos/comun/view_list_v2.png'
 import view_grid_v2 from '../../assets/iconos/comun/view_grid_v2.png'
+import reset_v2 from '../../assets/iconos/comun/reset_v2.png'
+import reset_v1 from '../../assets/iconos/comun/reset_v1.png'
 
 import CardClienteCell from './card/clientecell.jsx'
 import {clientesdata} from '../../redux/slice/clientesdata.js'
@@ -18,7 +20,7 @@ export default function ListaCompradoresCell ({proporcional}) {
 
     const dispatch = useDispatch()
 
-    const [view_cliente, setViewUnidad] = useState ('lista')
+    const [view_cliente, setViewUnidad] = useState ('grid')
     const [begin, setBegin] = useState(0)
     const [amount, setAmount] = useState(16)
 
@@ -26,10 +28,9 @@ export default function ListaCompradoresCell ({proporcional}) {
     const [lista_clientes, setListaClientes] = useState ([])
     const [total_clientes, setTotalClientes] = useState(0)
 
-    const [mouse_next_up, setMouseNextUp] = useState(false)
-    const [mouse_preview_up, setMousePreviewUp] = useState(false)
-    const [mouse_next_down, setMouseNextDown] = useState(false)
-    const [mouse_preview_down, setMousePreviewDown] = useState(false)
+    const [boton_reset, setBotonReset] = useState (false)
+    const [mouse_next, setMouseNext] = useState(false)
+    const [mouse_preview, setMousePreview] = useState(false)
 
     const {get_clientes_filter, update_estado_cliente} = useSelector(({clientes_data}) => clientes_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
@@ -74,10 +75,18 @@ export default function ListaCompradoresCell ({proporcional}) {
         setListaClientes (data_clientes.clientes)
     }
 
+    const resetear_data = () => {
+        setBegin (0)
+        setListaClientes([])
+        setListaGridClientes([])
+        dispatch(clientesdata(clientesConstants(0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+    }
+
     useEffect(() => {
         return () => {
+            setListaClientes([])
             setListaGridClientes([])
-            setListaClientes ([])
+            dispatch(clientesdata(clientesConstants(0, 0, 0, 0, 0, 0, {}, false).get_clientes_filter))
         }
     },[])
 
@@ -103,29 +112,18 @@ export default function ListaCompradoresCell ({proporcional}) {
                         style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
                             cursor: 'pointer'
                         }} onClick={() => setViewUnidad('grid')}/>
-                </div>
-            </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_up ? preview_select : preview}
-                        onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => previous_clientes()}/>
-                </div>
-                <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_up ? next_select : next} 
-                        onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => next_clientes()}/>
+                    <img src={boton_reset ? reset_v1 : reset_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer'
+                        }} onClick={() => resetear_data()}
+                        onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
                 </div>
             </div>
             {
                 lista_grid_clientes && lista_grid_clientes.length > 0 && view_cliente === 'grid' ? (
                     lista_grid_clientes.map ((cliente, numcli) => {
                         return (
-                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
+                            <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
                                 <div style={{width: '90%', height: 'auto'}}>
                                     <CardClienteCell cliente={cliente} key={numcli} index={numcli} proporcional={proporcional} view_cliente={view_cliente}/>
                                 </div>
@@ -140,23 +138,43 @@ export default function ListaCompradoresCell ({proporcional}) {
                             )
                         })
                 ) : null
-            }            
+            }   
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_cliente === 'grid' ? 0 : 16 / proporcional
+                    marginTop: view_cliente === 'grid' || view_cliente === '' ? 0 : 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_down ? preview_select : preview} 
-                        onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {previous_clientes(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin !== 0 ? (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMousePreview(true)} onMouseLeave={() => setMousePreview(false)}
+                                onClick={() => {previous_clientes(); window.scrollTo(0, 0)}}>
+                                <img src={mouse_preview ? preview_select : preview} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginLeft: 5 / proporcional, color: mouse_preview ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Anteriores
+                                </span>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_down ? next_select : next} 
-                        onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {next_clientes(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin + 16 >= total_clientes ? ( 
+                            null
+                        ) : (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
+                                onClick={() => {next_clientes(); window.scrollTo(0, 0)}}>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Siguientes
+                                </span>
+                                <img src={mouse_next ? next_select : next} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

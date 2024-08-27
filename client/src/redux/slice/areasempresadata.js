@@ -20,7 +20,7 @@ export const areasempresadata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_areas_empresa':
+        case 'get_areas_empresa_filter':
         case 'get_area_empresa':
         case 'delete_area_empresa':
             if (params.reset){ 

@@ -9,6 +9,8 @@ import view_list_v1 from '../../assets/iconos/comun/view_list_v1.png'
 import view_grid_v1 from '../../assets/iconos/comun/view_grid_v1.png'
 import view_list_v2 from '../../assets/iconos/comun/view_list_v2.png'
 import view_grid_v2 from '../../assets/iconos/comun/view_grid_v2.png'
+import reset_v2 from '../../assets/iconos/comun/reset_v2.png'
+import reset_v1 from '../../assets/iconos/comun/reset_v1.png'
 
 import CardCategoriaCell from './card/categoriacell.jsx'
 import {categoriasdata} from '../../redux/slice/categoriasdata.js'
@@ -25,11 +27,11 @@ export default function ListaCategoriasCell ({proporcional}) {
     const [lista_grid_categorias, setListaGridCategorias] = useState ([])
     const [lista_categorias, setListaCategorias] = useState ([])
     const [total_categorias, setTotalCategorias] = useState(0)
+    const [categorias, setCategorias] = useState ([])
 
-    const [mouse_next_up, setMouseNextUp] = useState(false)
-    const [mouse_preview_up, setMousePreviewUp] = useState(false)
-    const [mouse_next_down, setMouseNextDown] = useState(false)
-    const [mouse_preview_down, setMousePreviewDown] = useState(false)
+    const [boton_reset, setBotonReset] = useState (false)
+    const [mouse_next, setMouseNext] = useState(false)
+    const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_categorias_filter, delete_categoria} = useSelector(({categorias_data}) => categorias_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
@@ -77,12 +79,22 @@ export default function ListaCategoriasCell ({proporcional}) {
         setListaCategorias (data_categorias.categorias)
     }
 
+    const resetear_data = () => {
+        setBegin(0)
+        setListaGridCategorias([])
+        setListaCategorias ([])
+        dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 16, {}, false).get_categorias_filter))
+        dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 16, {}, false).delete_categoria))
+    }
+
     useEffect(() => {
         return () => {
             setListaGridCategorias([])
             setListaCategorias ([])
+            dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 0, {}, true).get_categorias_filter))
+            dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 0, {}, true).delete_categoria))
         }
-    },[])
+    }, [])
 
     return (
         <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
@@ -90,7 +102,7 @@ export default function ListaCategoriasCell ({proporcional}) {
             <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                 <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                     <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
-                        color: '#4A4A4A'}}>Tus categorías
+                        color: '#4A4A4A'}}>Categorías
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                             {`mostrando del ${begin} al 
                                 ${get_categorias_filter && get_categorias_filter.categorias ? begin + get_categorias_filter.categorias.length : 0} de ${total_categorias}`}
@@ -99,29 +111,18 @@ export default function ListaCategoriasCell ({proporcional}) {
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                     <img src={view_categoria === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 4 / proporcional,
-                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            marginRight: 10 / proporcional, cursor: 'pointer'
                         }} onClick={() => setViewCategoria('lista')}/>
-                    <img src={view_categoria === 'grid' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
-                            cursor: 'pointer'
+                    <img src={view_categoria === 'grid' || view_categoria === '' ? view_grid_v1 : view_grid_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer', marginRight: 10 / proporcional
                         }} onClick={() => setViewCategoria('grid')}/>
-                </div>
-            </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_up ? preview_select : preview}
-                        onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => previous_categorias()}/>
-                </div>
-                <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_up ? next_select : next} 
-                        onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => next_categorias()}/>
+                    <img src={boton_reset ? reset_v1 : reset_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer'
+                        }} onClick={() => resetear_data()}
+                        onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
                 </div>
             </div>
             {
@@ -143,23 +144,43 @@ export default function ListaCategoriasCell ({proporcional}) {
                             )
                         })
                 ) : null
-            }            
+            }             
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_categoria === 'grid' ? 0 : 16 / proporcional
+                    marginTop: view_categoria === 'grid' || view_categoria === '' ? 0 : 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_down ? preview_select : preview} 
-                        onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {previous_categorias(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin !== 0 ? (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
+                                onClick={() => {previous_categorias(); window.scrollTo(0, 0)}}>
+                                <img src={mouse_preview ? preview_select : preview} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginLeft: 5 / proporcional, color: mouse_preview ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Anteriores
+                                </span>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_down ? next_select : next} 
-                        onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {next_categorias(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin + 16 >= total_categorias ? ( 
+                            null
+                        ) : (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
+                                onClick={() => {next_categorias(); window.scrollTo(0, 0)}}>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Siguientes
+                                </span>
+                                <img src={mouse_next ? next_select : next} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

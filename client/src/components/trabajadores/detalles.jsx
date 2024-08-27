@@ -4,13 +4,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import {trabajadoresdata} from '../../redux/slice/trabajadoresdata'
 import {trabajadoresConstants} from '../../uri/trabajadores-constants'
 import { set_data_trabajadores } from '../../redux/actions/data'
+import {areasempresadata} from '../../redux/slice/areasempresadata'
+import { areasempresaConstants } from '../../uri/areasempresa-constants'
+import {filesdata} from '../../redux/slice/filesdata'
+import {filesConstants} from '../../uri/files-constants'
 
 export default function DetallesTrabajador ({proporcional}) {
 
-    const location = useLocation()
     const navigate = useNavigate ()
     const dispatch = useDispatch()
+    const location = useLocation()
 
+    const selectRefBanco = useRef(null)
     const selectRefAreaEmpresa = useRef(null)
     const selectRefTipoDocumento = useRef(null)
     const selectRefPais = useRef(null)
@@ -22,6 +27,10 @@ export default function DetallesTrabajador ({proporcional}) {
     const selectRefSeguro = useRef(null)
     const selectRefEstudios = useRef(null)
     const selectRefTitulo = useRef (null)
+
+    const [editar_informacion, setEditarInformacion] = useState(false)
+
+    const [file_imagen, setFileImagen] = useState (null)
 
     const [id_trabajador, setIdTrabajador] = useState('')
     const [url_foto, setUrlFoto] = useState('')
@@ -52,14 +61,14 @@ export default function DetallesTrabajador ({proporcional}) {
     const [sueldo_bruto, setSueldoBruto] = useState('')
     const [sueldo_neto, setSueldoNeto] = useState('')
     const [cargo, setCargo] = useState('')
+    const [banco, setBanco] = useState('')
+    const [nro_cuenta_bancaria, setNroCuentaBancaria] = useState('')
+    const [nro_cuenta_interbancaria, setNroCuentaInterBancaria] = useState('')
 
-    const [eurl_foto, setEUrlFoto] = useState(false)
-    const [eid_area_empresa, setEIdAreaEmpresa] = useState (false)
     const [earea_empresa, setEAreaEmpresa] = useState(false)
     const [enombres, setENombres] = useState(false)
     const [eapellidos, setEApellidos] = useState(false)
     const [ecorreo_personal, setECorreoPersonal] = useState(false)
-    const [ecorreo_empresa, setECorreoEmpresa] = useState(false)
     const [enro_telefono, setENroTelefono] = useState(false)
     const [etipo_documento, setETipoDocumento] = useState(false)
     const [enro_documento, setENroDocumento] = useState(false)
@@ -68,79 +77,91 @@ export default function DetallesTrabajador ({proporcional}) {
     const [eprovincia, setEProvincia] = useState(false)
     const [edistrito, setEDistrito] = useState(false)
     const [edireccion, setEDireccion] = useState(false)
-    const [eafp, setEAfp] = useState(false)
-    const [eseguro, setESeguro] = useState(false)
     const [eestudios, setEEstudios] = useState(false)
     const [euniversidad, setEUniversidad] = useState(false)
     const [etitulo, setETitulo] = useState(false)
     const [ecolegio, setEColegio] = useState(false)
     const [eestado_civil, setEEstadoCivil] = useState(false)
     const [enro_hijos, setENroHijos] = useState (false)
-    const [eestado_trabajo, setEEstadoTrabajo] = useState(false)
-    const [efecha_inicio, setEFechaInicio] = useState (false)
-    const [esueldo_bruto, setESueldoBruto] = useState(false)
-    const [esueldo_neto, setESueldoNeto] = useState(false)
-    const [ecargo, setECargo] = useState(false)
+
+    const [boton_subir_foto, setBotonSubirFoto] = useState(false)
 
     const [lista_areas_empresa, setListaAreasEmpresa] = useState([])
 
-    const [editar_informacion, setEditarInformacion] = useState(false)
     const [boton_actualizar, setBotonActualizar] = useState(false)
     const [boton_editar, setBotonEditar] = useState(false)
     const [boton_cancelar, setBotonCancelar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
 
-    const {get_trabajador, update_trabajador} = useSelector(({trabajadores_data}) => trabajadores_data)
-    const {get_ares_empresa} = useSelector(({areasempresa_data}) => areasempresa_data)
-    const {data_trabajador, open_menu_lateral} = useSelector(({data_actions}) => data_actions)
+    const {update_trabajador, get_trabajador} = useSelector(({trabajadores_data}) => trabajadores_data)
+    const {file_upload} = useSelector(({files_data}) => files_data)
+    const {get_areas_empresa_filter} = useSelector(({areasempresa_data}) => areasempresa_data)
+    const {open_menu_lateral, data_trabajadores} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
         if (update_trabajador && update_trabajador.success === true && update_trabajador.trabajador){
-            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 16, {}, true).update_trabajador))
+            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).update_trabajador))
             window.scrollTo(0, 0)
             setEditarInformacion(false)
         }
     }, [update_trabajador])
 
     useEffect(() => {
-        if (data_trabajador.trabajador === undefined){
-            dispatch(trabajadoresdata(trabajadoresConstants(location.pathname.split ('/')[3], 0, 0, 0, 0, 0, 0, 16, {}, false).get_trabajador))
+        if (file_upload && file_upload.success === true && file_upload.message === true){
+            setUrlFoto(`https://api.developer-ideas.com/trabajadores/${file_imagen.name}`)
+            dispatch (filesdata(filesConstants(0, {}, true).file_upload))
+        }
+    }, [file_upload])
+
+    useEffect(() => {
+        if (get_areas_empresa_filter && get_areas_empresa_filter.success === true &&
+                get_areas_empresa_filter.areas_empresa){
+            setListaAreasEmpresa(get_areas_empresa_filter.areas_empresa)
+        }
+    }, [get_areas_empresa_filter])
+
+    useEffect(() => {
+        if (data_trabajadores.nombres === undefined){
+            dispatch(trabajadoresdata(trabajadoresConstants(location.pathname.split ('/')[5], 0, 0, 0, 0, 0, 0, 16, {}, false).get_producto))
         }else{
-            setIdTrabajador(data_trabajador.id)
-            setUrlFoto(data_trabajador.url_foto)
-            setIdAreaEmpresa(data_trabajador.id_area_empresa)
-            setAreaEmpresa(data_trabajador.area_empresa)
-            setNombres(data_trabajador.nombres)
-            setApellidos(data_trabajador.apellidos)
-            setCorreoPersonal(data_trabajador.correo_personal)
-            setCorreoEmpresa(data_trabajador.correo_empresa)
-            setNroTelefono(data_trabajador.nro_telefono)
-            setTipoDocumento(data_trabajador.tipo_documento)
-            setNroDocumento(data_trabajador.nro_documento)
-            setFechaNacimiento(data_trabajador.fecha_nacimiento)
-            setPais(data_trabajador.pais)
-            setProvincia(data_trabajador.provincia)
-            setDistrito(data_trabajador.distrito)
-            setDireccion(data_trabajador.direccion)
-            setAfp(data_trabajador.afp)
-            setSeguro(data_trabajador.seguro)
-            setEstudios(data_trabajador.estudios)
-            setUniversidad(data_trabajador.universidad)
-            setTitulo(data_trabajador.titulo)
-            setColegio(data_trabajador.colegio)
-            setEstadoCivil(data_trabajador.estado_civil)
-            setNroHijos(data_trabajador.nro_hijos)
-            setEstadoTrabajo(data_trabajador.estado_trabajo)
-            setFechaInicio(data_trabajador.fecha_inicio)
-            setSueldoBruto(data_trabajador.sueldo_bruto)
-            setSueldoNeto(data_trabajador.sueldo_neto)
-            setCargo(data_trabajador.cargo)
+            setIdTrabajador(data_trabajadores.id_trabajador)
+            setUrlFoto(data_trabajadores.url_foto)
+            setIdAreaEmpresa(data_trabajadores.id_area_empresa)
+            setAreaEmpresa(data_trabajadores.area_empresa)
+            setNombres(data_trabajadores.nombres)
+            setApellidos(data_trabajadores.apellidos)
+            setCorreoPersonal(data_trabajadores.correo_personal)
+            setCorreoEmpresa(data_trabajadores.correo_empresa)
+            setNroTelefono(data_trabajadores.nro_telefono)
+            setTipoDocumento(data_trabajadores.tipo_documento)
+            setNroDocumento(data_trabajadores.nro_documento)
+            setFechaNacimiento(data_trabajadores.fecha_nacimiento)
+            setPais(data_trabajadores.pais)
+            setProvincia(data_trabajadores.provincia)
+            setDistrito(data_trabajadores.distrito)
+            setDireccion(data_trabajadores.direccion)
+            setAfp(data_trabajadores.afp)
+            setSeguro(data_trabajadores.seguro)
+            setEstudios(data_trabajadores.estudios)
+            setUniversidad(data_trabajadores.universidad)
+            setTitulo(data_trabajadores.titulo)
+            setColegio(data_trabajadores.colegio)
+            setEstadoCivil(data_trabajadores.estado_civil)
+            setNroHijos(data_trabajadores.hijos)
+            setEstadoTrabajo(data_trabajadores.estado_trabajo)
+            setFechaInicio(data_trabajadores.fecha_inicio)
+            setSueldoBruto(data_trabajadores.sueldo_bruto)
+            setSueldoNeto(data_trabajadores.sueldo_neto)
+            setCargo(data_trabajadores.cargo)
+            setBanco(data_trabajadores.banco)
+            setNroCuentaBancaria(data_trabajadores.nro_cuenta_bancaria)
+            setNroCuentaInterBancaria(data_trabajadores.nro_cuenta_interbancaria)
         }
     }, [])
 
     useEffect(() => {
         if (get_trabajador && get_trabajador.success === true && get_trabajador.trabajador){
-            setIdTrabajador(get_trabajador.trabajador.id)
+            setIdTrabajador(get_trabajador.trabajador.id_trabajador)
             setUrlFoto(get_trabajador.trabajador.url_foto)
             setIdAreaEmpresa(get_trabajador.trabajador.id_area_empresa)
             setAreaEmpresa(get_trabajador.trabajador.area_empresa)
@@ -163,13 +184,16 @@ export default function DetallesTrabajador ({proporcional}) {
             setTitulo(get_trabajador.trabajador.titulo)
             setColegio(get_trabajador.trabajador.colegio)
             setEstadoCivil(get_trabajador.trabajador.estado_civil)
-            setNroHijos(get_trabajador.trabajador.nro_hijos)
+            setNroHijos(get_trabajador.trabajador.hijos)
             setEstadoTrabajo(get_trabajador.trabajador.estado_trabajo)
             setFechaInicio(get_trabajador.trabajador.fecha_inicio)
             setSueldoBruto(get_trabajador.trabajador.sueldo_bruto)
             setSueldoNeto(get_trabajador.trabajador.sueldo_neto)
             setCargo(get_trabajador.trabajador.cargo)
-            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 16, {}, true).get_trabajador))
+            setBanco(get_trabajador.trabajador.banco)
+            setNroCuentaBancaria(get_trabajador.trabajador.nro_cuenta_bancaria)
+            setNroCuentaInterBancaria(get_trabajador.trabajador.nro_cuenta_interbancaria)
+            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).get_trabajador))
         }
     }, [get_trabajador])
 
@@ -179,46 +203,36 @@ export default function DetallesTrabajador ({proporcional}) {
         navigate ('/panel/trabajadores')
     }
     
-    const actualizar_datos_proyecto = () => {
+    const actualizar_data_trabajador = () => {
+        window.scrollTo(0, 0)
         if (nombres === '' || apellidos === '' || nro_telefono === '' || tipo_documento === '' || nro_documento === '' ||
-                correo_personal === ''
+                correo_personal === '' || area_empresa === '' || fecha_nacimiento == '' /**|| pais == '' || provincia == '' ||
+                distrito == '' || direccion == '' || estudios == '' || universidad == '' || titulo == '' ||
+                colegio == '' || estado_civil == '' || nro_hijos == ''**/
         ){
-            setEUrlFoto(url_foto === '' ? true : false)
-            setEIdAreaEmpresa(id_area_empresa === '' ? true : false)
             setEAreaEmpresa(area_empresa === '' ? true : false)
             setENombres(nombres === '' ? true : false)
             setEApellidos(apellidos === '' ? true : false)
             setECorreoPersonal(correo_personal === '' ? true : false)
-            setECorreoEmpresa(correo_empresa === '' ? true : false)
             setENroTelefono(nro_telefono === '' ? true : false)
             setETipoDocumento(tipo_documento === '' ? true : false)
             setENroDocumento(nro_documento === '' ? true : false)
-            setEFechaNacimiento(fecha_inicio === '' ? true : false)
-            setEPais(pais === '' ? true : false)
+            setEFechaNacimiento(fecha_nacimiento === '' ? true : false)
+            /**setEPais(pais === '' ? true : false)
             setEProvincia(provincia === '' ? true : false)
             setEDistrito(distrito === '' ? true : false)
             setEDireccion(direccion === '' ? true : false)
-            setEAfp(afp === '' ? true : false)
-            setESeguro(seguro === '' ? true : false)
             setEEstudios(estudios === '' ? true : false)
             setEUniversidad(universidad === '' ? true : false)
             setETitulo(titulo === '' ? true : false)
             setEColegio(colegio === '' ? true : false)
             setEEstadoCivil(estado_civil === '' ? true : false)
-            setENroHijos(nro_hijos === '' ? true : false)
-            setEEstadoTrabajo(estado_trabajo === '' ? true : false)
-            setEFechaInicio(fecha_inicio === '' ? true : false)
-            setESueldoBruto(sueldo_bruto === '' ? true : false)
-            setESueldoNeto(sueldo_neto === '' ? true : false)
-            setECargo(cargo === '' ? true : false)
+            setENroHijos(nro_hijos === '' ? true : false)**/
         }else{
-            setEUrlFoto(false)
-            setEIdAreaEmpresa(false)
             setEAreaEmpresa(false)
             setENombres(false)
             setEApellidos(false)
             setECorreoPersonal(false)
-            setECorreoEmpresa(false)
             setENroTelefono(false)
             setETipoDocumento(false)
             setENroDocumento(false)
@@ -227,19 +241,12 @@ export default function DetallesTrabajador ({proporcional}) {
             setEProvincia(false)
             setEDistrito(false)
             setEDireccion(false)
-            setEAfp(false)
-            setESeguro(false)
             setEEstudios(false)
             setEUniversidad(false)
             setETitulo(false)
             setEColegio(false)
             setEEstadoCivil(false)
             setENroHijos(false)
-            setEEstadoTrabajo(false)
-            setEFechaInicio(false)
-            setESueldoBruto(false)
-            setESueldoNeto(false)
-            setECargo(false)
             const data_nuevo = {
                 url_foto: url_foto,
                 id_area_empresa: id_area_empresa,
@@ -263,21 +270,63 @@ export default function DetallesTrabajador ({proporcional}) {
                 titulo: titulo,
                 colegio: colegio,
                 estado_civil: estado_civil,
-                nro_hijos: nro_hijos,
+                hijos: nro_hijos,
                 estado_trabajo: estado_trabajo,
                 fecha_inicio: fecha_inicio,
                 sueldo_bruto: sueldo_bruto,
                 sueldo_neto: sueldo_neto,
-                cargo: cargo
+                cargo: cargo,
+                banco: banco,
+                nro_cuenta_bancaria: nro_cuenta_bancaria,
+                nro_cuenta_interbancaria: nro_cuenta_interbancaria
             }
             dispatch (trabajadoresdata(trabajadoresConstants(id_trabajador, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).update_trabajador))
         }
     }
 
+    const obtener_data_editar = () => {
+        window.scrollTo(0, 0)
+        setEditarInformacion(true)
+        dispatch(areasempresadata(areasempresaConstants(0, 0, 0, 0, 0, 100, {}, false).get_areas_empresa_filter))
+    }
+
+    const seleccionar_area_empresa = (value) => {
+        if (value !== '0'){
+            setIdAreaEmpresa(value.split ('-')[0])
+            setAreaEmpresa(value.split ('-')[1])
+        }
+    }
+
+    const handleFileChange = (event) => {
+        setFileImagen(event.target.files[0])
+    }
+
+    const handleUpload = (event) => {
+        event.preventDefault()
+        const data = new FormData()
+        data.append('file', file_imagen, file_imagen.name)
+        dispatch(filesdata(filesConstants('trabajadores', data, false).file_upload))
+    }
+
+    useEffect(() => {
+        return (() => {
+            setListaAreasEmpresa([])
+            dispatch(filesdata(filesConstants('', {}, true).file_upload))
+            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 0, 0, {}, true).update_trabajador))
+        })
+    }, [])
+    
     return (
-        <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 150 / proporcional : 250 / proporcional,
+        <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 150 / proporcional : 250 / proporcional,
             paddingRight: open_menu_lateral ? 150 / proporcional : 250 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
+            <div style={{width: '80%', height: 'auto'}}>
+                <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                            color: '#4A4A4A'}}>Trabajador: <span style={{fontSize: 28 / proporcional, color: '#007bff'}}>{apellidos}</span>
+                        </h2>
+                    </div>
+                </div>
                 <div className='d-flex justify-content-between' 
                     style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
                     <div className='d-flex justify-content-center' style={{width: '38%', height: 'auto',
@@ -296,23 +345,23 @@ export default function DetallesTrabajador ({proporcional}) {
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
-                                Área de la empresa 
+                                Área empresa 
                             </span>
                             <select
                                 disabled={!editar_informacion}
                                 id='area_empresa'
                                 ref={selectRefAreaEmpresa}
                                 className='form-select rounded'
-                                onChange={(event) => seleccionar_area_empresa(event.target.value)}
+                                onChange={(event) => seleccionar_area_empresa (event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: earea_empresa ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar área empresa</option>
+                                <option value='0'>{area_empresa === '' ? 'Seleccionar área empresa' : area_empresa}</option>
                                 {
                                     lista_areas_empresa && lista_areas_empresa.length > 0 ? (
                                         lista_areas_empresa.map ((area_empresa, index) => {
                                             return (
-                                                <option value={area_empresa.id + '-' + area_empresa.nombre_area}>{area_empresa.nombre_area}</option>
+                                                <option key={index} value={area_empresa.id + '-' + area_empresa.nombre_area}>{area_empresa.nombre_area}</option>
                                             )
                                         })
                                     ) : null
@@ -326,8 +375,8 @@ export default function DetallesTrabajador ({proporcional}) {
                                     fontFamily: 'Poppins, sans-serif'}}>
                                     Nombres
                                 </span>
-                                <input
-                                    disabled={!editar_informacion} 
+                                <input 
+                                    disabled={!editar_informacion}  
                                     id='nombres'
                                     type='default'
                                     className='form-control rounded'
@@ -343,8 +392,8 @@ export default function DetallesTrabajador ({proporcional}) {
                                     fontFamily: 'Poppins, sans-serif'}}>
                                     Apellidos
                                 </span>
-                                <input
-                                    disabled={!editar_informacion} 
+                                <input 
+                                    disabled={!editar_informacion}
                                     id='apellidos'
                                     type='default'
                                     className='form-control rounded'
@@ -361,8 +410,8 @@ export default function DetallesTrabajador ({proporcional}) {
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Correo personal
                             </span>
-                            <input
-                                disabled={!editar_informacion} 
+                            <input 
+                                disabled={!editar_informacion}
                                 id='correo_personal'
                                 type='e-mail'
                                 className='form-control rounded'
@@ -378,15 +427,15 @@ export default function DetallesTrabajador ({proporcional}) {
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Correo empresa
                             </span>
-                            <input
-                                disabled={!editar_informacion} 
+                            <input 
+                                disabled={!editar_informacion}
                                 id='correo_empresa'
                                 type='e-mail'
                                 className='form-control rounded'
                                 value={correo_empresa}
                                 onChange={(event) => setCorreoEmpresa(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecorreo_empresa ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Correo empresa'/>
                         </div>
@@ -401,8 +450,8 @@ export default function DetallesTrabajador ({proporcional}) {
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Fecha nacimiento
                             </span>
-                            <input
-                                disabled={!editar_informacion} 
+                            <input 
+                                disabled={!editar_informacion}
                                 id='fecha_nacimiento'
                                 type='date'
                                 className='form-control rounded'
@@ -418,8 +467,8 @@ export default function DetallesTrabajador ({proporcional}) {
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Nro teléfono
                             </span>
-                            <input
-                                disabled={!editar_informacion} 
+                            <input 
+                                disabled={!editar_informacion}
                                 id='nro_telefono'
                                 type='number'
                                 className='form-control rounded'
@@ -447,7 +496,7 @@ export default function DetallesTrabajador ({proporcional}) {
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: etipo_documento ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Tipo documento</option>
+                                <option value='0'>{tipo_documento === '' ? 'Seleccionar tipo documento' : tipo_documento}</option>
                                 <option value='D.N.I'>D.N.I</option>
                                 <option value='Pasaporte'>Pasaporte</option>
                                 <option value='C.E'>C.E</option>
@@ -459,8 +508,8 @@ export default function DetallesTrabajador ({proporcional}) {
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Nro documento
                             </span>
-                            <input
-                                disabled={!editar_informacion} 
+                            <input 
+                                disabled={!editar_informacion}
                                 id='nro_documento'
                                 type='number'
                                 className='form-control rounded'
@@ -481,7 +530,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             País 
                         </span>
                         <select
-                            disabled={!editar_informacion}
+                                disabled={!editar_informacion}
                             id='pais'
                             ref={selectRefPais}
                             className='form-select rounded'
@@ -489,7 +538,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: epais ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar país</option>
+                            <option value='0'>{pais === '' ? 'Seleccionar pais' : pais}</option>
                         </select>
                     </div>
                     <div style={{width: '32%', height: 'auto'}}>
@@ -498,7 +547,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             Provincia 
                         </span>
                         <select
-                            disabled={!editar_informacion}
+                                disabled={!editar_informacion}
                             id='provincia'
                             ref={selectRefProvincia}
                             className='form-select rounded'
@@ -506,7 +555,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: eprovincia ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar provincia</option>
+                            <option value='0'>{provincia === '' ? 'Seleccionar provincia' : provincia}</option>
                         </select>
                     </div>
                     <div style={{width: '32%', height: 'auto'}}>
@@ -515,7 +564,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             Distrito 
                         </span>
                         <select
-                            disabled={!editar_informacion}
+                                disabled={!editar_informacion}
                             id='distrito'
                             ref={selectRefDistrito}
                             className='form-select rounded'
@@ -523,7 +572,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: edistrito ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar distrito</option>
+                            <option value='0'>{distrito === '' ? 'Seleccionar distrito' : distrito}</option>
                         </select>
                     </div>
                 </div>
@@ -534,8 +583,8 @@ export default function DetallesTrabajador ({proporcional}) {
                             fontFamily: 'Poppins, sans-serif'}}>
                             Dirección
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
+                        <input 
+                                disabled={!editar_informacion}
                             id='direccion'
                             type='default'
                             className='form-control rounded'
@@ -582,7 +631,7 @@ export default function DetallesTrabajador ({proporcional}) {
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: eestudios ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar estudios</option>
+                                <option value='0'>{estudios === '' ? 'Seleccionar estudios' : estudios}</option>
                             </select>
                         </div>
                     </div>
@@ -602,7 +651,7 @@ export default function DetallesTrabajador ({proporcional}) {
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: etitulo ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar titulo</option>
+                                <option value='0'>{titulo === '' ? 'Seleccionar título' : titulo}</option>
                             </select>
                         </div>
                         <div style={{width: '48%', height: 'auto'}}>
@@ -640,9 +689,9 @@ export default function DetallesTrabajador ({proporcional}) {
                                 className='form-select rounded'
                                 onChange={(event) => event.target.value !== '0' ? setAfp(event.target.value) : null}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: eafp ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar AFP</option>
+                                <option value='0'>{afp === '' ? 'Seleccionar afp' : afp}</option>
                             </select>
                         </div>
                         <div style={{width: '48%', height: 'auto'}}>
@@ -657,9 +706,9 @@ export default function DetallesTrabajador ({proporcional}) {
                                 className='form-select rounded'
                                 onChange={(event) => event.target.value !== '0' ? setSeguro(event.target.value) : null}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: eseguro ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar Seguro</option>
+                                <option value='0'>{seguro === '' ? 'Seleccionar seguro' : seguro}</option>
                             </select>
                         </div>
                     </div>
@@ -679,7 +728,7 @@ export default function DetallesTrabajador ({proporcional}) {
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: eestado_civil ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}>
-                                <option value='0'>Seleccionar estado civil</option>
+                                <option value='0'>{colegio === '' ? 'Seleccionar colegio' : colegio}</option>
                             </select>
                         </div>
                         <div style={{width: '48%', height: 'auto'}}>
@@ -709,15 +758,15 @@ export default function DetallesTrabajador ({proporcional}) {
                             Estado de trabajo
                         </span>
                         <select
-                            disabled={!editar_informacion}
+                                disabled={!editar_informacion}
                             id='estado_trabajo'
                             ref={selectRefEstadoTrabajo}
                             className='form-select rounded'
                             onChange={(event) => event.target.value !== '0' ? setEstadoTrabajo(event.target.value) : null}
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eestado_trabajo ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}>
-                            <option value='0'>Estado trabajo</option>
+                            <option value='0'>{estado_trabajo === '' ? 'Seleccionar estado de trabajo' : estado_trabajo}</option>
                             <option value='Trabajando'>Trabajando</option>
                             <option value='Vacaciones'>Vacaciones</option>
                             <option value='Descanso médico'>Descanso médico</option>
@@ -730,15 +779,15 @@ export default function DetallesTrabajador ({proporcional}) {
                             fontFamily: 'Poppins, sans-serif'}}>
                             Cargo en la empresa
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
+                        <input 
+                                disabled={!editar_informacion}
                             id='cargo'
                             type='default'
                             className='form-control rounded'
                             value={cargo}
                             onChange={(event) => setCargo(event.target.value)}
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecargo ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                             placeholder='Cargo empresa'/>
                     </div>
@@ -747,77 +796,133 @@ export default function DetallesTrabajador ({proporcional}) {
                             fontFamily: 'Poppins, sans-serif'}}>
                             Fecha de inicio
                         </span>
-                        <input
-                            disabled={!editar_informacion} 
+                        <input 
+                                disabled={!editar_informacion}
                             id='fecha_inicio'
                             type='date'
                             className='form-control rounded'
                             value={fecha_inicio}
                             onChange={(event) => setFechaInicio(event.target.value)}
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: efecha_inicio ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                             placeholder='Fecha inicio'/>
                     </div>
                 </div>
                 <div className='d-flex justify-content-between' 
                     style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '48%', height: 'auto'}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Sueldo bruto (S/.)
-                            </span>
-                            <input
+                    <div style={{width: '32%', height: 'auto'}}>
+                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif'}}>
+                            Sueldo bruto (S/.)
+                        </span>
+                        <input
                                 disabled={!editar_informacion}
-                                type='number'
-                                id='sueldo_bruto'
-                                className='form-select rounded'
-                                value={sueldo_bruto}
-                                onChange={(event) => setSueldoBruto(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: esueldo_bruto ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Sueldo bruto'/>
-                        </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Sueldo neto (S/.)
-                            </span>
-                            <input
-                                disabled={!editar_informacion}
-                                type='number'
-                                id='sueldo_neto'
-                                className='form-select rounded'
-                                value={sueldo_neto}
-                                onChange={(event) => setSueldoNeto(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: esueldo_neto ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Sueldo neto'/>
-                        </div>
+                            type='number'
+                            id='sueldo_bruto'
+                            className='form-control rounded'
+                            value={sueldo_bruto}
+                            onChange={(event) => setSueldoBruto(event.target.value)}
+                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                    padding: 10 / proporcional}}
+                            placeholder='Sueldo bruto'/>
                     </div>
+                    <div style={{width: '32%', height: 'auto'}}>
+                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif'}}>
+                            Sueldo neto (S/.)
+                        </span>
+                        <input
+                                disabled={!editar_informacion}
+                            type='number'
+                            id='sueldo_neto'
+                            className='form-control rounded'
+                            value={sueldo_neto}
+                            onChange={(event) => setSueldoNeto(event.target.value)}
+                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                    padding: 10 / proporcional}}
+                            placeholder='Sueldo neto'/>
+                    </div>
+                    <div style={{width: '32%', height: 'auto'}}/>
                 </div>
                 <div className='d-flex justify-content-between' 
                     style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <div style={{width: '100%', height: 'auto'}}>
+                    <div style={{width: '32%', height: 'auto'}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
-                            Url foto
+                            Banco
+                        </span>
+                        <select
+                                disabled={!editar_informacion}
+                            id='banco'
+                            ref={selectRefBanco}
+                            className='form-select rounded'
+                            onChange={(event) => event.target.value !== '0' ? setBanco(event.target.value) : null}
+                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                    padding: 10 / proporcional}}>
+                            <option value='0'>{banco === '' ? 'Seleccionar banco' : banco}</option>
+                        </select>
+                    </div>
+                    <div style={{width: '32%', height: 'auto'}}>
+                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif'}}>
+                            Nro cuenta
                         </span>
                         <input
-                            disabled={!editar_informacion} 
-                            id='url_foto'
-                            type='web'
+                                disabled={!editar_informacion}
+                            type='number'
+                            id='nro_cuenta_bancaria'
+                            value={nro_cuenta_bancaria}
                             className='form-control rounded'
-                            value={url_foto}
-                            onChange={(event) => setUrlFoto(event.target.value)}
+                            onChange={(event) => setNroCuentaBancaria(event.target.value)}
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Url foto'/>
+                            placeholder='Nro cuenta'/>
+                    </div>
+                    <div style={{width: '32%', height: 'auto'}}>
+                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif'}}>
+                            Nro cuenta interbancaria
+                        </span>
+                        <input
+                                disabled={!editar_informacion}
+                            type='number'
+                            id='nro_cuenta_inerbancaria'
+                            value={nro_cuenta_interbancaria}
+                            className='form-control rounded'
+                            onChange={(event) => setNroCuentaInterBancaria(event.target.value)}
+                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                    padding: 10 / proporcional}}
+                            placeholder='Cuenta interbancaria'/>
+                    </div>
+                </div>
+                <div className='' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
+                    <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                        fontFamily: 'Poppins, sans-serif'}}>
+                        Url imagen
+                    </span>
+                    <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
+                        <input 
+                                disabled={!editar_informacion}
+                            class="form-control" 
+                            type="file" 
+                            id="formFile" 
+                            style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                padding: 10 / proporcional}}
+                            onChange={handleFileChange}/>
+                        <div className={boton_subir_foto ? 'shadow-lg rounded' : 'rounded'} 
+                            style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                            <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                fontWeight: 500, cursor: 'pointer'}} onClick={handleUpload}
+                                onMouseOver={() => setBotonSubirFoto(true)} onMouseLeave={() => setBotonSubirFoto(false)}>Subir foto</p>
+                        </div>
                     </div>
                 </div>
                 {
@@ -826,9 +931,9 @@ export default function DetallesTrabajador ({proporcional}) {
                             <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
                                 style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                 onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
-                                onClick={() => actualizar_datos_proyecto()}>
+                                onClick={() => actualizar_data_trabajador()}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                    fontFamily: 'Poppins, sansNoticia-serif', textAlign: 'center', fontWeight: 600}}>
                                     Actualizar datos
                                 </p>
                             </div>
@@ -847,7 +952,7 @@ export default function DetallesTrabajador ({proporcional}) {
                             <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
                                 style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                 onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
-                                onClick={() => {setEditarInformacion(true); window.scrollTo(0, 0)}}>
+                                onClick={() => obtener_data_editar()}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
                                     fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                     Editar datos

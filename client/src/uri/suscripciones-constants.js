@@ -9,9 +9,9 @@ export const suscripcionesConstants = (id = 1, begin = 0, amount = 16, data = {}
             reset: reset,
             data: data
         }, 
-        get_suscripciones: {
+        get_suscripciones_filter: {
             path: `suscripciones/${begin}/${amount}`,
-            stateType: 'get_suscripciones',
+            stateType: 'get_suscripciones_filter',
             reset: reset,
         },  
         get_cliente_suscripcion: {

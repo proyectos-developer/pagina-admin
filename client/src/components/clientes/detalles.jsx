@@ -26,10 +26,6 @@ export default function DetallesCliente ({proporcional}) {
     const [url_logo, setUrlLogo] = useState ('')
 
     const [enombre_negocio, setENombreNegocio] = useState(false)
-    const [enro_ruc, setENroRuc] = useState(false)
-    const [enombre_contacto, setENombreContacto] = useState(false)
-    const [enro_telefono, setENroTelefono] = useState (false)
-    const [ecorreo, setECorreo] = useState (false)
     const [eurl_logo, setEUrlLogo] = useState (false)
 
     const [boton_subif_foto, setBotonSubirFoto] = useState(false)
@@ -119,6 +115,15 @@ export default function DetallesCliente ({proporcional}) {
         dispatch(filesdata(filesConstants('clientes', data, false).file_upload))
     }
 
+    useEffect(() => {
+        return (() => {
+            dispatch(negociosdata(negociosConstants(0, 0, 0, 0, 0, 0, {}, true).update_negocio))
+            dispatch(negociosdata(negociosConstants(0, 0, 0, 0, 0, 0, {}, true).get_negocio))
+            dispatch(filesdata(filesConstants(0, {}, true).file_upload))
+            dispatch(set_data_negocio({}))
+        })
+    }, [])
+
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 150 / proporcional : 250 / proporcional,
             paddingRight: open_menu_lateral ? 150 / proporcional : 250 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
@@ -174,7 +179,7 @@ export default function DetallesCliente ({proporcional}) {
                                     value={nro_ruc}
                                     onChange={(event) => setNroRuc(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: enro_ruc ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}
                                     placeholder='Nro R.U.C'/>
                             </div>
@@ -194,7 +199,7 @@ export default function DetallesCliente ({proporcional}) {
                                 value={nombre_contacto}
                                 onChange={(event) => setNombreContacto(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: enombre_contacto ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Nombre negocio / empresa'/>
                         </div>
@@ -211,7 +216,7 @@ export default function DetallesCliente ({proporcional}) {
                                 value={nro_telefono}
                                 onChange={(event) => setNroTelefono(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: enro_telefono ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Nro teléfono'/>
                         </div>
@@ -230,7 +235,7 @@ export default function DetallesCliente ({proporcional}) {
                                 value={correo}
                                 onChange={(event) => setCorreo(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecorreo ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Correo electrónico'/>
                         </div>

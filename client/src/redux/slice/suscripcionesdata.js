@@ -19,7 +19,7 @@ export const suscripcionesdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_suscripciones':
+        case 'get_suscripciones_filter':
         case 'get_cliente_suscripcion':
         case 'delete_suscripcion':
             if (params.reset){ 

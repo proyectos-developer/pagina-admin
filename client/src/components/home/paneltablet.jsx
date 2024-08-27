@@ -40,7 +40,7 @@ export default function HomePanelTablet({proporcional}) {
                     ) : null
                 }
                 <div style={{width: '100%', height: '100%'}}>
-                    <div style={{width: '100%', height: 100 / proporcional, borderBottom: '2px solid rgba(229, 229, 229, 1)'}}>
+                    <div style={{width: '100%', height: 160 / proporcional, borderBottom: '2px solid rgba(229, 229, 229, 1)'}}>
                         <MenuSuperiorTablet proporcional={proporcional}/>
                     </div>
                     <Outlet/>

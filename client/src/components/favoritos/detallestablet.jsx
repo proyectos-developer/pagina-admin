@@ -9,6 +9,8 @@ import view_list_v1 from '../../assets/iconos/comun/view_list_v1.png'
 import view_grid_v1 from '../../assets/iconos/comun/view_grid_v1.png'
 import view_list_v2 from '../../assets/iconos/comun/view_list_v2.png'
 import view_grid_v2 from '../../assets/iconos/comun/view_grid_v2.png'
+import reset_v2 from '../../assets/iconos/comun/reset_v2.png'
+import reset_v1 from '../../assets/iconos/comun/reset_v1.png'
 
 import CardClienteTablet from './card/clientetablet.jsx'
 import {favoritosdata} from '../../redux/slice/favoritosdata.js'
@@ -32,10 +34,9 @@ export default function DetallesProductoFavoritoTablet({proporcional}) {
   const [total_favoritos, setTotalFavoritos] = useState(0)
   const [favoritos, setFavoritos] = useState ([])
 
-  const [mouse_next_up, setMouseNextUp] = useState(false)
-  const [mouse_preview_up, setMousePreviewUp] = useState(false)
-  const [mouse_next_down, setMouseNextDown] = useState(false)
-  const [mouse_preview_down, setMousePreviewDown] = useState(false)
+  const [boton_reset, setBotonReset] = useState (false)
+  const [mouse_next, setMouseNext] = useState(false)
+  const [mouse_preview, setMousePreviewDown] = useState(false)
 
   const {get_clientes_producto_favorito_filter} = useSelector(({favoritos_data}) => favoritos_data)
   const {data_favoritos, open_menu_lateral} = useSelector(({data_actions}) => data_actions)
@@ -90,52 +91,50 @@ export default function DetallesProductoFavoritoTablet({proporcional}) {
       setListaFavoritos (favoritos_data.favoritos)
   }
 
+  const resetear_data = () => {
+    setBegin(0)
+    setListaFavoritos([])
+    setListaGridFavoritos([])
+    setFavoritos([])
+    dispatch(favoritosdata(favoritosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_clientes_producto_favorito_filter))
+  }
+
   useEffect(() => {
       return () => {
           setListaGridFavoritos([])
           setListaFavoritos ([])
           setFavoritos([])
+          dispatch(favoritosdata(favoritosConstants(0, 0, 0, 0, 0, 0, 0, 0, {}, true).get_clientes_producto_favorito_filter))
       }
   },[])
 
   return (
     <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
         paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-        <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+        <div className='' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
             <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                 <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
-                    color: '#4A4A4A'}}>Clientes agregaron a favorito <strong>{nombre_producto}</strong>
+                    color: '#4A4A4A'}}>Clientes agregaron a favorito <strong>{nombre_producto}<br/></strong>
                     <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                         {`mostrando del ${begin} al 
                             ${get_clientes_producto_favorito_filter && get_clientes_producto_favorito_filter.favoritos ? begin + get_clientes_producto_favorito_filter.favoritos.length : 0} de ${total_favoritos}`}
                     </span>
                 </h2>
             </div>
-            <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
+            <div className='d-flex justify-content-end' style={{width: '20%', height: 'auto'}}>
                 <img src={view_favorito === 'lista' ? view_list_v1 : view_list_v2} 
-                    style={{width: 30 / proporcional, height: 30 / proporcional, padding: 4 / proporcional,
-                        marginRight: 5 / proporcional, cursor: 'pointer'
+                    style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                        marginRight: 10 / proporcional, cursor: 'pointer'
                     }} onClick={() => setViewFavorito('lista')}/>
-                <img src={view_favorito === 'grid' ? view_grid_v1 : view_grid_v2} 
-                    style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
-                        cursor: 'pointer'
+                <img src={view_favorito === 'grid' || view_favorito === '' ? view_grid_v1 : view_grid_v2} 
+                    style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                        cursor: 'pointer', marginRight: 10 / proporcional
                     }} onClick={() => setViewFavorito('grid')}/>
-            </div>
-        </div>
-        <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
-            <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                <img src={mouse_preview_up ? preview_select : preview}
-                    onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
-                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                            cursor: 'pointer'}}
-                    onClick={() => previous_favoritos()}/>
-            </div>
-            <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                <img src={mouse_next_up ? next_select : next} 
-                    onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
-                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                            cursor: 'pointer'}}
-                    onClick={() => next_favoritos()}/>
+                <img src={boton_reset ? reset_v1 : reset_v2} 
+                    style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                        cursor: 'pointer'
+                    }} onClick={() => resetear_data()}
+                    onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
             </div>
         </div>
         {
@@ -172,23 +171,43 @@ export default function DetallesProductoFavoritoTablet({proporcional}) {
                         )
                     })
             ) : null
-        }            
+        }       
         <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                marginTop: view_favorito === 'grid' ? 0 : 16 / proporcional
+                marginTop: view_favorito === 'grid' || view_favorito === '' ? 0 : 16 / proporcional
         }}>
             <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                <img src={mouse_preview_down ? preview_select : preview} 
-                    onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                            cursor: 'pointer'}}
-                    onClick={() => {previous_favoritos(); window.scrollTo(0, 0)}}/>
+                {
+                    begin !== 0 ? (
+                        <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                            onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
+                            onClick={() => {previous_favoritos(); window.scrollTo(0, 0)}}>
+                            <img src={mouse_preview ? preview_select : preview} 
+                                style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                            <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                marginLeft: 5 / proporcional, color: mouse_preview ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                    Anteriores
+                            </span>
+                        </div>
+                    ) : null
+                }
             </div>
             <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                <img src={mouse_next_down ? next_select : next} 
-                    onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
-                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                            cursor: 'pointer'}}
-                    onClick={() => {next_favoritos(); window.scrollTo(0, 0)}}/>
+                {
+                    begin + 16 >= total_favoritos ? ( 
+                        null
+                    ) : (
+                        <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                            onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
+                            onClick={() => {next_favoritos(); window.scrollTo(0, 0)}}>
+                            <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                    Siguientes
+                            </span>
+                            <img src={mouse_next ? next_select : next} 
+                                style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                        </div>
+                    )
+                }
             </div>
         </div>
     </div>

@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 export default function SessionPanel ({proporcional}) {
+
+    const navigate = useNavigate()
+    
+    useEffect(() => {
+        if (window.localStorage.getItem('session_id')){
+            navigate ('/panel')
+        }
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingTop: 50 / proporcional, paddingBottom: 50 / proporcional,

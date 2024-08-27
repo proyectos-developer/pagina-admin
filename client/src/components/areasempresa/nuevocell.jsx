@@ -13,7 +13,6 @@ export default function NuevoAreaEmpresaCell ({proporcional}) {
     const [descripcion, setDescripcion] = useState('')
 
     const [enombre_area, setENombreArea] = useState (false)
-    const [edescripcion, setEDescripcion] = useState(false)
 
     const [boton_guardar, setBotonGuardar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
@@ -23,11 +22,10 @@ export default function NuevoAreaEmpresaCell ({proporcional}) {
 
     useEffect(() => {
         if (new_area_empresa && new_area_empresa.success === true && new_area_empresa.area_empresa){
-            dispatch(areasempresadata(areasempresaConstants(0, {}, true).new_area_empresa))
+            dispatch(areasempresadata(areasempresaConstants(0, 0, 0, 0, 0, 16, {}, true).new_area_empresa))
             resetear_data()
         }
     }, [new_area_empresa])
-
 
     const resetear_data = () => {
         setNombreArea('')
@@ -40,32 +38,42 @@ export default function NuevoAreaEmpresaCell ({proporcional}) {
         navigate ('/panel/areas-empresa')
     }
 
-    const guardar_categoria = () => {
-        if (descripcion === '' || nombre_area === ''){
-          setEDescripcion(descripcion === '' ? true : false)
+    const guardar_data_area_empresa = () => {
+        if (nombre_area === ''){
           setENombreArea(nombre_area === '' ? true : false)
         }else{
-            setEDescripcion(false)
             setENombreArea(false)
             const data_nuevo = {
-              nombre_area: nombre_area,
-              descripcion: descripcion
+                nombre_area: nombre_area,
+                descripcion: descripcion
             }
-            dispatch (areasempresadata(areasempresaConstants(0, data_nuevo, false).new_area_empresa))
+            dispatch (areasempresadata(areasempresaConstants(0, 0, 0, 0, 0, 16, data_nuevo, false).new_area_empresa))
         }
     }
+    
+    useEffect(() => {
+        return (() => {
+            dispatch(areasempresadata(areasempresaConstants(0, 0, 0, 0, 0, 0, {}, true).new_area_empresa))
+        })
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
             paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '100%', height: '100%'}}>
-                <div className='d-flex justify-content-center' 
-                    style={{width: '100%', height: 'auto'}}>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Nueva área de la empresa
+                    </h2>
+                </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
+                <div style={{width: '80%', height: '100%'}}>
                     <div className='' style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
-                                Nombre área
+                                Área empresa
                             </span>
                             <input
                                 type='default' 
@@ -76,7 +84,7 @@ export default function NuevoAreaEmpresaCell ({proporcional}) {
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: enombre_area ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}
-                                placeholder='Nombre área'/>
+                                placeholder='Nombre área empresa'/>
                         </div>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
@@ -91,15 +99,17 @@ export default function NuevoAreaEmpresaCell ({proporcional}) {
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
                                 style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Descripción del área'/>
                         </div>
                         <div className='' style={{width: '100%', height: 'auto'}}>
                             <div className={boton_guardar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer', marginBottom: 16 / proporcional}}
+                                style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
+                                        marginBottom: 16 / proporcional
+                                }}
                                 onMouseOver={() => setBotonGuardar(true)} onMouseLeave={() => setBotonGuardar(false)}
-                                onClick={() => guardar_categoria()}>
+                                onClick={() => guardar_data_area_empresa()}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
                                     fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                     Guardar datos

@@ -21,7 +21,7 @@ export const trabajadoresdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_trabajadores':
+        case 'get_trabajadores_filter':
         case 'get_trabajador':
         case 'delete_trabajador':
             if (params.reset){ 

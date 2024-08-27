@@ -22,9 +22,9 @@ export const trabajadoresConstants = (id = 1, search = 0, id_area_trabajo = 0, e
             reset: reset,
             data: data
         },  
-        get_trabajadores: {
+        get_trabajadores_filter: {
             path: `trabajadores/search/${search}/empresa/${id_area_trabajo}/estado/${estado_trabajo}/order_by/${order_by}/${order}/${begin}/${amount}`,
-            stateType: 'get_trabajadores',
+            stateType: 'get_trabajadores_filter',
             reset: reset
         },   
         get_trabajador: {

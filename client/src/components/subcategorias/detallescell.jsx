@@ -25,7 +25,6 @@ export default function DetallesSubCategoriaCell ({proporcional}) {
 
     const [ecategoria, setECategoria] = useState (false)
     const [esubcategoria, setESubCategoria] = useState (false)
-    const [edescripcion, setEDescripcion] = useState(false)
 
     const [lista_categorias, setListaCategorias] = useState([])
 
@@ -85,9 +84,12 @@ export default function DetallesSubCategoriaCell ({proporcional}) {
     }
     
     const actualizar_data_subcategoria = () => {
-        if (subcategoria === ''){
+        if (subcategoria === '' || categoria === ''){
             setESubCategoria(subcategoria === '' ? true : false)
+            setECategoria(categoria === '' ? true : false)
         }else{
+            setESubCategoria(false)
+            setECategoria(false)
             const data_nuevo = {
                 id_categoria: id_categoria,
                 categoria: categoria,
@@ -101,6 +103,8 @@ export default function DetallesSubCategoriaCell ({proporcional}) {
     useEffect (() => {
         return () => {
             setListaCategorias([])
+            dispatch(categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 0, {}, true).get_categoria))
+            dispatch(subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 0, {}, true).update_subcategoria))
         }
     }, [])
 
@@ -175,7 +179,7 @@ export default function DetallesSubCategoriaCell ({proporcional}) {
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
                                 style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Descripción de la sub categoría'/>
                         </div>

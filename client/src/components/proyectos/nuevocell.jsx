@@ -27,15 +27,12 @@ export default function NuevoProyectoCell ({proporcional}) {
     const [etipo_proyecto, setETipoProyecto] = useState (false)
     const [enombre_proyecto, setENombreProyecto] = useState(false)
     const [ecliente, setECliente] = useState (false)
-    const [edescripcion, setEDescripcion] = useState(false)
     const [eurl_imagen, setEUrlImagen] = useState(false)
-    const [eurl_contenido, setEUrlContenido] = useState(false)
 
     const [boton_subif_foto, setBotonSubirFoto] = useState(false)
 
     const [boton_guardar, setBotonGuardar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
-    const [show_lista, setShowLista] = useState(false)
 
     const [lista_tipo_proyectos, setListaTipoProyectos] = useState([])
     const [lista_negocios, setListaNegocios] = useState([])
@@ -147,9 +144,12 @@ export default function NuevoProyectoCell ({proporcional}) {
     }
 
     useEffect(() => {
-        return () => {
+        return (() => {
+            setListaNegocios([])
+            setListaTipoProyectos([])
+            dispatch(filesdata(filesConstants(0, {}, true).file_upload))
             dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).get_tipo_proyectos_negocios))
-        }
+        })
     }, [])
 
     return (
@@ -231,7 +231,7 @@ export default function NuevoProyectoCell ({proporcional}) {
                             value={descripcion}
                             onChange={(event) => setDescripcion(event.target.value)}
                             style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                             placeholder='Descripción'/>
                     </div>
@@ -295,7 +295,7 @@ export default function NuevoProyectoCell ({proporcional}) {
                             value={url_contenido}
                             onChange={(event) => setUrlContenido(event.target.value)}
                             style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_contenido ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                             placeholder='Nombre url_contenido'/>
                     </div>

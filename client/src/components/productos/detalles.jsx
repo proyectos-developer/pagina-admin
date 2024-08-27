@@ -73,45 +73,26 @@ export default function DetallesProducto ({proporcional}) {
     const [stock, setStock] = useState(0)
 
     const [eproducto, setEProducto] = useState(false)
-    const [edescripcion, setEDescripcion] = useState (false)
-    const [ecaracteristica_1, setECaracteristica1] = useState(false)
-    const [ecaracteristica_2, setECaracteristica2] = useState(false)
-    const [ecaracteristica_3, setECaracteristica3] = useState(false)
-    const [ecaracteristica_4, setECaracteristica4] = useState(false)
-    const [ecaracteristica_5, setECaracteristica5] = useState(false)
-    const [ecaracteristica_6, setECaracteristica6] = useState(false)
-    const [ecaracteristica_7, setECaracteristica7] = useState(false)
-    const [ecaracteristica_8, setECaracteristica8] = useState(false)
-    const [ecaracteristica_9, setECaracteristica9] = useState(false)
-    const [ecaracteristica_10, setECaracteristica10] = useState(false)
-    const [ecaracteristica_11, setECaracteristica11] = useState(false)
-    const [ecaracteristica_12, setECaracteristica12] = useState(false)
-    const [ecaracteristica_13, setECaracteristica13] = useState(false)
-    const [ecaracteristica_14, setECaracteristica14] = useState(false)
-    const [ecaracteristica_15, setECaracteristica15] = useState(false)
-    const [ecaracteristica_16, setECaracteristica16] = useState(false)
-    const [ecaracteristica_17, setECaracteristica17] = useState(false)
-    const [ecaracteristica_18, setECaracteristica18] = useState(false)
-    const [ecaracteristica_19, setECaracteristica19] = useState(false)
-    const [ecaracteristica_20, setECaracteristica20] = useState(false)
     const [ecategoria, setECategoria] = useState(false)
-    const [esub_categoria, setESubCategoria] = useState(false)
-    const [eunidad, setEUnidad] = useState('')
-    const [eservicio, setEServicio] = useState(false)
     const [eurl_foto_principal, setEUrlFotoPrincipal] = useState(false)
-    const [eurl_foto_1, setEUrlFoto1] = useState(false)
-    const [eurl_foto_2, setEUrlFoto2] = useState(false)
-    const [eurl_foto_3, setEUrlFoto3] = useState(false)
-    const [eurl_foto_4, setEUrlFoto4] = useState(false)
-    const [eurl_foto_5, setEUrlFoto5] = useState(false)
     const [eprecio, setEPrecio] = useState (false)
-    const [edescuento, setEDescuento] = useState (false)
-    const [eoferta, setEOferta] = useState (false)
-    const [eprecio_mensual, setEPrecioMensual] = useState (false)
-    const [eprecio_anual, setEPrecioAnual] = useState (false)
-    const [ecomentarios, setEComentarios] = useState (false)
-    const [ecodigo_sku, setECodigoSku] = useState (false)
     const [estock, setEStock] = useState(false)
+
+    const [show_caracteristica_6, setShowCaracteristica6] = useState(false)
+    const [show_caracteristica_7, setShowCaracteristica7] = useState(false)
+    const [show_caracteristica_8, setShowCaracteristica8] = useState(false)
+    const [show_caracteristica_9, setShowCaracteristica9] = useState(false)
+    const [show_caracteristica_10, setShowCaracteristica10] = useState(false)
+    const [show_caracteristica_11, setShowCaracteristica11] = useState(false)
+    const [show_caracteristica_12, setShowCaracteristica12] = useState(false)
+    const [show_caracteristica_13, setShowCaracteristica13] = useState(false)
+    const [show_caracteristica_14, setShowCaracteristica14] = useState(false)
+    const [show_caracteristica_15, setShowCaracteristica15] = useState(false)
+    const [show_caracteristica_16, setShowCaracteristica16] = useState(false)
+    const [show_caracteristica_17, setShowCaracteristica17] = useState(false)
+    const [show_caracteristica_18, setShowCaracteristica18] = useState(false)
+    const [show_caracteristica_19, setShowCaracteristica19] = useState(false)
+    const [show_caracteristica_20, setShowCaracteristica20] = useState(false)
 
     const [boton_nro_foto, setBotonNroFoto] = useState(0)
     const [boton_subif_foto_1, setBotonSubirFoto1] = useState(false)
@@ -167,11 +148,10 @@ export default function DetallesProducto ({proporcional}) {
     useEffect(() => {
         if (get_producto_categorias_unidades_servicios && get_producto_categorias_unidades_servicios.success === true &&
             get_producto_categorias_unidades_servicios.categorias && get_producto_categorias_unidades_servicios.unidades &&
-            get_producto_categorias_unidades_servicios.servicios){
+            get_producto_categorias_unidades_servicios.servicios && editar_informacion){
                 setListaCategorias(get_producto_categorias_unidades_servicios.categorias)
                 setListaUnidades(get_producto_categorias_unidades_servicios.unidades)
                 setListaServicios(get_producto_categorias_unidades_servicios.servicios)
-                setEditarInformacion(true)
                 window.scrollTo(0, 0)
                 dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).get_producto_categorias_unidades_servicios))
         }
@@ -277,82 +257,18 @@ export default function DetallesProducto ({proporcional}) {
     }
     
     const actualizar_datos_proyecto = () => {
-        if (producto === '' || descripcion === '' || precio === ''){
+        if (producto === '' || precio === '' || stock === '' || categoria === '' || url_foto_principal === ''){
             setEProducto (producto === '' ? true : false)
-            setEDescripcion (descripcion === '' ? true : false)
-            setECaracteristica1 (caracteristica_1 === '' ? true : false)
-            setECaracteristica2 (caracteristica_2 === '' ? true : false)
-            setECaracteristica3 (caracteristica_3 === '' ? true : false)
-            setECaracteristica4 (caracteristica_4 === '' ? true : false)
-            setECaracteristica5 (caracteristica_5 === '' ? true : false)
-            setECaracteristica6 (caracteristica_6 === '' ? true : false)
-            setECaracteristica7 (caracteristica_7 === '' ? true : false)
-            setECaracteristica8 (caracteristica_8 === '' ? true : false)
-            setECaracteristica9 (caracteristica_9 === '' ? true : false)
-            setECaracteristica10 (caracteristica_10 === '' ? true : false)
-            setECaracteristica11 (caracteristica_11 === '' ? true : false)
-            setECaracteristica12 (caracteristica_12 === '' ? true : false)
-            setECaracteristica13 (caracteristica_13 === '' ? true : false)
-            setECaracteristica14 (caracteristica_14 === '' ? true : false)
-            setECaracteristica15 (caracteristica_15 === '' ? true : false)
-            setECaracteristica16 (caracteristica_16 === '' ? true : false)
-            setECaracteristica17 (caracteristica_17 === '' ? true : false)
-            setECaracteristica18 (caracteristica_18 === '' ? true : false)
-            setECaracteristica19 (caracteristica_19 === '' ? true : false)
-            setECaracteristica20 (caracteristica_20 === '' ? true : false)
             setECategoria (categoria === '' ? true : false)
-            setESubCategoria (sub_categoria === '' ? true : false)
-            setEServicio (servicio === '' ? true : false)
             setEUrlFotoPrincipal (url_foto_principal === '' ? true : false)
-            setEUrlFoto1 (url_foto_1 === '' ? true : false)
-            setEUrlFoto2 (url_foto_2 === '' ? true : false)
-            setEUrlFoto3 (url_foto_3 === '' ? true : false)
-            setEUrlFoto4 (url_foto_4 === '' ? true : false)
-            setEUrlFoto5 (url_foto_5 === '' ? true : false)
             setEPrecio (precio === '' ? true : false)
-            setEOferta (oferta === '' ? true : false)
-            setEPrecioMensual (precio_mensual === '' ? true : false)
-            setEPrecioAnual (precio_anual === '' ? true : false)
-            setEComentarios (comentarios === '' ? true : false)
-            setECodigoSku (codigo_sku === '' ? true : false)
+            setEStock (stock === '' ? true : false)
         }else{
             setEProducto (false)
-            setEDescripcion (false)
-            setECaracteristica1 (false)
-            setECaracteristica2 (false)
-            setECaracteristica3 (false)
-            setECaracteristica4 (false)
-            setECaracteristica5 (false)
-            setECaracteristica6 (false)
-            setECaracteristica7 (false)
-            setECaracteristica8 (false)
-            setECaracteristica9 (false)
-            setECaracteristica10 (false)
-            setECaracteristica11 (false)
-            setECaracteristica12 (false)
-            setECaracteristica13 (false)
-            setECaracteristica14 (false)
-            setECaracteristica15 (false)
-            setECaracteristica16 (false)
-            setECaracteristica17 (false)
-            setECaracteristica18 (false)
-            setECaracteristica19 (false)
-            setECaracteristica20 (false)
             setECategoria (false)
-            setESubCategoria (false)
-            setEServicio (false)
             setEUrlFotoPrincipal (false)
-            setEUrlFoto1 (false)
-            setEUrlFoto2 (false)
-            setEUrlFoto3 (false)
-            setEUrlFoto4 (false)
-            setEUrlFoto5 (false)
             setEPrecio (false)
-            setEOferta (false)
-            setEPrecioMensual (false)
-            setEPrecioAnual (false)
-            setEComentarios (false)
-            setECodigoSku (false)
+            setEStock (false)
             const data_nuevo = {
                 producto: producto, 
                 descripcion: descripcion,
@@ -402,6 +318,7 @@ export default function DetallesProducto ({proporcional}) {
     }
 
     const obtener_data_editar = () => {
+        setEditarInformacion(true)
         dispatch(productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 100, {}, false).get_producto_categorias_unidades_servicios))
     }
 
@@ -613,7 +530,7 @@ export default function DetallesProducto ({proporcional}) {
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
                                 style={{width: '100%', height: 190 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Descripción del producto'/>
                         </div>
@@ -649,7 +566,7 @@ export default function DetallesProducto ({proporcional}) {
                                     value={oferta}
                                     onChange={(event) => setoferta(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: eoferta ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}
                                     placeholder='Oferta'/>
                             </div>
@@ -666,7 +583,7 @@ export default function DetallesProducto ({proporcional}) {
                                     value={descuento}
                                     onChange={(event) => setDescuento(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: edescuento ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}
                                     placeholder='Precio de oferta'/>
                             </div>
@@ -686,7 +603,7 @@ export default function DetallesProducto ({proporcional}) {
                                     value={precio_mensual}
                                     onChange={(event) => setPrecioMensual(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: eprecio_mensual ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}
                                     placeholder='Precio mensual'/>
                             </div>
@@ -703,7 +620,7 @@ export default function DetallesProducto ({proporcional}) {
                                     value={precio_anual}
                                     onChange={(event) => setPrecioAnual(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: eprecio_anual ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}
                                     placeholder='Precio anual'/>
                             </div>
@@ -750,7 +667,7 @@ export default function DetallesProducto ({proporcional}) {
                                     className='form-select rounded'
                                     onChange={(event) => seleccionar_sub_categoria(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: esub_categoria ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}>
                                         <option value='0'>{sub_categoria === '' ? 'Seleccionar categoría' : sub_categoria}</option>
                                         {
@@ -778,7 +695,7 @@ export default function DetallesProducto ({proporcional}) {
                                     className='form-select rounded'
                                     onChange={(event) => seleccionar_unidad(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: eunidad ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}>
                                         <option value='0'>{unidad === '' ? 'Seleccionar unidad' : unidad}</option>
                                         {
@@ -804,7 +721,7 @@ export default function DetallesProducto ({proporcional}) {
                                     className='form-select rounded'
                                     onChange={(event) => seleccionar_servicio(event.target.value)}
                                     style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                            fontFamily: 'Poppins, sans-serif', border: eservicio ? '1px solid red' : '1px solid #007BFF',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                             padding: 10 / proporcional}}>
                                         <option value='0'>{servicio === '' ? 'Seleccionar servicio' : servicio}</option>
                                         {
@@ -834,7 +751,7 @@ export default function DetallesProducto ({proporcional}) {
                                 value={codigo_sku}
                                 onChange={(event) => setCodigoSku(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecodigo_sku ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Código Sku'/>
                         </div>
@@ -870,7 +787,7 @@ export default function DetallesProducto ({proporcional}) {
                             value={comentarios}
                             onChange={(event) => setComentarios(event.target.value)}
                             style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecomentarios ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                             placeholder='Comentarios'/>
                     </div>
@@ -889,7 +806,7 @@ export default function DetallesProducto ({proporcional}) {
                                 value={caracteristica_1}
                                 onChange={(event) => setCaracteristica1(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_1 ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Característica uno'/>
                         </div>
@@ -906,7 +823,7 @@ export default function DetallesProducto ({proporcional}) {
                                 value={caracteristica_2}
                                 onChange={(event) => setCaracteristica2(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_2 ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Característica dos'/>
                         </div>
@@ -926,7 +843,7 @@ export default function DetallesProducto ({proporcional}) {
                                 value={caracteristica_3}
                                 onChange={(event) => setCaracteristica1(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_3 ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Característica tres'/>
                         </div>
@@ -943,307 +860,382 @@ export default function DetallesProducto ({proporcional}) {
                                 value={caracteristica_4}
                                 onChange={(event) => setCaracteristica2(event.target.value)}
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_4 ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Característica cuatro'/>
                         </div>
                     </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica cinco
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_5'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_5}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_5 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica cinco'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                            <div style={{width: '48%', height: 'auto'}}>
+                                <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif'}}>
+                                    Característica cinco
+                                </span>
+                                <input 
+                                            disabled={!editar_informacion} 
+                                    id='caracteristica_5'
+                                    type='default'
+                                    className='form-control rounded'
+                                    value={caracteristica_5}
+                                    onBlur={() => setShowCaracteristica6(caracteristica_5 !== '' ? true : false)}
+                                    onChange={(event) => setCaracteristica5(event.target.value)}
+                                    style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                            padding: 10 / proporcional}}
+                                    placeholder='Característica cinco'/>
+                            </div>
+                            {
+                                show_caracteristica_6 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica seis
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_6'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_6}
+                                            onBlur={() => setShowCaracteristica7(caracteristica_6 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica6(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica seis'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica seis
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_6'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_6}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_6 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica seis'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_7 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_7 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica siete
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_7'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_7}
+                                            onBlur={() => setShowCaracteristica8(caracteristica_7 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica7(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica siete'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_8 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica ocho
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_8'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_8}
+                                            onBlur={() => setShowCaracteristica9(caracteristica_8 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica8(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica ocho'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica siete
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_7'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_7}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_7 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica siete'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_9 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_9 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica nueve
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_9'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_9}
+                                            onBlur={() => setShowCaracteristica10(caracteristica_9 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica9(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica nueve'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_10 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica diez
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_10'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_10}
+                                            onBlur={() => setShowCaracteristica11(caracteristica_10 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica10(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica diez'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica ocho
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_8'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_8}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_8 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica ocho'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_11 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_11 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica once
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_11'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_11}
+                                            onBlur={() => setShowCaracteristica12(caracteristica_11 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica11(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica once'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_12 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica doce
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_12'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_12}
+                                            onBlur={() => setShowCaracteristica13(caracteristica_12 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica12(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica doce'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica nueve
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_9'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_9}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_9 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica nueve'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_13 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_13 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica trece
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_13'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_13}
+                                            onBlur={() => setShowCaracteristica14(caracteristica_13 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica13(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica trece'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_14 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica catorce
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_14'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_14}
+                                            onBlur={() => setShowCaracteristica15(caracteristica_14 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica14(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica catorce'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica diez
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_10'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_10}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_10 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica diez'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_15 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_15 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${15 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica quince
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_15'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_15}
+                                            onBlur={() => setShowCaracteristica16(caracteristica_15 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica15(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 15 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica quince'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_16 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${15 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica diez y seis
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_16'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_16}
+                                            onBlur={() => setShowCaracteristica17(caracteristica_16 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica16(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 15 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica diez y seis'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica once
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_11'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_11}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_11 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica once'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_17 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_17 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${15 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica diez y siete
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_17'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_17}
+                                            onBlur={() => setShowCaracteristica18(caracteristica_17 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica17(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 15 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica diez y siete'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_18 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${15 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica diez y ocho
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_18'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_18}
+                                            onBlur={() => setShowCaracteristica19(caracteristica_18 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica18(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 15 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica diez y ocho'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica doce
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_12'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_12}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_12 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica doce'/>
+                        <div className='d-flex justify-content-between' 
+                            style={{width: '100%', height: 'auto', marginBottom: show_caracteristica_19 ? 16 / proporcional : 0}}>
+                            {
+                                show_caracteristica_19 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${15 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica diez y nueve
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_19'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_19}
+                                            onBlur={() => setShowCaracteristica20(caracteristica_19 !== '' ? true : false)}
+                                            onChange={(event) => setCaracteristica19(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 15 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica diez y nueve'/>
+                                    </div>
+                                ) : null
+                            }
+                            {
+                                show_caracteristica_20 ? ( 
+                                    <div style={{width: '48%', height: 'auto'}}>
+                                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${15 / proporcional}px`,
+                                            fontFamily: 'Poppins, sans-serif'}}>
+                                            Característica veinte
+                                        </span>
+                                        <input 
+                                            disabled={!editar_informacion} 
+                                            id='caracteristica_20'
+                                            type='default'
+                                            className='form-control rounded'
+                                            value={caracteristica_20}
+                                            onChange={(event) => setCaracteristica20(event.target.value)}
+                                            style={{width: '100%', height: 50 / proporcional, fontSize: 15 / proporcional, color: 'rgb(89, 89, 89)',
+                                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                                    padding: 10 / proporcional}}
+                                            placeholder='Característica veinte'/>
+                                    </div>
+                                ) : null
+                            }
                         </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica trece
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_13'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_13}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_13 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica trece'/>
-                        </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica catorce
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_14'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_14}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_14 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica catorce'/>
-                        </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica quince
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_15'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_15}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_15 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica quince'/>
-                        </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica diez y seis
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_16'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_16}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_16 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica diez y seis'/>
-                        </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica diez y siete
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_17'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_17}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_17 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica diez y siete'/>
-                        </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica diez y ocho
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_18'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_18}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_18 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica diez y ocho'/>
-                        </div>
-                    </div>
-                    <div className='d-flex justify-content-between' 
-                        style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica diez y nueve
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_19'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_19}
-                                onChange={(event) => setCaracteristica1(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_19 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica diez y nueve'/>
-                        </div>
-                        <div style={{width: '48%', height: 'auto'}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Característica veinte
-                            </span>
-                            <input
-                                disabled={!editar_informacion} 
-                                id='caracteristica_20'
-                                type='default'
-                                className='form-control rounded'
-                                value={caracteristica_20}
-                                onChange={(event) => setCaracteristica2(event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ecaracteristica_20 ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                placeholder='Característica veinte'/>
-                        </div>
-                    </div>
                     <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif'}}>
@@ -1280,7 +1272,7 @@ export default function DetallesProducto ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto_1 ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                                 onChange={handleFileChange_2}/>
                             <div className={boton_subif_foto_2 ? 'shadow-lg rounded' : 'rounded'} 
@@ -1304,7 +1296,7 @@ export default function DetallesProducto ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto_2 ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                                 onChange={handleFileChange_3}/>
                             <div className={boton_subif_foto_3 ? 'shadow-lg rounded' : 'rounded'} 
@@ -1328,7 +1320,7 @@ export default function DetallesProducto ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto_3 ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                                 onChange={handleFileChange_4}/>
                             <div className={boton_subif_foto_4 ? 'shadow-lg rounded' : 'rounded'} 
@@ -1352,7 +1344,7 @@ export default function DetallesProducto ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto_4 ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                                 onChange={handleFileChange_5}/>
                             <div className={boton_subif_foto_5 ? 'shadow-lg rounded' : 'rounded'} 
@@ -1376,7 +1368,7 @@ export default function DetallesProducto ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto_5 ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                                 onChange={handleFileChange_6}/>
                             <div className={boton_subif_foto_6 ? 'shadow-lg rounded' : 'rounded'} 

@@ -154,6 +154,51 @@ app.get('/panel/compras/productos/:shop_id', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/compras/productos', 'index'));
 });
 
+app.use(express.static(path.resolve(__dirname, './client/build/panel/categorias-noticias')));
+app.get('/panel/categorias-noticias', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/categorias-noticias', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/categorias-noticias/nuevo')));
+app.get('/panel/categorias-noticias/nuevo', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/categorias-noticias/nuevo', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/categorias-noticias/categoria-noticia')));
+app.get('/panel/categorias-noticias/categoria-noticia/:categoria-noticia/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/categorias-noticias/categoria-noticia', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/areas-empresas')));
+app.get('/panel/areas-empresas', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/areas-empresas', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/areas-empresas/nuevo')));
+app.get('/panel/areas-empresas/nuevo', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/areas-empresas/nuevo', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/areas-empresas/area-empresa')));
+app.get('/panel/areas-empresas/area-empresa/:area-empresa/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/areas-empresas/area-empresa', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/trabajadores')));
+app.get('/panel/trabajadores', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/trabajadores', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/trabajadores/nuevo')));
+app.get('/panel/trabajadores/nuevo', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/trabajadores/nuevo', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/trabajadores/trabajador')));
+app.get('/panel/trabajadores/trabajador/:trabajador/:id', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/trabajadores/trabajador', 'index'));
+});
+
 //Iniciar el servidor
 app.listen (app.get('port'), () => {
     console.log ('Server en puerto ', app.get ('port'))

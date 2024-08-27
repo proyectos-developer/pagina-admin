@@ -9,6 +9,8 @@ import view_list_v1 from '../../assets/iconos/comun/view_list_v1.png'
 import view_grid_v1 from '../../assets/iconos/comun/view_grid_v1.png'
 import view_list_v2 from '../../assets/iconos/comun/view_list_v2.png'
 import view_grid_v2 from '../../assets/iconos/comun/view_grid_v2.png'
+import reset_v2 from '../../assets/iconos/comun/reset_v2.png'
+import reset_v1 from '../../assets/iconos/comun/reset_v1.png'
 
 import CardTipoProyectoCell from './card/tipoproyectocell.jsx'
 import {tipoproyectosdata} from '../../redux/slice/tipoproyectosdata.js'
@@ -26,10 +28,9 @@ export default function ListaTiposProyectosCell ({proporcional}) {
     const [lista_tipos_proyectos, setListaTipoProyectos] = useState ([])
     const [total_tipos_proyectos, setTotalTiposProyectos] = useState(0)
 
-    const [mouse_next_up, setMouseNextUp] = useState(false)
-    const [mouse_preview_up, setMousePreviewUp] = useState(false)
-    const [mouse_next_down, setMouseNextDown] = useState(false)
-    const [mouse_preview_down, setMousePreviewDown] = useState(false)
+    const [boton_reset, setBotonReset] = useState (false)
+    const [mouse_next, setMouseNext] = useState(false)
+    const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_tipo_proyectos_filter, delete_tipo_proyecto} = useSelector(({tipoproyectos_data}) => tipoproyectos_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
@@ -77,10 +78,20 @@ export default function ListaTiposProyectosCell ({proporcional}) {
         setListaTipoProyectos (data_tipos_proyectos.tipos_proyectos)
     }
 
+    const resetear_data = () => {
+        setBegin (0)
+        setListaGridTiposProyectos([])
+        setListaTipoProyectos ([])
+        dispatch(tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 16, {}, false).get_tipo_proyectos_filter))
+        dispatch(tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 16, {}, false).delete_tipo_proyecto))
+    }
+
     useEffect(() => {
         return () => {
             setListaGridTiposProyectos([])
             setListaTipoProyectos ([])
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 0, {}, true).get_tipo_proyectos_filter))
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 0, {}, true).delete_tipo_proyecto))
         }
     },[])
 
@@ -99,47 +110,36 @@ export default function ListaTiposProyectosCell ({proporcional}) {
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                     <img src={view_tipo_proyecto === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 4 / proporcional,
-                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            marginRight: 10 / proporcional, cursor: 'pointer'
                         }} onClick={() => setViewTipoProyecto('lista')}/>
                     <img src={view_tipo_proyecto === 'grid' || view_tipo_proyecto === '' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
-                            cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer', marginRight: 10 / proporcional
                         }} onClick={() => setViewTipoProyecto('grid')}/>
-                </div>
-            </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_up ? preview_select : preview}
-                        onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => previous_tipos_proyectos()}/>
-                </div>
-                <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_up ? next_select : next} 
-                        onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => next_tipo_proyectos()}/>
+                    <img src={boton_reset ? reset_v1 : reset_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer'
+                        }} onClick={() => resetear_data()}
+                        onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
                 </div>
             </div>
             {
                 lista_grid_tipos_proyectos && lista_grid_tipos_proyectos.length > 0 && view_tipo_proyecto === 'grid' || view_tipo_proyecto === '' ? (
-                    lista_grid_tipos_proyectos.map ((tipo_proyecto, numtip) => {
+                    lista_grid_tipos_proyectos.map ((tipo_proyecto, numneg) => {
                         return (
                             <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
                                 <div style={{width: '90%', height: 'auto'}}>
-                                    <CardTipoProyectoCell tipo_proyecto={tipo_proyecto} key={numtip} index={numtip} proporcional={proporcional} view_tipo_proyecto={view_tipo_proyecto}/>
+                                    <CardTipoProyectoCell tipo_proyecto={tipo_proyecto} key={numneg} index={numneg} proporcional={proporcional} view_tipo_proyecto={view_tipo_proyecto}/>
                                 </div>
                             </div>
                         )
                     })
                 ) : 
                     lista_tipos_proyectos && lista_tipos_proyectos.length > 0 && view_tipo_proyecto === 'lista' ? (
-                        lista_tipos_proyectos.map ((tipo_proyecto, numtip) => {
+                        lista_tipos_proyectos.map ((tipo_proyecto, numneg) => {
                             return (
-                                <CardTipoProyectoCell tipo_proyecto={tipo_proyecto} key={numtip} index={numtip} proporcional={proporcional} view_tipo_proyecto={view_tipo_proyecto}/>
+                                <CardTipoProyectoCell tipo_proyecto={tipo_proyecto} key={numneg} index={numneg} proporcional={proporcional} view_tipo_proyecto={view_tipo_proyecto}/>
                             )
                         })
                 ) : null
@@ -148,18 +148,38 @@ export default function ListaTiposProyectosCell ({proporcional}) {
                     marginTop: view_tipo_proyecto === 'grid' || view_tipo_proyecto === '' ? 0 : 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_down ? preview_select : preview} 
-                        onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {previous_tipos_proyectos(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin !== 0 ? (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
+                                onClick={() => {previous_tipos_proyectos(); window.scrollTo(0, 0)}}>
+                                <img src={mouse_preview ? preview_select : preview} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginLeft: 5 / proporcional, color: mouse_preview ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Anteriores
+                                </span>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_down ? next_select : next} 
-                        onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {next_tipo_proyectos(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin + 16 >= total_tipos_proyectos ? ( 
+                            null
+                        ) : (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
+                                onClick={() => {next_tipo_proyectos(); window.scrollTo(0, 0)}}>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Siguientes
+                                </span>
+                                <img src={mouse_next ? next_select : next} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

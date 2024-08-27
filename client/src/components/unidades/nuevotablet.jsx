@@ -13,7 +13,6 @@ export default function NuevaUnidadTablet ({proporcional}) {
     const [descripcion, setDescripcion] = useState('')
 
     const [eunidad, setEUnidad] = useState (false)
-    const [edescripcion, setEDescripcion] = useState(false)
 
     const [boton_guardar, setBotonGuardar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
@@ -52,6 +51,12 @@ export default function NuevaUnidadTablet ({proporcional}) {
             dispatch (unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 16, data_nuevo, false).new_unidad))
         }
     }
+
+    useEffect(() => {
+        return (() => {
+            dispatch(unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 0, {}, true).new_unidad))   
+        })
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
@@ -95,7 +100,7 @@ export default function NuevaUnidadTablet ({proporcional}) {
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
                                 style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                 placeholder='Descripción de la unidad'/>
                         </div>

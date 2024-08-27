@@ -22,8 +22,6 @@ export default function DetallesTipoProyectoCell ({proporcional}) {
     const [url_tipo, setUrlTipo] = useState ('')
 
     const [enombre, setENombre] = useState(false)
-    const [edireccion, setEDireccion] = useState(false)
-    const [eurl_tipo, setEUrlTipo] = useState (false)
 
     const [boton_subif_foto, setBotonSubirFoto] = useState(false)
 
@@ -101,6 +99,14 @@ export default function DetallesTipoProyectoCell ({proporcional}) {
         dispatch(filesdata(filesConstants('tipo_proyectos', data, false).file_upload))
     }
 
+    useEffect(() => {
+        return (() => {
+            dispatch(filesdata(filesConstants(0, {}, true).file_upload))
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 0, {}, true).update_tipo_proyecto))
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 0, {}, true).get_tipo_proyecto))
+        })
+    }, [])
+
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
             paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
@@ -156,7 +162,7 @@ export default function DetallesTipoProyectoCell ({proporcional}) {
                                 value={descripcion}
                                 onChange={(event) => setDescripcion(event.target.value)}
                                 style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: edireccion ? '1px solid red' : '1px solid #007BFF',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional, lineHeight: `${20 / proporcional}px`}}
                                 placeholder='Descripción'/>
                         </div>
@@ -173,7 +179,7 @@ export default function DetallesTipoProyectoCell ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_tipo ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional, marginBottom: 16 / proporcional}}
                                 onChange={handleFileChange}/>
                             <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 

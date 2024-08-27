@@ -57,11 +57,14 @@ export default function NuevaServicioTablet ({proporcional}) {
     }
 
     const guardar_servicio = () => {
-        if (servicio === ''){
-          setEServicio(servicio === '' ? true : false)
+        if (servicio === '' || descripcion === '' || url_foto === ''){
+            setEServicio(servicio === '' ? true : false)
+            setEDescripcion(descripcion === '' ? true : false)
+            setEUrlFoto(url_foto === '' ? true : false)
         }else{
             setEDescripcion(false)
             setEServicio(false)
+            setUrlFoto(false)
             const data_nuevo = {
                 url_foto: url_foto,
                 servicio: servicio,
@@ -81,6 +84,12 @@ export default function NuevaServicioTablet ({proporcional}) {
         data.append('file', file_imagen, file_imagen.name)
         dispatch(filesdata(filesConstants('servicios', data, false).file_upload))
     }
+    
+    useEffect(() => {
+        return (() => {
+            dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 0, {}, true).new_servicio))
+        })
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,

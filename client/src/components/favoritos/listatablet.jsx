@@ -28,7 +28,6 @@ export default function ListaFavoritosTablet ({proporcional}) {
     const selectRefSubCategoria = useRef(null)
     const selectRefUnidad = useRef(null)
 
-    const [boton_reset, setBotonReset] = useState (false)
     const [view_favorito, setViewFavorito] = useState ('grid')
     const [begin, setBegin] = useState(0)
     const [amount, setAmount] = useState(16)
@@ -49,10 +48,9 @@ export default function ListaFavoritosTablet ({proporcional}) {
     const [total_favoritos, setTotalFavoritos] = useState(0)
     const [favoritos, setFavoritos] = useState ([])
 
-    const [mouse_next_up, setMouseNextUp] = useState(false)
-    const [mouse_preview_up, setMousePreviewUp] = useState(false)
-    const [mouse_next_down, setMouseNextDown] = useState(false)
-    const [mouse_preview_down, setMousePreviewDown] = useState(false)
+    const [boton_reset, setBotonReset] = useState (false)
+    const [mouse_next, setMouseNext] = useState(false)
+    const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_producto_categorias_unidades_servicios} = useSelector(({productos_data}) => productos_data)
     const {get_favoritos_filter} = useSelector(({favoritos_data}) => favoritos_data)
@@ -164,6 +162,12 @@ export default function ListaFavoritosTablet ({proporcional}) {
         if (selectRefUnidad.current){
             selectRefUnidad.current.value = '0'
         }
+        setListaGridFavoritos([])
+        setListaFavoritos ([])
+        setFavoritos([])
+        setListaCategorias([])
+        setListaSubCategorias([])
+        setListaUnidades([])
         setCategoria('Categoría')
         setSubCategoria('Sub categoría')
         setUnidad('Unidad')
@@ -175,6 +179,10 @@ export default function ListaFavoritosTablet ({proporcional}) {
             setListaGridFavoritos([])
             setListaFavoritos ([])
             setFavoritos([])
+            setListaCategorias([])
+            setListaSubCategorias([])
+            setListaUnidades([])
+            dispatch(favoritosdata(favoritosConstants(0, 0, 0, 0, 0, 0, 0, 0, {}, true).get_favoritos_filter))
         }
     },[])
 
@@ -191,96 +199,80 @@ export default function ListaFavoritosTablet ({proporcional}) {
                         </span>
                     </h2>
                 </div>
-                <div className='d-flex justify-content-end' style={{width: '20%', height: 'auto'}}>
+                <div className='d-flex justify-content-end' style={{width: '48%', height: 'auto'}}>
                     <img src={view_favorito === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 4 / proporcional,
-                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            marginRight: 10 / proporcional, cursor: 'pointer'
                         }} onClick={() => setViewFavorito('lista')}/>
-                    <img src={view_favorito === 'grid' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 3 / proporcional,
-                            cursor: 'pointer'
+                    <img src={view_favorito === 'grid' || view_favorito === '' ? view_grid_v1 : view_grid_v2} 
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer', marginRight: 10 / proporcional
                         }} onClick={() => setViewFavorito('grid')}/>
                     <img src={boton_reset ? reset_v1 : reset_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 2 / proporcional,
-                            marginRight: 5 / proporcional, cursor: 'pointer'
+                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
+                            cursor: 'pointer'
                         }} onClick={() => resetear_data()}
                         onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
                 </div>
             </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-start' style={{width: '5%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_up ? preview_select : preview}
-                        onMouseOver={() => setMousePreviewUp(true)} onMouseLeave={() => setMousePreviewUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => previous_favoritos()}/>
-                </div>
-                <div className='d-flex justify-content-center' style={{width: '90%', height: 40 / proporcional}}>
-                    <p style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
-                        marginRight: 10 / proporcional, fontFamily: 'Poppins, sans-serif', fontWeight: 500,
-                        cursor: 'default', fontWeight: 500}}>Filtrar por:</p>
-                    <select
-                        ref={selectRefCategoria}
-                        className='rounded form-select'
-                        id='categoria'
-                        style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
-                                fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
-                        onChange={(event) => seleccionar_categoria(event.target.value)}>
-                        <option value='0'>{categoria === '' ? 'Categoría' : categoria}</option>
-                        {
-                            lista_categorias && lista_categorias.length > 0 ? (
-                                lista_categorias.map ((categoria, index) => {
-                                    return (
-                                        <option key={index} value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
-                                    )
-                                })
-                            ) : null
-                        }
-                    </select>
-                    <select
-                        ref={selectRefSubCategoria}
-                        className='rounded form-select'
-                        id='sub_categoria'
-                        style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
-                                fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
-                        onChange={(event) => seleccionar_sub_categoria(event.target.value)}>
-                        <option value='0'>{sub_categoria === '' ? 'Sub categoría' : sub_categoria}</option>
-                        {
-                            lista_subcategorias && lista_subcategorias.length > 0 ? (
-                                lista_subcategorias.map ((sub_categoria, index) => {
-                                    return (
-                                        <option key={index} value={sub_categoria.id + '-' + sub_categoria.sub_categoria}>{sub_categoria.sub_categoria}</option>
-                                    )
-                                })
-                            ) : null
-                        }
-                    </select>
-                    <select
-                        ref={selectRefUnidad}
-                        className='rounded form-select'
-                        id='unidad'
-                        style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
-                                fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
-                        onChange={(event) => seleccionar_unidades(event.target.value)}>
-                        <option value='0'>{unidad === '' ? 'Unidad' : unidad}</option>
-                        {
-                            lista_unidades && lista_unidades.length > 0 ? (
-                                lista_unidades.map ((unidad, index) => {
-                                    return (
-                                        <option key={index} value={unidad.id + '-' + unidad.unidad}>{unidad.unidad}</option>
-                                    )
-                                })
-                            ) : null
-                        }
-                    </select>
-                </div>
-                <div className='d-flex justify-content-end' style={{width: '5%', height: 40 / proporcional}}>
-                    <img src={mouse_next_up ? next_select : next} 
-                        onMouseOver={() => setMouseNextUp(true)} onMouseLeave={() => setMouseNextUp(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => next_favoritos()}/>
-                </div>
+            <div className='d-flex justify-content-center' style={{width: '90%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
+                <p style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                    marginRight: 10 / proporcional, fontFamily: 'Poppins, sans-serif', fontWeight: 500,
+                    cursor: 'default', fontWeight: 500}}>Filtrar por:</p>
+                <select
+                    ref={selectRefCategoria}
+                    className='rounded form-select'
+                    id='categoria'
+                    style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
+                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
+                    onChange={(event) => seleccionar_categoria(event.target.value)}>
+                    <option value='0'>{categoria === '' ? 'Categoría' : categoria}</option>
+                    {
+                        lista_categorias && lista_categorias.length > 0 ? (
+                            lista_categorias.map ((categoria, index) => {
+                                return (
+                                    <option key={index} value={categoria.id + '-' + categoria.categoria}>{categoria.categoria}</option>
+                                )
+                            })
+                        ) : null
+                    }
+                </select>
+                <select
+                    ref={selectRefSubCategoria}
+                    className='rounded form-select'
+                    id='sub_categoria'
+                    style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
+                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
+                    onChange={(event) => seleccionar_sub_categoria(event.target.value)}>
+                    <option value='0'>{sub_categoria === '' ? 'Sub categoría' : sub_categoria}</option>
+                    {
+                        lista_subcategorias && lista_subcategorias.length > 0 ? (
+                            lista_subcategorias.map ((sub_categoria, index) => {
+                                return (
+                                    <option key={index} value={sub_categoria.id + '-' + sub_categoria.sub_categoria}>{sub_categoria.sub_categoria}</option>
+                                )
+                            })
+                        ) : null
+                    }
+                </select>
+                <select
+                    ref={selectRefUnidad}
+                    className='rounded form-select'
+                    id='unidad'
+                    style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
+                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
+                    onChange={(event) => seleccionar_unidades(event.target.value)}>
+                    <option value='0'>{unidad === '' ? 'Unidad' : unidad}</option>
+                    {
+                        lista_unidades && lista_unidades.length > 0 ? (
+                            lista_unidades.map ((unidad, index) => {
+                                return (
+                                    <option key={index} value={unidad.id + '-' + unidad.unidad}>{unidad.unidad}</option>
+                                )
+                            })
+                        ) : null
+                    }
+                </select>
             </div>
             {
                 lista_grid_favoritos && lista_grid_favoritos.length > 0 && view_favorito === 'grid' ? (
@@ -316,23 +308,43 @@ export default function ListaFavoritosTablet ({proporcional}) {
                             )
                         })
                 ) : null
-            }            
+            }        
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_favorito === 'grid' ? 0 : 16 / proporcional
+                    marginTop: view_favorito === 'grid' || view_favorito === '' ? 0 : 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_preview_down ? preview_select : preview} 
-                        onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {previous_favoritos(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin !== 0 ? (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
+                                onClick={() => {previous_favoritos(); window.scrollTo(0, 0)}}>
+                                <img src={mouse_preview ? preview_select : preview} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginLeft: 5 / proporcional, color: mouse_preview ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Anteriores
+                                </span>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
-                    <img src={mouse_next_down ? next_select : next} 
-                        onMouseOver={() => setMouseNextDown(true)} onMouseLeave={() => setMouseNextDown(false)}
-                        style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional,
-                                cursor: 'pointer'}}
-                        onClick={() => {next_favoritos(); window.scrollTo(0, 0)}}/>
+                    {
+                        begin + 16 >= total_favoritos ? ( 
+                            null
+                        ) : (
+                            <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
+                                onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
+                                onClick={() => {next_favoritos(); window.scrollTo(0, 0)}}>
+                                <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                                    marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
+                                        Siguientes
+                                </span>
+                                <img src={mouse_next ? next_select : next} 
+                                    style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

@@ -38,7 +38,7 @@ export default function DetallesServicioTablet ({proporcional}) {
 
     useEffect(() => {
         if (data_servicio.servicio === undefined){
-            dispatch(serviciosdata(serviciosConstants(location.pathname.split ('/')[3], 0, 0, 0, 0, 16, {}, false).get_servicio))
+            dispatch(serviciosdata(serviciosConstants(location.pathname.split ('/')[5], 0, 0, 0, 0, 16, {}, false).get_servicio))
         }else{
             setIdServicio(data_servicio.id)
             setServicio(data_servicio.servicio)
@@ -75,10 +75,14 @@ export default function DetallesServicioTablet ({proporcional}) {
     }
     
     const actualizar_data_servicio = () => {
-        if (servicio === ''){
+        if (servicio === '' || descripcion === '' || url_foto === ''){
             setEServicio(servicio === '' ? true : false)
+            setEDescripcion(descripcion === '' ? true : false)
+            setEUrlFoto(url_foto === '' ? true : false)
         }else{
             setEServicio (false)
+            setEDescripcion(false)
+            setEUrlFoto(false)
             const data_nuevo = {
                 url_foto: url_foto,
                 servicio: servicio,
@@ -98,6 +102,12 @@ export default function DetallesServicioTablet ({proporcional}) {
         data.append('file', file_imagen, file_imagen.name)
         dispatch(filesdata(filesConstants('servicios', data, false).file_upload))
     }
+
+    useEffect(() => {
+        return (() => {
+            dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 0, {}, true).update_servicio))
+        })
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,

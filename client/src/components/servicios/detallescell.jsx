@@ -38,7 +38,7 @@ export default function DetallesServicioCell ({proporcional}) {
 
     useEffect(() => {
         if (data_servicio.servicio === undefined){
-            dispatch(serviciosdata(serviciosConstants(location.pathname.split ('/')[3], 0, 0, 0, 0, 16, {}, false).get_servicio))
+            dispatch(serviciosdata(serviciosConstants(location.pathname.split ('/')[5], 0, 0, 0, 0, 16, {}, false).get_servicio))
         }else{
             setIdServicio(data_servicio.id)
             setServicio(data_servicio.servicio)
@@ -75,10 +75,14 @@ export default function DetallesServicioCell ({proporcional}) {
     }
     
     const actualizar_data_servicio = () => {
-        if (servicio === ''){
+        if (servicio === '' || descripcion === '' || url_foto === ''){
             setEServicio(servicio === '' ? true : false)
+            setEDescripcion(descripcion === '' ? true : false)
+            setEUrlFoto(url_foto === '' ? true : false)
         }else{
             setEServicio (false)
+            setEDescripcion(false)
+            setEUrlFoto(false)
             const data_nuevo = {
                 url_foto: url_foto,
                 servicio: servicio,
@@ -98,6 +102,12 @@ export default function DetallesServicioCell ({proporcional}) {
         data.append('file', file_imagen, file_imagen.name)
         dispatch(filesdata(filesConstants('servicios', data, false).file_upload))
     }
+
+    useEffect(() => {
+        return (() => {
+            dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 0, {}, true).update_servicio))
+        })
+    }, [])
 
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
@@ -165,23 +175,21 @@ export default function DetallesServicioCell ({proporcional}) {
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Url imagen
                             </span>
-                            <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
-                                <input 
-                                    disabled={!editar_informacion}
-                                    class="form-control" 
-                                    type="file" 
-                                    id="formFile" 
-                                    style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: eurl_foto ? '1px solid red' : '1px solid #007BFF',
-                                        padding: 10 / proporcional}}
-                                    onChange={handleFileChange}/>
-                                <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
-                                    style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
-                                    <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
-                                        lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
-                                        fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload : null}
-                                        onMouseOver={() => setBotonSubirFoto(true)} onMouseLeave={() => setBotonSubirFoto(false)}>Subir foto</p>
-                                </div>
+                            <input 
+                                disabled={!editar_informacion}
+                                class="form-control" 
+                                type="file" 
+                                id="formFile" 
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: eurl_foto ? '1px solid red' : '1px solid #007BFF',
+                                    padding: 10 / proporcional, marginBottom: 16 / proporcional}}
+                                onChange={handleFileChange}/>
+                            <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
+                                style={{width: '100%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                    fontWeight: 500, cursor: 'pointer'}} onClick={editar_informacion ? handleUpload : null}
+                                    onMouseOver={() => setBotonSubirFoto(true)} onMouseLeave={() => setBotonSubirFoto(false)}>Subir foto</p>
                             </div>
                         </div>
                         {

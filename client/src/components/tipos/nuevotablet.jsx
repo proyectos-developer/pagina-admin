@@ -18,8 +18,6 @@ export default function NuevoTipoProyectoTablet ({proporcional}) {
     const [url_tipo, setUrlTipo] = useState ('')
 
     const [enombre, setENombre] = useState(false)
-    const [edescripcion, setEDescripcion] = useState(false)
-    const [eurl_tipo, setEUrlTipo] = useState (false)
 
     const [boton_subif_foto, setBotonSubirFoto] = useState(false)
 
@@ -80,6 +78,13 @@ export default function NuevoTipoProyectoTablet ({proporcional}) {
         dispatch(filesdata(filesConstants('tipo_proyectos', data, false).file_upload))
     }
 
+    useEffect(() => {
+        return (() => {
+            dispatch(filesdata(filesConstants(0, {}, true).file_upload))
+            dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 0, {}, true).new_tipo_proyecto))
+        })
+    }, [])
+
     return (
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
             paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
@@ -105,7 +110,7 @@ export default function NuevoTipoProyectoTablet ({proporcional}) {
                         </div>
                     </div>
                     <div className='d-flex justify-content-start' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <div style={{width: '48%', height: 'auto'}}>
+                        <div style={{width: '100%', height: 'auto'}}>
                             <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif'}}>
                                 Tipo proyecto
@@ -135,7 +140,7 @@ export default function NuevoTipoProyectoTablet ({proporcional}) {
                             value={descripcion}
                             onChange={(event) => setDescripcion(event.target.value)}
                             style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                             placeholder='Descripción'/>
                     </div>
@@ -150,7 +155,7 @@ export default function NuevoTipoProyectoTablet ({proporcional}) {
                                 type="file" 
                                 id="formFile" 
                                 style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_tipo ? '1px solid red' : '1px solid #007BFF',
+                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                     padding: 10 / proporcional}}
                                 onChange={handleFileChange}/>
                             <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
