@@ -199,6 +199,36 @@ app.get('/panel/trabajadores/trabajador/:trabajador/:id', (req, res) => {
   res.sendFile(path.resolve(__dirname, './client/build/panel/trabajadores/trabajador', 'index'));
 });
 
+app.use(express.static(path.resolve(__dirname, './client/build/panel/notificaciones')));
+app.get('/panel/notificaciones', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/notificaciones', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/notificaciones/notificacion')));
+app.get('/panel/notificaciones/notificacion', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/notificaciones/notificacion', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/mensajes')));
+app.get('/panel/mensajes', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/mensajes', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/mensajes/mensaje')));
+app.get('/panel/mensajes/mensaje', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/mensajes/mensaje', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/reuniones')));
+app.get('/panel/reuniones', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/reuniones', 'index'));
+});
+
+app.use(express.static(path.resolve(__dirname, './client/build/panel/reuniones/reunion')));
+app.get('/panel/reuniones/reunion', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/panel/reuniones/reunion', 'index'));
+});
+
 //Iniciar el servidor
 app.listen (app.get('port'), () => {
     console.log ('Server en puerto ', app.get ('port'))

@@ -427,14 +427,14 @@ export default function DetallesProductoCell ({proporcional}) {
         <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
             paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
             <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
+                <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                     <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
                         color: '#4A4A4A'}}>Producto: <span style={{fontSize: 28 / proporcional, color: '#007BFF'}}>{producto}</span>
                     </h2>
                 </div>
             </div>
             <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
-                <div style={{width: '80%', height: '100%'}}>
+                <div style={{width: '100%', height: '100%'}}>
                     <div className='' style={{width: '100%', height: 'auto'}}>
                         <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto',

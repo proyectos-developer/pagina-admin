@@ -19,7 +19,11 @@ export const datatypes = {
     SET_DATA_UNIDAD: 'SET_DATA_UNIDAD',
     SET_DATA_TRABAJADORES: 'SET_DATA_TRABAJADORES',
     SET_DATA_ADMINISTRADORES: 'SET_DATA_ADMINISTRADORES',
-    SET_DATA_AREAS_EMPRESA: 'SET_DATA_AREAS_EMPRESA'
+    SET_DATA_AREAS_EMPRESA: 'SET_DATA_AREAS_EMPRESA',
+    SET_DATA_NOTIFICACIONES: 'SET_DATA_NOTIFICACIONES',
+    SET_DATA_MENSAJES: 'SET_DATA_MENSAJES',
+    SET_DATA_REUNIONES: 'SET_DATA_REUNIONES',
+    SET_DATA_GESTION_PROYECTOS: 'SET_DATA_GESTION_PROYECTOS'
 }
 
 export const set_authenticated = authenticated => {
@@ -159,5 +163,33 @@ export const set_data_administradores = data_administradores => {
     return {
         data_administradores,
         type: datatypes.SET_DATA_ADMINISTRADORES
+    }
+}
+
+export const set_data_notificaciones = data_notificaciones => {
+    return {
+        data_notificaciones,
+        type: datatypes.SET_DATA_NOTIFICACIONES
+    }
+}
+
+export const set_data_mensajes = data_mensajes => {
+    return {
+        data_mensajes,
+        type: datatypes.SET_DATA_MENSAJES
+    }
+}
+
+export const set_data_reuniones = data_reuniones => {
+    return {
+        data_reuniones,
+        type: datatypes.SET_DATA_REUNIONES
+    }
+}
+
+export const set_data_gestion_proyectos = data_gestion_proyectos => {
+    return {
+        data_gestion_proyectos,
+        type: datatypes.SET_DATA_GESTION_PROYECTOS
     }
 }

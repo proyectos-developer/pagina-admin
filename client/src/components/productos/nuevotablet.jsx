@@ -413,6 +413,7 @@ export default function NuevoProductoTablet ({proporcional}) {
                 url_foto_cinco: url_foto_5,
                 precio: precio,
                 oferta: oferta,
+                descuento: descuento,
                 precio_mensual: precio_mensual,
                 precio_anual: precio_anual,
                 comentarios: comentarios,

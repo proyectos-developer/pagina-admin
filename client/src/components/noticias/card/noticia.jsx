@@ -29,7 +29,7 @@ export default function CardNoticia ({proporcional, index, noticia, view_noticia
     }
 
     const eliminar_noticia = () => {
-        dispatch(noticiasdata(noticiasConstants(noticia.id, 0, 0, 0, 0, 0, 16, {}, false).delete_servicio))
+        dispatch(noticiasdata(noticiasConstants(noticia.id, 0, 0, 0, 0, 0, 16, {}, false).delete_noticia))
     }
 
     return (

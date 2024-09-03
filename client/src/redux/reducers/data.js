@@ -21,7 +21,11 @@ const initial_state = {
     data_unidad: {},
     data_areas_empresa: {},
     data_trabajadores: {},
-    data_administradores: {}
+    data_administradores: {},
+    data_notificaciones: {},
+    data_mensajes: {},
+    data_reuniones: {},
+    data_gestion_proyectos: {}
 }
 
 const data = (state = initial_state, action) => {
@@ -144,6 +148,30 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_administradores
+        }
+    }else if (action.type === datatypes.SET_DATA_NOTIFICACIONES){
+        const data_notificaciones = action.data_notificaciones
+        return {
+            ... state,
+            data_notificaciones
+        }
+    }else if (action.type === datatypes.SET_DATA_MENSAJES){
+        const data_mensajes = action.data_mensajes
+        return {
+            ... state,
+            data_mensajes
+        }
+    }else if (action.type === datatypes.SET_DATA_REUNIONES){
+        const data_reuniones = action.data_reuniones
+        return {
+            ... state,
+            data_reuniones
+        }
+    }else if (action.type === datatypes.SET_DATA_GESTION_PROYECTOS){
+        const data_gestion_proyectos = action.data_gestion_proyectos
+        return {
+            ... state,
+            data_gestion_proyectos
         }
     }else{
         return state

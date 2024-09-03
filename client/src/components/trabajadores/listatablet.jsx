@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import next from '../../assets/iconos/comun/next_v2.png'
 import next_select from '../../assets/iconos/comun/next_v1.png'
@@ -15,29 +15,48 @@ import reset_v1 from '../../assets/iconos/comun/reset_v1.png'
 import CardTrabajadorTablet from './card/trabajadortablet.jsx'
 import {trabajadoresdata} from '../../redux/slice/trabajadoresdata.js'
 import { trabajadoresConstants } from '../../uri/trabajadores-constants.js'
+import {areasempresadata} from '../../redux/slice/areasempresadata.js'
+import { areasempresaConstants } from '../../uri/areasempresa-constants.js'
 
 export default function ListaTrabajadoresTablet ({proporcional}) {
 
     const dispatch = useDispatch()
 
+    const selectRefAreaEmpresa = useRef(null)
+    const selectRefEstadoTrabajo = useRef(null)
+
     const [view_trabajador, setViewTrabajador] = useState ('grid')
     const [begin, setBegin] = useState(0)
     const [amount, setAmount] = useState(16)
+
+    const [id_area_empresa, setIdAreaEmpresa] = useState('')
+    const [area_empresa, setAreaEmpresa] = useState('')
+    const [estado_trabajo, setEstadoTrabajo] = useState('')
 
     const [lista_grid_trabajadores, setListaGridTrabajadores] = useState ([])
     const [lista_trabajadores, setListaTrabajadores] = useState ([])
     const [total_trabajadores, setTotalTrabajadores] = useState(0)
     const [trabajadores, setTrabajadores] = useState ([])
 
+    const [lista_areas_empresa, setListaAreasEmpresa] = useState([])
+
     const [boton_reset, setBotonReset] = useState (false)
     const [mouse_next, setMouseNext] = useState(false)
     const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_trabajadores_filter, delete_trabajador} = useSelector(({trabajadores_data}) => trabajadores_data)
+    const {get_areas_empresa_filter} = useSelector(({areasempresa_data}) => areasempresa_data)
     const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
-        dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, begin, amount, {}, false).get_trabajadores_filter))
+        dispatch (areasempresadata(areasempresaConstants(0, 0, 0, 0, 0, 100, {}, false).get_areas_empresa_filter))
+    }, [])
+
+    useEffect(() => {
+        if (get_areas_empresa_filter && get_areas_empresa_filter.success === true && get_areas_empresa_filter.areas_empresa){
+            setListaAreasEmpresa(get_areas_empresa_filter.areas_empresa)
+            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, begin, amount, {}, false).get_trabajadores_filter))
+        }
     }, [])
 
     useEffect(() => {
@@ -73,6 +92,21 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
         }
     }
 
+    const seleccionar_area_empresa = (value) => {
+        if (value !== '0'){
+            setIdAreaEmpresa(value.split('-')[0])
+            setAreaEmpresa(value.split('-')[1])
+            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, value.split('-')[0], 0, 0, 0, 0, 16, {}, false).get_trabajadores_filter))
+        }
+    }
+
+    const seleccionar_estado_trabajo = (value) => {
+        if (value !== '0'){
+            setEstadoTrabajo(value)
+            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, value, 0, 0, 0, 16, {}, false).get_trabajadores_filter))
+        }
+    }
+
     const dividir_nro_columnas = (data_trabajadores) => {
         if (data_trabajadores.total_trabajadores){setTotalTrabajadores(data_trabajadores.total_trabajadores)}
         let data = data_trabajadores.trabajadores.length
@@ -100,8 +134,7 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
             setListaGridTrabajadores([])
             setListaTrabajadores ([])
             setTrabajadores([])
-            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 0, 0, {}, true).get_trabajadores_filter))
-            dispatch(trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 0, 0, {}, true).delete_trabajador))
+            setListaAreasEmpresa([])
         }
     },[])
 
@@ -133,6 +166,38 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
                         }} onClick={() => resetear_data()}
                         onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
                 </div>
+            </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
+                <p style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
+                    marginRight: 10 / proporcional, fontFamily: 'Poppins, sans-serif', fontWeight: 500,
+                    cursor: 'default', fontWeight: 500}}>Filtrar por:</p>
+                <select
+                    ref={selectRefAreaEmpresa}
+                    className='rounded form-select'
+                    id='area_empresa'
+                    style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
+                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
+                    onChange={(event) => seleccionar_area_empresa(event.target.value)}>
+                    <option value='0'>{area_empresa === '' ? 'Área empresa' : area_empresa}</option>
+                    {
+                        lista_areas_empresa && lista_areas_empresa.length > 0 ? (
+                            lista_areas_empresa.map ((area_empresa, index) => {
+                                return (
+                                    <option key={index} value={area_empresa.id + '-' + area_empresa.nombre_area}>{area_empresa.nombre_area}</option>
+                                )
+                            })
+                        ) : null
+                    }
+                </select>
+                <select
+                    ref={selectRefEstadoTrabajo}
+                    className='rounded form-select'
+                    id='estado_trabajo'
+                    style={{width: 200 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
+                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif', marginRight: 10 / proporcional}}
+                    onChange={(event) => seleccionar_estado_trabajo(event.target.value)}>
+                    <option value='0'>{estado_trabajo === '' ? 'Estado trabajo' : estado_trabajo}</option>
+                </select>
             </div>
             {
                 lista_grid_trabajadores && lista_grid_trabajadores.length > 0 && view_trabajador === 'grid' ? (

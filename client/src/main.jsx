@@ -10,6 +10,7 @@ import begindata from './redux/slice/begindata.js'
 import filesdata from './redux/slice/filesdata.js'
 import tipoproyectosdata from './redux/slice/tipoproyectosdata.js'
 import proyectosdata from './redux/slice/proyectosdata.js'
+import gestionproyectosdata from './redux/slice/gestionproyectosdata.js'
 import productosdata from './redux/slice/productosdata.js'
 import categoriasdata from './redux/slice/categoriasdata.js'
 import subcategoriasdata from './redux/slice/subcategoriasdata.js'
@@ -24,6 +25,10 @@ import categorias_noticiasdata from './redux/slice/categorias_noticiasdata.js'
 import noticiasdata from './redux/slice/noticiasdata.js'
 import trabajadoresdata from './redux/slice/trabajadoresdata.js'
 
+import notificacionesdata from './redux/slice/notificacionesdata.js'
+import mensajesdata from './redux/slice/mensajesdata.js'
+import reunionesdata from './redux/slice/reunionesdata.js'
+
 import correosdata from './redux/slice/correosdata.js'
 import serviciosdata from './redux/slice/serviciosdata.js'
 import areasempresadata from './redux/slice/areasempresadata.js'
@@ -37,6 +42,7 @@ const store = configureStore ({
         negocios_data: negociosdata,
         tipoproyectos_data: tipoproyectosdata,
         proyectos_data: proyectosdata,
+        gestionproyectos_data: gestionproyectosdata,
         productos_data: productosdata,
         categorias_data: categoriasdata,
         subcategorias_data: subcategoriasdata,
@@ -50,6 +56,10 @@ const store = configureStore ({
         noticias_data: noticiasdata,
         areasempresa_data: areasempresadata,
         trabajadores_data: trabajadoresdata,
+
+        reuniones_data: reunionesdata,
+        mensajes_data: mensajesdata,
+        notificaciones_data: notificacionesdata,
 
         correos_data: correosdata,
         servicios_data: serviciosdata,

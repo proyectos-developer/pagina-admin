@@ -319,7 +319,7 @@ export default function DetallesTrabajador ({proporcional}) {
     return (
         <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
             paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div style={{width: '80%', height: 'auto'}}>
+            <div style={{width: '100%', height: 'auto'}}>
                 <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                     <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                         <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
@@ -355,7 +355,6 @@ export default function DetallesTrabajador ({proporcional}) {
                                     fontFamily: 'Poppins, sans-serif', border: earea_empresa ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}>
                             <option value='0'>{area_empresa === '' ? 'Seleccionar área empresa' : area_empresa}</option>
-                            <option value='1'>Crear nueva área empresa</option>
                             {
                                 lista_areas_empresa && lista_areas_empresa.length > 0 ? (
                                     lista_areas_empresa.map ((area_empresa, index) => {
@@ -876,9 +875,11 @@ export default function DetallesTrabajador ({proporcional}) {
                     </div>
                     {
                         editar_informacion ? (
-                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                            <div className='' style={{width: '100%', height: 'auto'}}>
                                 <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
+                                        marginBottom: 16 / proporcional
+                                    }}
                                     onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
                                     onClick={() => actualizar_data_trabajador()}>
                                     <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -887,7 +888,7 @@ export default function DetallesTrabajador ({proporcional}) {
                                     </p>
                                 </div>
                                 <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                     onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
                                     onClick={() => {setEditarInformacion(false); window.scrollTo(0, 0)}}>
                                     <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -897,9 +898,11 @@ export default function DetallesTrabajador ({proporcional}) {
                                 </div>
                             </div>
                         ) : (
-                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                            <div className='' style={{width: '100%', height: 'auto'}}>
                                 <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
+                                        marginBottom: 16 / proporcional
+                                    }}
                                     onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
                                     onClick={() => obtener_data_editar()}>
                                     <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -908,7 +911,7 @@ export default function DetallesTrabajador ({proporcional}) {
                                     </p>
                                 </div>
                                 <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                     onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
                                     onClick={() => volver_a_lista()}>
                                     <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,

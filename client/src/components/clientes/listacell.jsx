@@ -80,26 +80,18 @@ export default function ListaClientesCell ({proporcional}) {
 
     const resetear_data = () => {
         setBegin (0)
-        if (selectRefCategoria.current){
-            selectRefCategoria.current.value = '0'
-        }
-        setListaGridSubCategorias([])
-        setListaSubCategorias ([])
-        setCategoria('Categoría')
-        setListaCategorias([])
-        dispatch(subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_subcategorias_filter))
-        dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 0, {}, false).get_categorias_filter))
-        dispatch(subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).delete_subcategoria))
+        setListaGridNegocios([])
+        setListaNegocios ([])
+        dispatch(negociosdata(negociosConstants(0, 0, 0, 0, 0, 16, {}, false).get_negocios_filter))
+        dispatch(negociosdata(negociosConstants(0, 0, 0, 0, 0, 16, {}, false).delete_negocio))
     }
 
     useEffect(() => {
         return () => {
-            setListaCategorias([])
-            setListaGridSubCategorias([])
-            setListaSubCategorias ([])
-            dispatch (subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 0, {}, true).get_subcategorias_filter))
-            dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 0, {}, true).get_categorias_filter))
-            dispatch(subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 0, {}, true).delete_subcategoria))
+            setListaGridNegocios([])
+            setListaNegocios ([])
+            dispatch (negociosdata(negociosConstants(0, 0, 0, 0, 0, 0, {}, true).get_negocios_filter))
+            dispatch (negociosdata(negociosConstants(0, 0, 0, 0, 0, 0, {}, true).delete_negocio))
         }
     },[])
 

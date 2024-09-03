@@ -19,7 +19,7 @@ export default function NuevaCategoria ({proporcional}) {
 
     const [ecategoria, setECategoria] = useState (false)
 
-    const [boton_subif_foto, setBotonSubirFoto] = useState(false)
+    const [boton_subir_foto, setBotonSubirFoto] = useState(false)
 
     const [boton_guardar, setBotonGuardar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
@@ -158,7 +158,7 @@ export default function NuevaCategoria ({proporcional}) {
                                         fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
                                     onChange={handleFileChange}/>
-                                <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
+                                <div className={boton_subir_foto ? 'shadow-lg rounded' : 'rounded'} 
                                     style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
                                     <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
                                         lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',

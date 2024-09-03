@@ -18,28 +18,26 @@ export default function HomePanel({proporcional}) {
 
     return (
         <div style={{width: '100%', height: '100%'}}>
-            <div className='d-flex' style={{width: '100%', height: '100%'}}>
+            <div className='position-relative' style={{width: '100%', height: '100%'}}>
                 {
                     open_menu_lateral ? (
-                        <div className='shadow-lg position-relative min-vh-100' style={{width: '20%', borderRight: '1px solid rgba(229, 229, 229, 1)',
-                                background: 'white', zIndex: 99999}}>
-                            <div className='position-fixed'>
-                                <div className='' style={{width: '147%'}}>
-                                    <MenuLateral proporcional={proporcional}/>
-                                    <div className={`position-absolute ${arrow_left ? 'shadow' : 'shadow-lg'} rounded-circle`} 
-                                        style={{width: 48 / proporcional, height: 48 / proporcional,
-                                            top: 246 / proporcional, left: '137%', background: '#28A745', cursor: 'pointer'}}
-                                            onMouseOver={() => setArrowLeft(true)} onMouseLeave={() => setArrowLeft(false)}
-                                            onClick={() => dispatch (set_open_menu_lateral(false))}>
-                                        <img className='rounded-circle' src={left} style={{width: 48 / proporcional, height: 48 / proporcional,
-                                                padding: arrow_left ? 3 / proporcional : 6 / proporcional}}/>
-                                    </div>
-                                </div>
+                        <div className='shadow-lg position-absolute top-0 start-0 min-vh-100' 
+                            style={{width: '20%', borderRight: '1px solid rgba(229, 229, 229, 1)', background: 'white', zIndex: 99999}}>
+                            <div className='position-fixed' style={{width: '20%', height: '100%'}}>
+                                <MenuLateral proporcional={proporcional}/>
+                            </div>
+                            <div className={`position-fixed ${arrow_left ? 'shadow' : 'shadow-lg'} rounded-circle`} 
+                                style={{width: 48 / proporcional, height: 48 / proporcional,
+                                    top: 246 / proporcional, left: '19%', background: '#28A745', cursor: 'pointer'}}
+                                    onMouseOver={() => setArrowLeft(true)} onMouseLeave={() => setArrowLeft(false)}
+                                    onClick={() => dispatch (set_open_menu_lateral(false))}>
+                                <img className='rounded-circle' src={left} style={{width: 48 / proporcional, height: 48 / proporcional,
+                                        padding: arrow_left ? 3 / proporcional : 6 / proporcional}}/>
                             </div>
                         </div>
                     ) : null
                 }
-                <div style={{width: open_menu_lateral ? '80%' : '100%', height: '100%'}}>
+                <div style={{width: '100%', height: '100%'}}>
                     <div style={{width: '100%', height: 100 / proporcional, borderBottom: '2px solid rgba(229, 229, 229, 1)'}}>
                         <MenuSuperior proporcional={proporcional}/>
                     </div>

@@ -96,8 +96,8 @@ export default function ListaAreasEmpresaCell ({proporcional}) {
     },[])
 
     return (
-        <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
-            paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+        <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
+            paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
             <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                 <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                     <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
