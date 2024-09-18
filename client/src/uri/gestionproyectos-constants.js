@@ -105,7 +105,7 @@ export const gestionproyectosConstants = (id = 1, search = '', columna = '', val
             data: data
         },  
         get_documentos_proyecto_filter: {
-            path: `gestion/documentos/proyecto/search/${search}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            path: `gestion/documentos/proyecto/search/${search}/columna/${columna}/${valor}/order_by/${order_by}/${order}/${begin}/${amount}`,
             stateType: 'get_documentos_proyecto_filter',
             reset: reset
         },   
@@ -161,7 +161,7 @@ export const gestionproyectosConstants = (id = 1, search = '', columna = '', val
             data: data
         },  
         get_riesgos_proyecto_filter: {
-            path: `gestion/riesgos/proyecto/search/${search}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            path: `gestion/riesgos/proyecto/search/${search}/columna/${columna}/${valor}/order_by/${order_by}/${order}/${begin}/${amount}`,
             stateType: 'get_riesgos_proyecto_filter',
             reset: reset
         },   
@@ -189,7 +189,7 @@ export const gestionproyectosConstants = (id = 1, search = '', columna = '', val
             data: data
         },  
         get_kpis_proyecto_filter: {
-            path: `gestion/kpis/proyecto/search/${search}/order_by/${order_by}/${order}/${begin}/${amount}`,
+            path: `gestion/kpis/proyecto/search/${search}/columna/${columna}/${valor}/order_by/${order_by}/${order}/${begin}/${amount}`,
             stateType: 'get_kpis_proyecto_filter',
             reset: reset
         },   

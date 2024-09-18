@@ -1,6 +1,7 @@
 export const datatypes = {
     SET_AUTHENTICATED: 'SET_AUTENTICATED',
     SET_OPEN_MENU_LATERAL: 'SET_OPEN_MENU_LATERAL',
+    SET_OPCION_MENU_LATERAL: 'SET_OPCION_MENU_LATERAL',
 
     SET_DATA_NEGOCIO: 'SET_DATA_NEGOCIO',
     SET_DATA_TIPO_PROYECTO: 'SET_DATA_TIPO_PROYECTO',
@@ -17,9 +18,9 @@ export const datatypes = {
     SET_DATA_SUBCATEGORIA: 'SET_DATA_SUBCATEGORIA',
     SET_DATA_SERVICIO: 'SET_DATA_SERVICIO',
     SET_DATA_UNIDAD: 'SET_DATA_UNIDAD',
-    SET_DATA_TRABAJADORES: 'SET_DATA_TRABAJADORES',
+    SET_DATA_PERSONAL: 'SET_DATA_PERSONAL',
     SET_DATA_ADMINISTRADORES: 'SET_DATA_ADMINISTRADORES',
-    SET_DATA_AREAS_EMPRESA: 'SET_DATA_AREAS_EMPRESA',
+    SET_DATA_DEPARTAMENTO: 'SET_DATA_DEPARTAMENTO',
     SET_DATA_NOTIFICACIONES: 'SET_DATA_NOTIFICACIONES',
     SET_DATA_MENSAJES: 'SET_DATA_MENSAJES',
     SET_DATA_REUNIONES: 'SET_DATA_REUNIONES',
@@ -37,6 +38,13 @@ export const set_open_menu_lateral = open_menu_lateral => {
     return {
         open_menu_lateral,
         type: datatypes.SET_OPEN_MENU_LATERAL
+    }
+}
+
+export const set_opcion_menu_lateral = opcion_menu_lateral => {
+    return {
+        opcion_menu_lateral,
+        type: datatypes.SET_OPCION_MENU_LATERAL
     }
 }
 
@@ -145,17 +153,17 @@ export const set_data_unidad = data_unidad => {
     }
 }
 
-export const set_data_areas_empresa = data_areas_empresa => {
+export const set_data_departamento = data_departamento => {
     return {
-        data_areas_empresa,
-        type: datatypes.SET_DATA_AREAS_EMPRESA
+        data_departamento,
+        type: datatypes.SET_DATA_DEPARTAMENTO
     }
 }
 
-export const set_data_trabajadores = data_trabajadores => {
+export const set_data_personal = data_personal => {
     return {
-        data_trabajadores,
-        type: datatypes.SET_DATA_TRABAJADORES
+        data_personal,
+        type: datatypes.SET_DATA_PERSONAL
     }
 }
 

@@ -42,10 +42,10 @@ import {calificacionesdata} from '../../redux/slice/calificacionesdata'
 import { calificacionesConstants } from '../../uri/calificaciones-constants'
 import {clientesdata} from '../../redux/slice/clientesdata'
 import { clientesConstants } from '../../uri/clientes-constants'
-import {trabajadoresdata} from '../../redux/slice/trabajadoresdata'
-import { trabajadoresConstants } from '../../uri/trabajadores-constants'
-import {areasempresadata} from '../../redux/slice/areasempresadata'
-import { areasempresaConstants } from '../../uri/areasempresa-constants'
+import {personaldata} from '../../redux/slice/personaldata.js'
+import { personalConstants } from '../../uri/personal-constants.js'
+import {departamentosdata} from '../../redux/slice/departamentosdata.js'
+import { departamentosConstants } from '../../uri/departamentos-constants.js'
 import {categorias_noticiasdata} from '../../redux/slice/categorias_noticiasdata'
 import { categoriasnoticiasConstants } from '../../uri/categorias_noticias-constants'
 import {noticiasdata} from '../../redux/slice/noticiasdata'
@@ -124,12 +124,12 @@ export default function MenuSuperiorTablet ({proporcional}) {
     }, [get_nro_reuniones])
 
     useEffect(() => {
-        if (location.pathname.split('/') [2] === undefined){
+        if (location.pathname.split('/') [3] === undefined){
             setMenuPagina('panel')
-        }else if (location.pathname.split ('/')[2] !== undefined){
-            setMenuPagina (location.pathname.split ('/')[2])
+        }else if (location.pathname.split ('/')[3] !== undefined){
+            setMenuPagina (location.pathname.split ('/')[3])
         }
-    }, [location.pathname.split ('/')[2]])
+    }, [location.pathname.split ('/')[3]])
 
     useEffect(() => {
         if (local_logout && local_logout.success === true){
@@ -145,99 +145,99 @@ export default function MenuSuperiorTablet ({proporcional}) {
     const buscar_por_palabra = () => {
         if (menu_pagina === 'clientes' && search_word !== ''){
             dispatch (negociosdata(negociosConstants(0, search_word, 0, 0, 0, 16, {}, false).get_negocios_filter))
-            navigate('/panel/clientes')
+            navigate('/panel/proyectos/clientes')
         }else if (menu_pagina === 'clientes' && search_word === ''){
             dispatch (negociosdata(negociosConstants(0, 0, 0, 0, 0, 16, {}, false).get_negocios_filter))
         }
         else if (menu_pagina === 'tipos-proyectos' && search_word !== ''){
             dispatch (tipoproyectosdata(tipoproyectoConstants(0, search_word, 0, 0, 0, 16, {}, false).get_tipo_proyectos_filter))
-            navigate('/panel/tipos-proyectos')
+            navigate('/panel/proyectos/tipos-proyectos')
         }else if (menu_pagina === 'tipos-proyectos' && search_word === ''){
             dispatch (tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 16, {}, false).get_tipo_proyectos_filter))
         }
         else if (menu_pagina === 'proyectos' && search_word !== ''){
             dispatch (proyectosdata(proyectosConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
-            navigate('/panel/proyectos')
+            navigate('/panel/proyectos/proyectos')
         }else if (menu_pagina === 'proyectos' && search_word === ''){
             dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
         }
         else if (menu_pagina === 'categorias' && search_word !== ''){
             dispatch (categoriasdata(categoriasConstants(0, search_word, 0, 0, 0, 16, {}, false).get_categorias_filter))
-            navigate('/panel/categorias')
+            navigate('/panel/almacen/categorias')
         }else if (menu_pagina === 'categorias' && search_word === ''){
             dispatch (categoriasdata(categoriasConstants(0, 0, 0, 0, 0, 16, {}, false).get_categorias_filter))
         }
         else if (menu_pagina === 'subcategorias' && search_word !== ''){
             dispatch (subcategoriasdata(subcategoriasConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_subcategorias_filter))
-            navigate('/panel/subcategorias')
+            navigate('/panel/almacen/subcategorias')
         }else if (menu_pagina === 'subcategorias' && search_word === ''){
             dispatch (subcategoriasdata(subcategoriasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_subcategorias_filter))
         }
         else if (menu_pagina === 'unidades' && search_word !== ''){
             dispatch (unidadesdata(unidadesConstants(0, search_word, 0, 0, 0, 16, {}, false).get_unidades_filter))
-            navigate('/panel/unidades')
+            navigate('/panel/almacen/unidades')
         }else if (menu_pagina === 'unidades' && search_word === ''){
             dispatch (unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 16, {}, false).get_unidades_filter))
         }
         else if (menu_pagina === 'servicios' && search_word !== ''){
             dispatch (serviciosdata(serviciosConstants(0, search_word, 0, 0, 0, 16, {}, false).get_servicios_filter))
-            navigate('/panel/servicios')
+            navigate('/panel/empresa/servicios')
         }else if (menu_pagina === 'servicios' && search_word === ''){
             dispatch (serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).get_servicios_filter))
         }
         else if (menu_pagina === 'productos' && search_word !== ''){
             dispatch (productosdata(productosConstants(0, search_word, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_productos_filter))
-            navigate('/panel/productos')
+            navigate('/panel/almacen/productos')
         }else if (menu_pagina === 'productos' && search_word === ''){
             dispatch (productosdata(productosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_productos_filter))
         }
         else if (menu_pagina === 'favoritos' && search_word !== ''){
             dispatch (favoritosdata(favoritosConstants(0, 0, search_word, 0, 0, 0, 0, 16, {}, false).get_favoritos_filter))
-            navigate('/panel/favoritos')
+            navigate('/panel/estadisticyas/favoritos')
         }else if (menu_pagina === 'favoritos' && search_word === ''){
             dispatch (favoritosdata(favoritosConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_favoritos_filter))
         }
         else if (menu_pagina === 'calificaciones' && search_word !== ''){
             dispatch (calificacionesdata(calificacionesConstants(0, search_word, 0, 0, 0, 0, 0, 16, {}, false).get_calificaciones_filter))
-            navigate('/panel/calificaciones')
+            navigate('/panel/estadisticyas/calificaciones')
         }else if (menu_pagina === 'calificaciones' && search_word === ''){
             dispatch (calificacionesdata(calificacionesConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_calificaciones_filter))
         }
         else if (menu_pagina === 'compradores' && search_word !== ''){
             dispatch (clientesdata(clientesConstants(0, search_word, 0, 0, 0, 16, {}, false).get_clientes_filter))
-            navigate('/panel/compradores')
+            navigate('/panel/tienda/compradores')
         }else if (menu_pagina === 'compradores' && search_word === ''){
             dispatch (clientesdata(clientesConstants(0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
         }
         else if (menu_pagina === 'compras' && search_word !== ''){
-            dispatch (comprasdata(comprasConstants(0, search_word, 0, 0, 0, 16, {}, false).get_clientes_filter))
-            navigate('/panel/compras')
+            dispatch (comprasdata(comprasConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_compras_filter))
+            navigate('/panel/tienda/compras')
         }else if (menu_pagina === 'compras' && search_word === ''){
-            dispatch (comprasdata(comprasConstants(0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+            dispatch (comprasdata(comprasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_compras_filter))
         }
         else if (menu_pagina === 'trabajadores' && search_word !== ''){
-            dispatch (trabajadoresdata(trabajadoresConstants(0, search_word, 0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
-            navigate('/panel/trabajadores')
+            dispatch (personaldata(personalConstants(0, search_word, 0, 0, 0, 0, 0, 16, {}, false).get_personal_filter))
+            navigate('/panel/rrhh/personal')
         }else if (menu_pagina === 'trabajadores' && search_word === ''){
-            dispatch (trabajadoresdata(trabajadoresConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+            dispatch (personaldata(personalConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_personal_filter))
         }
-        else if (menu_pagina === 'areas-empresa' && search_word !== ''){
-            dispatch (areasempresadata(areasempresaConstants(0, search_word, 0, 0, 0, 16, {}, false).get_clientes_filter))
-            navigate('/panel/areas-empresa')
-        }else if (menu_pagina === 'areas-empresa' && search_word === ''){
-            dispatch (areasempresadata(areasempresaConstants(0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+        else if (menu_pagina === 'departamentos' && search_word !== ''){
+            dispatch (departamentosdata(departamentosConstants(0, search_word, 0, 0, 0, 16, {}, false).get_departamentos_filter))
+            navigate('/panel/empresa/departamentos')
+        }else if (menu_pagina === 'departamentos' && search_word === ''){
+            dispatch (departamentosdata(departamentosConstants(0, 0, 0, 0, 0, 16, {}, false).get_departamentos_filter))
         }
         else if (menu_pagina === 'categorias-noticias' && search_word !== ''){
-            dispatch (categorias_noticiasdata(categoriasnoticiasConstants(0, search_word, 0, 0, 0, 16, {}, false).get_clientes_filter))
-            navigate('/panel/categorias-noticias')
+            dispatch (categorias_noticiasdata(categoriasnoticiasConstants(0, search_word, 0, 0, 0, 16, {}, false).get_categorias_noticias_filter))
+            navigate('/panel/otros/categorias-noticias')
         }else if (menu_pagina === 'categorias-noticias' && search_word === ''){
-            dispatch (categorias_noticiasdata(categoriasnoticiasConstants(0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+            dispatch (categorias_noticiasdata(categoriasnoticiasConstants(0, 0, 0, 0, 0, 16, {}, false).get_categorias_noticias_filter))
         }
         else if (menu_pagina === 'noticias' && search_word !== ''){
-            dispatch (noticiasdata(noticiasConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
-            navigate('/panel/noticias')
+            dispatch (noticiasdata(noticiasConstants(0, search_word, 0, 0, 0, 0, 16, {}, false).get_noticias_filter))
+            navigate('/panel/otros/noticias')
         }else if (menu_pagina === 'noticias' && search_word === ''){
-            dispatch (noticiasdata(noticiasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_clientes_filter))
+            dispatch (noticiasdata(noticiasConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_noticias_filter))
         }
     }
 

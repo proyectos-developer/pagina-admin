@@ -23,7 +23,7 @@ import comprasdata from './redux/slice/comprasdata.js'
 import suscripcionesdata from './redux/slice/suscripcionesdata.js'
 import categorias_noticiasdata from './redux/slice/categorias_noticiasdata.js'
 import noticiasdata from './redux/slice/noticiasdata.js'
-import trabajadoresdata from './redux/slice/trabajadoresdata.js'
+import personaldata from './redux/slice/personaldata.js'
 
 import notificacionesdata from './redux/slice/notificacionesdata.js'
 import mensajesdata from './redux/slice/mensajesdata.js'
@@ -31,7 +31,7 @@ import reunionesdata from './redux/slice/reunionesdata.js'
 
 import correosdata from './redux/slice/correosdata.js'
 import serviciosdata from './redux/slice/serviciosdata.js'
-import areasempresadata from './redux/slice/areasempresadata.js'
+import departamentosdata from './redux/slice/departamentosdata.js'
 import administradoresdata from './redux/slice/administradoresdata.js'
 
 const store = configureStore ({
@@ -54,8 +54,8 @@ const store = configureStore ({
         suscripciones_data: suscripcionesdata,
         categorias_noticias_data: categorias_noticiasdata,
         noticias_data: noticiasdata,
-        areasempresa_data: areasempresadata,
-        trabajadores_data: trabajadoresdata,
+        departamentos_data: departamentosdata,
+        personal_data: personaldata,
 
         reuniones_data: reunionesdata,
         mensajes_data: mensajesdata,
@@ -63,7 +63,6 @@ const store = configureStore ({
 
         correos_data: correosdata,
         servicios_data: serviciosdata,
-        areasempresa_data: areasempresadata,
         administradores_data: administradoresdata
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({

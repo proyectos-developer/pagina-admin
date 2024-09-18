@@ -3,6 +3,7 @@ import {datatypes} from '../actions/data.js'
 const initial_state = {
     authenticated: false,
     open_menu_lateral: true,
+    opcion_menu_lateral: {},
 
     data_negocio: {},
     data_tipo_proyecto: {},
@@ -19,8 +20,8 @@ const initial_state = {
     data_subcategoria: {},
     data_servicio: {},
     data_unidad: {},
-    data_areas_empresa: {},
-    data_trabajadores: {},
+    data_departamento: {},
+    data_personal: {},
     data_administradores: {},
     data_notificaciones: {},
     data_mensajes: {},
@@ -40,6 +41,12 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             open_menu_lateral
+        }
+    }else if (action.type === datatypes.SET_OPCION_MENU_LATERAL){
+        const opcion_menu_lateral = action.opcion_menu_lateral
+        return {
+            ... state,
+            opcion_menu_lateral
         }
     }else if (action.type === datatypes.SET_DATA_NEGOCIO){
         const data_negocio = action.data_negocio
@@ -131,17 +138,17 @@ const data = (state = initial_state, action) => {
             ... state,
             data_unidad
         }
-    }else if (action.type === datatypes.SET_DATA_AREAS_EMPRESA){
-        const data_areas_empresa = action.data_areas_empresa
+    }else if (action.type === datatypes.SET_DATA_DEPARTAMENTO){
+        const data_departamento = action.data_departamento
         return {
             ... state,
-            data_areas_empresa
+            data_departamento
         }
-    }else if (action.type === datatypes.SET_DATA_TRABAJADORES){
-        const data_trabajadores = action.data_trabajadores
+    }else if (action.type === datatypes.SET_DATA_PERSONAL){
+        const data_personal = action.data_personal
         return {
             ... state,
-            data_trabajadores
+            data_personal
         }
     }else if (action.type === datatypes.SET_DATA_ADMINISTRADORES){
         const data_administradores = action.data_administradores
