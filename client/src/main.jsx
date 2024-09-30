@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import './styles.css'
 
 import {Provider} from 'react-redux'
 import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit'
@@ -24,6 +25,8 @@ import suscripcionesdata from './redux/slice/suscripcionesdata.js'
 import categorias_noticiasdata from './redux/slice/categorias_noticiasdata.js'
 import noticiasdata from './redux/slice/noticiasdata.js'
 import personaldata from './redux/slice/personaldata.js'
+import locationdata from './redux/slice/locationdata.js'
+import institutosdata from './redux/slice/institutosdata.js'
 
 import notificacionesdata from './redux/slice/notificacionesdata.js'
 import mensajesdata from './redux/slice/mensajesdata.js'
@@ -56,6 +59,8 @@ const store = configureStore ({
         noticias_data: noticiasdata,
         departamentos_data: departamentosdata,
         personal_data: personaldata,
+        location_data: locationdata,
+        institutos_data: institutosdata,
 
         reuniones_data: reunionesdata,
         mensajes_data: mensajesdata,

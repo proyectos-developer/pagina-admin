@@ -85,7 +85,7 @@ export default function ProyectosFinalizados ({proporcional}) {
             <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
                 <div className='' style={{width: '49%', height: 'auto', padding: 10 / proporcional}}>
                     <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16,
-                        fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                        fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                         Proyectos finalizados
                     </h4>
                     <div className={overflow_finalizados ? 'overflow-auto' : 'overflow-hidden'} 
@@ -120,7 +120,7 @@ export default function ProyectosFinalizados ({proporcional}) {
                     </div>
                     <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                         <div className={boton_finalizados ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '80%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                            style={{width: '80%', height: 50 / proporcional, cursor: 'pointer', background: '#28A745'}}
                             onMouseOver={() => setBotonFinalizados(true)} onMouseLeave={() => setBotonFinalizados(false)}
                             onClick={() => ver_lista_proyectos_finalizados()}>
                             <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -135,7 +135,7 @@ export default function ProyectosFinalizados ({proporcional}) {
                 </div>
                 <div className='' style={{width: '49%', height: 'auto', padding: 10 / proporcional}}>
                     <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16,
-                        fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                        fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                         Proyectos en ejecución
                     </h4>
                     <div className={overflow_ejecucion ? 'overflow-auto' : 'overflow-hidden'} 
@@ -163,7 +163,7 @@ export default function ProyectosFinalizados ({proporcional}) {
                     </div>
                     <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                         <div className={boton_ejecucion ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '80%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                            style={{width: '80%', height: 50 / proporcional, background: '#28A745', cursor: 'pointer'}}
                             onMouseOver={() => setBotonEjecucion(true)} onMouseLeave={() => setBotonEjecucion(false)}
                             onClick={() => ver_lista_proyectos_ejecucion()}>
                             <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,

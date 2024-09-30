@@ -519,6 +519,7 @@ import ContabilidadDashboardCell from './components/contabilidad/contabilidad/da
 /*------------------------------------------*/
 
 export default function App() {
+  
     const [width, setWidth] = useState (window.outerWidth)
 
     useEffect(() => {

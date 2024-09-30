@@ -2,8 +2,9 @@ import {datatypes} from '../actions/data.js'
 
 const initial_state = {
     authenticated: false,
-    open_menu_lateral: true,
+    open_menu_lateral: false,
     opcion_menu_lateral: {},
+    data_editable: false,
 
     data_negocio: {},
     data_tipo_proyecto: {},
@@ -22,11 +23,19 @@ const initial_state = {
     data_unidad: {},
     data_departamento: {},
     data_personal: {},
+    data_personal_personal: {},
+    data_personal_ubicacion: {},
+    data_personal_estudios: {},
+    data_personal_trabajo: {},
+    data_personal_sueldo: {},
+    data_personal_evaluacion: {},
     data_administradores: {},
     data_notificaciones: {},
     data_mensajes: {},
     data_reuniones: {},
-    data_gestion_proyectos: {}
+    data_gestion_proyectos: {},
+    datos_paso_personal: 'personal',
+    data_resetear: ''
 }
 
 const data = (state = initial_state, action) => {
@@ -150,6 +159,54 @@ const data = (state = initial_state, action) => {
             ... state,
             data_personal
         }
+    }else if (action.type === datatypes.SET_DATA_PERSONAL_PERSONAL){
+        const data_personal_personal = action.data_personal_personal
+        return {
+            ... state,
+            data_personal_personal
+        }
+    }else if (action.type === datatypes.SET_DATA_PERSONAL_UBICACION){
+        const data_personal_ubicacion = action.data_personal_ubicacion
+        return {
+            ... state,
+            data_personal_ubicacion
+        }
+    }else if (action.type === datatypes.SET_DATA_PERSONAL_ESTUDIOS){
+        const data_personal_estudios = action.data_personal_estudios
+        return {
+            ... state,
+            data_personal_estudios
+        }
+    }else if (action.type === datatypes.SET_DATA_PERSONAL_TRABAJO){
+        const data_personal_trabajo = action.data_personal_trabajo
+        return {
+            ... state,
+            data_personal_trabajo
+        }
+    }else if (action.type === datatypes.SET_DATA_PERSONAL_SUELDO){
+        const data_personal_sueldo = action.data_personal_sueldo
+        return {
+            ... state,
+            data_personal_sueldo
+        }
+    }else if (action.type === datatypes.SET_DATA_PERSONAL_EVALUACION){
+        const data_personal_evaluacion = action.data_personal_evaluacion
+        return {
+            ... state,
+            data_personal_evaluacion
+        }
+    }else if (action.type === datatypes.SET_DATOS_PASO_PERSONAL){
+        const datos_paso_personal = action.datos_paso_personal
+        return {
+            ... state,
+            datos_paso_personal
+        }
+    }else if (action.type === datatypes.SET_DATA_RESETEAR){
+        const data_resetear = action.data_resetear
+        return {
+            ... state,
+            data_resetear
+        }
     }else if (action.type === datatypes.SET_DATA_ADMINISTRADORES){
         const data_administradores = action.data_administradores
         return {
@@ -179,6 +236,12 @@ const data = (state = initial_state, action) => {
         return {
             ... state,
             data_gestion_proyectos
+        }
+    }else if (action.type === datatypes.SET_DATA_EDITABLE){
+        const data_editable = action.data_editable
+        return {
+            ... state,
+            data_editable
         }
     }else{
         return state

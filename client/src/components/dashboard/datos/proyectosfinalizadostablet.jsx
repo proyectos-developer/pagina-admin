@@ -120,7 +120,7 @@ export default function ProyectosFinalizadosTablet ({proporcional}) {
                     </div>
                     <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                         <div className={boton_finalizados ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '80%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                            style={{width: '80%', height: 50 / proporcional, background: '#28A745', cursor: 'pointer'}}
                             onMouseOver={() => setBotonFinalizados(true)} onMouseLeave={() => setBotonFinalizados(false)}
                             onClick={() => ver_lista_proyectos_finalizados()}>
                             <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -131,7 +131,7 @@ export default function ProyectosFinalizadosTablet ({proporcional}) {
                     </div>
                 </div>
                 <div style={{width: '2%', height: 360 / proporcional, paddingTop: 50 / proporcional}}>
-                    <div style={{width: 2 / proporcional, height: 310 / proporcional, background: '#007bff'}}/>
+                    <div style={{width: 2 / proporcional, height: 310 / proporcional, background: '#28A745'}}/>
                 </div>
                 <div className='' style={{width: '49%', height: 'auto', padding: 10 / proporcional}}>
                     <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16,
@@ -163,7 +163,7 @@ export default function ProyectosFinalizadosTablet ({proporcional}) {
                     </div>
                     <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                         <div className={boton_ejecucion ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '80%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                            style={{width: '80%', height: 50 / proporcional, background: '#28A745', cursor: 'pointer'}}
                             onMouseOver={() => setBotonEjecucion(true)} onMouseLeave={() => setBotonEjecucion(false)}
                             onClick={() => ver_lista_proyectos_ejecucion()}>
                             <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,

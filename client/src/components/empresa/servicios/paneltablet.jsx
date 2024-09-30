@@ -4,7 +4,7 @@ import NuevoServicioTablet from './menu/nuevoserviciotablet.jsx'
 
 import { Outlet, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { set_data_servicio } from '../../../redux/actions/data.js'
+import { set_data_editable, set_data_servicio } from '../../../redux/actions/data.js'
 
 export default function ServiciosPanelTablet ({proporcional}) {
 
@@ -36,6 +36,7 @@ export default function ServiciosPanelTablet ({proporcional}) {
         window.scrollTo(0,0)
         setShowServicio(false)
         dispatch(set_data_servicio(servicio))
+        dispatch (set_data_editable(true))
         navigate (`/panel/empresa/servicios/servicio/${servicio.servicio.replace(' ', '-')}/${servicio.id}`)
     }
 
@@ -44,7 +45,7 @@ export default function ServiciosPanelTablet ({proporcional}) {
             {
                 show_servicio ? (
                     <div className='position-fixed end-0 shadow overflow-auto' 
-                        style={{width: '60%', height: '92%', background: 'white', zIndex: 9999, top: 80 / proporcional}}>
+                        style={{width: '60%', height: '92%', background: 'white', zIndex: 9999, top: 98 / proporcional}}>
                         <NuevoServicioTablet proporcional={proporcional} servicio={servicio}/>
                         <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
                             <div className={boton_cerrar ? 'shadow rounded' : 'shadow-sm rounded'} 

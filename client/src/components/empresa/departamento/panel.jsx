@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import NuevoDepramento from './menu/nuevodepartamento.jsx'
+import NuevoDepartamento from './menu/nuevodepartamento.jsx'
 
 import { Outlet, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { set_data_departamento } from '../../../redux/actions/data.js'
+import { set_data_departamento, set_data_editable } from '../../../redux/actions/data.js'
 
 export default function DepartamentosEmpresaPanel ({proporcional}) {
 
@@ -36,7 +36,8 @@ export default function DepartamentosEmpresaPanel ({proporcional}) {
         window.scrollTo(0,0)
         setShowDepartamento(false)
         dispatch(set_data_departamento(departamento))
-        navigate (`/panel/empresa/areas-empresa/area-empresa/${departamento.departamento.replace(' ', '-')}/${departamento.id}`)
+        dispatch (set_data_editable(true))
+        navigate (`/panel/empresa/departamentos/departamento/${departamento.departamento.replace(' ', '-')}/${departamento.id}`)
     }
 
     return (
@@ -44,8 +45,8 @@ export default function DepartamentosEmpresaPanel ({proporcional}) {
             {
                 show_departamento ? (
                     <div className='position-fixed end-0 shadow overflow-auto' 
-                        style={{width: '30%', height: '89%', background: 'white', zIndex: 9999, top: 100 / proporcional}}>
-                        <NuevoDepramento proporcional={proporcional} departamento={departamento}/>
+                        style={{width: '30%', height: '90%', background: 'white', zIndex: 9999, top: 100 / proporcional}}>
+                        <NuevoDepartamento proporcional={proporcional} departamento={departamento}/>
                         <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
                             <div className={boton_cerrar ? 'shadow rounded' : 'shadow-sm rounded'} 
                                 style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}

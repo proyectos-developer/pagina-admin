@@ -4,7 +4,7 @@ import NuevoDepartamentoCell from './menu/nuevodepartamentocell.jsx'
 
 import { Outlet, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { set_data_departamento } from '../../../redux/actions/data.js'
+import { set_data_departamento, set_data_editable } from '../../../redux/actions/data.js'
 
 export default function DepartamentosEmpresaPanelCell ({proporcional}) {
 
@@ -36,16 +36,16 @@ export default function DepartamentosEmpresaPanelCell ({proporcional}) {
         window.scrollTo(0,0)
         setShowDepartamento(false)
         dispatch(set_data_departamento(departamento))
-        navigate (`/panel/empresa/areas-empresa/area-empresa/${departamento.departamento.replace(' ', '-')}/${departamento.id}`)
+        dispatch (set_data_editable(true))
+        navigate (`/panel/empresa/departamentos/departamento/${departamento.departamento.replace(' ', '-')}/${departamento.id}`)
     }
-
 
     return (
         <div className='position-relative' style={{width: '100%', height: '100%'}}>
             {
                 show_departamento ? (
                     <div className='position-fixed end-0 shadow overflow-auto' 
-                        style={{width: '80%', height: '90%', background: 'white', zIndex: 9999, top: 80 / proporcional}}>
+                        style={{width: '80%', height: '90%', background: 'white', zIndex: 9999, top: 158 / proporcional}}>
                         <NuevoDepartamentoCell proporcional={proporcional} departamento={departamento}/>
                         <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
                             <div className={boton_cerrar ? 'shadow rounded' : 'shadow-sm rounded'} 

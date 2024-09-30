@@ -2,6 +2,7 @@ export const datatypes = {
     SET_AUTHENTICATED: 'SET_AUTENTICATED',
     SET_OPEN_MENU_LATERAL: 'SET_OPEN_MENU_LATERAL',
     SET_OPCION_MENU_LATERAL: 'SET_OPCION_MENU_LATERAL',
+    SET_DATA_EDITABLE: 'SET_DATA_EDITABLE',
 
     SET_DATA_NEGOCIO: 'SET_DATA_NEGOCIO',
     SET_DATA_TIPO_PROYECTO: 'SET_DATA_TIPO_PROYECTO',
@@ -19,12 +20,21 @@ export const datatypes = {
     SET_DATA_SERVICIO: 'SET_DATA_SERVICIO',
     SET_DATA_UNIDAD: 'SET_DATA_UNIDAD',
     SET_DATA_PERSONAL: 'SET_DATA_PERSONAL',
+    SET_DATA_PERSONAL_PERSONAL: 'SET_DATA_PERSONAL_PERSONAL',
+    SET_DATA_PERSONAL_UBICACION: 'SET_DATA_PERSONAL_UBICACION',
+    SET_DATA_PERSONAL_ESTUDIOS: 'SET_DATA_PERSONAL_ESTUDIOS',
+    SET_DATA_PERSONAL_TRABAJO: 'SET_DATA_PERSONAL_TRABAJO',
+    SET_DATA_PERSONAL_SUELDO: 'SET_DATA_PERSONAL_SUELDO',
+    SET_DATA_PERSONAL_EVALUACION: 'SET_DATA_PERSONAL_EVALUACION',
     SET_DATA_ADMINISTRADORES: 'SET_DATA_ADMINISTRADORES',
     SET_DATA_DEPARTAMENTO: 'SET_DATA_DEPARTAMENTO',
     SET_DATA_NOTIFICACIONES: 'SET_DATA_NOTIFICACIONES',
     SET_DATA_MENSAJES: 'SET_DATA_MENSAJES',
     SET_DATA_REUNIONES: 'SET_DATA_REUNIONES',
-    SET_DATA_GESTION_PROYECTOS: 'SET_DATA_GESTION_PROYECTOS'
+    SET_DATA_GESTION_PROYECTOS: 'SET_DATA_GESTION_PROYECTOS',
+
+    SET_DATOS_PASO_PERSONAL: 'SET_DATOS_PASO_PERSONAL',
+    SET_DATA_RESETEAR: 'SET_DATA_RESETEAR'
 }
 
 export const set_authenticated = authenticated => {
@@ -167,6 +177,48 @@ export const set_data_personal = data_personal => {
     }
 }
 
+export const set_data_personal_personal = data_personal_personal => {
+    return {
+        data_personal_personal,
+        type: datatypes.SET_DATA_PERSONAL_PERSONAL
+    }
+}
+
+export const set_data_personal_ubicacion = data_personal_ubicacion => {
+    return {
+        data_personal_ubicacion,
+        type: datatypes.SET_DATA_PERSONAL_UBICACION
+    }
+}
+
+export const set_data_personal_estudios = data_personal_estudios => {
+    return {
+        data_personal_estudios,
+        type: datatypes.SET_DATA_PERSONAL_ESTUDIOS
+    }
+}
+
+export const set_data_personal_trabajo = data_personal_trabajo => {
+    return {
+        data_personal_trabajo,
+        type: datatypes.SET_DATA_PERSONAL_TRABAJO
+    }
+}
+
+export const set_data_personal_sueldo = data_personal_sueldo => {
+    return {
+        data_personal_sueldo,
+        type: datatypes.SET_DATA_PERSONAL_SUELDO
+    }
+}
+
+export const set_data_personal_evaluacion = data_personal_evaluacion => {
+    return {
+        data_personal_evaluacion,
+        type: datatypes.SET_DATA_PERSONAL_EVALUACION
+    }
+}
+
 export const set_data_administradores = data_administradores => {
     return {
         data_administradores,
@@ -199,5 +251,26 @@ export const set_data_gestion_proyectos = data_gestion_proyectos => {
     return {
         data_gestion_proyectos,
         type: datatypes.SET_DATA_GESTION_PROYECTOS
+    }
+}
+
+export const set_datos_paso_personal = datos_paso_personal => {
+    return {
+        datos_paso_personal,
+        type: datatypes.SET_DATOS_PASO_PERSONAL
+    }
+}
+
+export const set_data_resetear = data_resetear => {
+    return {
+        data_resetear,
+        type: datatypes.SET_DATA_RESETEAR
+    }
+}
+
+export const set_data_editable = data_editable => {
+    return {
+        data_editable,
+        type: datatypes.SET_DATA_EDITABLE
     }
 }

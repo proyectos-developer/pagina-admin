@@ -9,6 +9,10 @@ export const filesdata = createAsyncThunk ('', async (params) => {
     stateType = params.stateType
     switch (stateType){
         case 'file_upload':
+        case 'file_upload_foto_perfil':
+        case 'file_upload_documento':
+        case 'file_upload_cuarta_categoria':
+        case 'file_upload_evaluacion':
             if (params.reset){ 
                 return {success: false}
             }else{

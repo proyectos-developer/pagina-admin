@@ -13,7 +13,7 @@ export default function ServiciosPanelCell ({proporcional}) {
 
     const [boton_cerrar, setBotonCerrar] = useState(false)
     const [boton_corregir, setBotonCorregir] = useState(false)
-    const [show_servicio, setShowServicio] = useState(true)
+    const [show_servicio, setShowServicio] = useState(false)
     const [servicio, setServicio] = useState({})
 
     const {new_servicio} = useSelector(({servicios_data}) => servicios_data)
@@ -44,13 +44,11 @@ export default function ServiciosPanelCell ({proporcional}) {
             {
                 show_servicio ? (
                     <div className='position-fixed end-0 shadow overflow-auto' 
-                        style={{width: '80%', height: '90%', background: 'white', zIndex: 9999, top: 80 / proporcional}}>
+                        style={{width: '60%', height: '92%', background: 'white', zIndex: 9999, top: 158 / proporcional}}>
                         <NuevoServicioCell proporcional={proporcional} servicio={servicio}/>
-                        <div className='' style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
                             <div className={boton_cerrar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer',
-                                        marginBottom: 16 / proporcional
-                                }}
+                                style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                 onMouseOver={() => setBotonCerrar(true)} onMouseLeave={() => setBotonCerrar(false)}
                                 onClick={() => corregir_informaion()}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
@@ -59,7 +57,7 @@ export default function ServiciosPanelCell ({proporcional}) {
                                 </p>
                             </div>
                             <div className={boton_corregir ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                style={{width: '100%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                 onMouseOver={() => setBotonCorregir(true)} onMouseLeave={() => setBotonCorregir(false)}
                                 onClick={() => cerrar_nuevo_lateral()}>
                                 <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,

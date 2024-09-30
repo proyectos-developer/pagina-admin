@@ -19,6 +19,14 @@ export default function NuevoDepartamentoTablet({proporcional, departamento}) {
                     fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Descripción: 
                     <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> {departamento.descripcion}</span>
                 </h4>
+                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
+                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Jefe: 
+                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> {departamento.jefe}</span>
+                </h4>
+                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
+                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Personal: 
+                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> <br/>{departamento.equipo}</span>
+                </h4>
             </div>
         </div>
     )

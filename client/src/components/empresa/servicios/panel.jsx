@@ -4,7 +4,7 @@ import NuevoServicio from './menu/nuevoservicio.jsx'
 
 import { Outlet, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { set_data_servicio } from '../../../redux/actions/data.js'
+import { set_data_editable, set_data_servicio } from '../../../redux/actions/data.js'
 
 export default function ServiciosPanel ({proporcional}) {
 
@@ -36,6 +36,7 @@ export default function ServiciosPanel ({proporcional}) {
         window.scrollTo(0,0)
         setShowServicio(false)
         dispatch(set_data_servicio(servicio))
+        dispatch (set_data_editable(true))
         navigate (`/panel/empresa/servicios/servicio/${servicio.servicio.replace(' ', '-')}/${servicio.id}`)
     }
 

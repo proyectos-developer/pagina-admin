@@ -7,7 +7,7 @@ export default function NuevoServicio({proporcional, servicio}) {
             <div className='' style={{width: '100%', height: 'auto', padding: 20 / proporcional,
                 background: '#007bff' }}>
                 <h2 style={{fontSize: 30 / proporcional, lineHeight: `${40 / proporcional}px`, fontWeight: 600, marginBottom: 0,
-                    fontFamily: 'Merriweather', color: 'white'}}>Nueva categoría
+                    fontFamily: 'Merriweather', color: 'white'}}>Nuevo servicio
                 </h2>
             </div>
             <div style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>

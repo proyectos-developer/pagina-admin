@@ -5,15 +5,6 @@ import next_select from '../../../assets/iconos/comun/next_v1.png'
 import preview from '../../../assets/iconos/comun/preview_v2.png'
 import preview_select from '../../../assets/iconos/comun/preview_v1.png'
 
-import view_list_v1 from '../../../assets/iconos/comun/view_list_v1.png'
-import view_grid_v1 from '../../../assets/iconos/comun/view_grid_v1.png'
-import view_list_v2 from '../../../assets/iconos/comun/view_list_v2.png'
-import view_grid_v2 from '../../../assets/iconos/comun/view_grid_v2.png'
-import reset_v2 from '../../../assets/iconos/comun/reset_v2.png'
-import reset_v1 from '../../../assets/iconos/comun/reset_v1.png'
-
-import agregar_nuevo from '../../../assets/iconos/comun/agregar_nuevo.png'
-
 import CardServicioCell from './card/serviciocell.jsx'
 import {serviciosdata} from '../../../redux/slice/serviciosdata.js'
 import { serviciosConstants } from '../../../uri/servicios-constants.js'
@@ -21,31 +12,35 @@ import { useNavigate } from 'react-router-dom'
 
 export default function ListaServiciosCell ({proporcional}) {
 
-    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const [view_servicio, setViewServicio] = useState ('grid')
     const [begin, setBegin] = useState(0)
-    const [amount, setAmount] = useState(16)
+    const amount = 16
 
-    const [lista_grid_servicios, setListaGridServicios] = useState ([])
+    const [search_servicio, setSearchSevicio] = useState('')
+    const [reset, setReset] = useState(false)
+
     const [lista_servicios, setListaServicios] = useState ([])
     const [total_servicios, setTotalServicios] = useState(0)
 
+    const [boton_nuevo, setBotonNuevo] = useState (false)
     const [boton_reset, setBotonReset] = useState (false)
+
     const [mouse_next, setMouseNext] = useState(false)
     const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_servicios_filter, delete_servicio} = useSelector(({servicios_data}) => servicios_data)
-    const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
-
+    
     useEffect(() => {
+        window.scrollTo(0, 0)
         dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, begin, amount, {}, false).get_servicios_filter))
     }, [])
 
     useEffect(() => {
         if (get_servicios_filter && get_servicios_filter.success === true && get_servicios_filter.servicios){
-            dividir_nro_columnas(get_servicios_filter)
+            setTotalServicios(get_servicios_filter.total_servicios)
+            setListaServicios (get_servicios_filter.servicios)
         }
     }, [get_servicios_filter])
 
@@ -53,10 +48,21 @@ export default function ListaServiciosCell ({proporcional}) {
         if (delete_servicio && delete_servicio.success === true && delete_servicio.servicios){
             window.scrollTo(0, 0)
             setBegin(0)
-            dividir_nro_columnas(delete_servicio)
+            setTotalServicios(delete_servicio.total_servicios)
+            setListaServicios (delete_servicio.servicios)
             dispatch (serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, true).delete_servicio))
         }
     }, [delete_servicio])
+
+    const buscar_servicio = (value) => {
+        if (value !== ''){
+            dispatch(serviciosdata(serviciosConstants(0, value, 0, 0, 0, 16, {}, false).get_servicios_filter))
+        }else{
+            dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).get_servicios_filter))
+        }
+        setReset(true)
+        setSearchSevicio(value)
+    }
 
     const next_servicios = () => {
         if (begin + amount > total_servicios){
@@ -76,35 +82,26 @@ export default function ListaServiciosCell ({proporcional}) {
         }
     }
 
-    const dividir_nro_columnas = (data_servicios) => {
-        if (data_servicios.total_servicios){setTotalServicios(data_servicios.total_servicios)}
-        setListaGridServicios (data_servicios.servicios)
-        setListaServicios (data_servicios.servicios)
-    }
-
     const resetear_data = () => {
         setBegin(0)
-        setListaGridServicios([])
         setListaServicios ([])
+        setReset(false)
+        setSearchSevicio('')
         dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).get_servicios_filter))
         dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).delete_servicio))
     }
 
     useEffect(() => {
         return () => {
-            setListaGridServicios([])
-            setListaServicios ([])
-            dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 0, {}, true).get_servicios_filter))
-            dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 0, {}, true).delete_servicio))
+            
         }
     },[])
 
     return (
-        <div className='position-relative' style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 20 / proporcional : 60 / proporcional,
-            paddingRight: open_menu_lateral ? 20 / proporcional : 60 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+        <div className='position-relative' style={{width: '100%', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex justify-content-start' style={{width: '100%', minHeight: 'auto', marginBottom: 16 / proporcional}}>
+                <div style={{width: '100%', height: 'auto'}}>
+                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${50 / proporcional}px`, fontWeight: 500, marginBottom: 0,
                         color: '#4A4A4A'}}>Servicios
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                             {`mostrando del ${begin} al 
@@ -112,44 +109,84 @@ export default function ListaServiciosCell ({proporcional}) {
                         </span>
                     </h2>
                 </div>
-                <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
-                    <img src={view_servicio === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            marginRight: 10 / proporcional, cursor: 'pointer'
-                        }} onClick={() => setViewServicio('lista')}/>
-                    <img src={view_servicio === 'grid' || view_servicio === '' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            cursor: 'pointer', marginRight: 10 / proporcional
-                        }} onClick={() => setViewServicio('grid')}/>
-                    <img src={boton_reset ? reset_v1 : reset_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            cursor: 'pointer'
-                        }} onClick={() => resetear_data()}
-                        onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
+            </div>
+            <div className='d-flex justify-content-center' 
+                style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                <div className='d-flex rounded' 
+                    style={{width: '100%', height: 50 / proporcional}}>
+                    <input 
+                        id='search_servicio'
+                        className='form-control rounded-0 border-0'
+                        style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional,
+                                fontFamily: 'Poppins, sans-serif', fontWeight: 400,
+                                marginRight: reset ? 10 / proporcional : 0}}
+                        value={search_servicio}
+                        onChange={(event) => buscar_servicio(event.target.value)}
+                        placeholder='Buscar por nombre de servicio'
+                    />
                 </div>
             </div>
-            {
-                lista_grid_servicios && lista_grid_servicios.length > 0 && view_servicio === 'grid' ? (
-                    lista_grid_servicios.map ((servicio, numserv) => {
-                        return (
-                            <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                                <div style={{width: '90%', height: 'auto'}}>
-                                    <CardServicioCell servicio={servicio} key={numserv} index={numserv} proporcional={proporcional} view_servicio={view_servicio}/>
-                                </div>
-                            </div>
-                        )
-                    })
-                ) : 
-                    lista_servicios && lista_servicios.length > 0 && view_servicio === 'lista' ? (
-                        lista_servicios.map ((servicio, numserv) => {
+            <div className={reset ? 'd-flex justify-content-between' : 'd-flex justify-content-end'} 
+                style={{width: '100%', height: 50 / proporcional, marginBottom: 16 / proporcional}}>
+                {
+                    reset ? (
+                        <div className={boton_reset ? 'shadow rounded' : 'rounded'} 
+                            style={{width: 200 / proporcional, height: 50 / proporcional, background: '#28A745',
+                                    cursor: 'pointer'}}
+                                onClick={() => resetear_data()}
+                                onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}>
+                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                resetear
+                            </p>
+                        </div>
+                    ) : null
+                }
+                <div className='d-flex justify-content-end' style={{width: '48%', height: 50 / proporcional}}>
+                    <div className={boton_nuevo ? 'shadow rounded' : 'rounded'} 
+                        style={{width: 200 / proporcional, height: 50 / proporcional, background: '#28A745',
+                                cursor: 'pointer'}}
+                            onClick={() => navigate('/panel/empresa/servicios/nuevo')}
+                            onMouseOver={() => setBotonNuevo(true)} onMouseLeave={() => setBotonNuevo(false)}>
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                            Nuevo servicio
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 60 / proporcional,
+                    padding: 10 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
+                <div className='' style={{width: '60%', height: 40 / proporcional}}>
+                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
+                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
+                        cursor: 'default'}}>
+                        Nombre
+                    </h4>
+                </div>
+                <div className='' style={{width: '40%', height: 40 / proporcional}}>
+                    <div className='d-flex justify-content-center' style={{width: '100%', height: 30 / proporcional}}>
+                        <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
+                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
+                            cursor: 'default'}}>
+                            Acción
+                        </h4>
+                    </div>
+                </div>
+            </div>
+            <div style={{width: '100%', minHeight: 500 / proporcional}}>
+                {
+                    lista_servicios && lista_servicios.length > 0 ? (
+                        lista_servicios.map ((servicio, index) => {
                             return (
-                                <CardServicioCell servicio={servicio} key={numserv} index={numserv} proporcional={proporcional} view_servicio={view_servicio}/>
+                                <CardServicioCell proporcional={proporcional} key={index} index={index} servicio={servicio}/>
                             )
                         })
-                ) : null
-            }                      
+                    ) : null
+                }
+            </div>              
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_servicio === 'grid' || view_servicio === '' ? 0 : 16 / proporcional
+                    marginTop: 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
                     {
@@ -185,11 +222,6 @@ export default function ListaServiciosCell ({proporcional}) {
                         )
                     }
                 </div>
-            </div>
-            <div className='position-fixed rounded-circle shadow-lg' style={{width: 64 / proporcional, height: 64 / proporcional, 
-                bottom: 50 / proporcional, right: 50 / proporcional, background: 'white', cursor: 'pointer'}}
-                onClick={() => navigate ('/panel/empresa/servicios/nuevo')}>
-                <img src={agregar_nuevo} style={{width: 64 / proporcional, height: 64 / proporcional, padding: 16 / proporcional}}/>
             </div>
         </div>
     )

@@ -15,21 +15,19 @@ import PedidosPorEntregar from './datos/pedidosporentregar.jsx'
 
 export default function DashboardPanel ({proporcional}) {
 
-    const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
-
     return (
-        <div style={{width: '100%', height: 'auto', paddingLeft: open_menu_lateral ? 80 / proporcional : 100 / proporcional,
-            paddingRight: open_menu_lateral ? 80 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+        <div className='rounded' style={{width: '100%', height: 'auto', background: 'white', paddingTop: 50 / proporcional, paddingBottom: 50 / proporcional,
+                paddingLeft: 50 / proporcional, paddingRight: 50 / proporcional, background: '#f2f2f2'}}>
             <MenuSuperiorPanel proporcional={proporcional}/>
             <div style={{width: '100%', height: 'auto'}}>
                 <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto',
                         marginBottom: 32 / proporcional}}>
-                    <div className='shadow' style={{width: '70%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '70%', height: 'auto', background: 'white', padding: 20 / proporcional}}>
                         <ProyectosFinalizados proporcional={proporcional}/>
                     </div>
-                    <div className='shadow' style={{width: '25%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '28%', height: 'auto', background: 'white', padding: 20 / proporcional}}>
                         <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
-                            fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                            fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                             Productos más vendidos
                         </h4>
                         <ProductosVendidosChart proporcional={proporcional}/>
@@ -38,17 +36,17 @@ export default function DashboardPanel ({proporcional}) {
 
                 <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto',
                         marginBottom: 32 / proporcional}}>
-                    <div className='shadow' style={{width: '48%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '49%', height: 'auto', background: 'white', padding: 20 / proporcional}}>
                         <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
-                            fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                            fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                             Proyectos en ejecución
                         </h4>
                         <ProyectosChart proporcional={proporcional}/>
                     </div>
                     
-                    <div className='shadow' style={{width: '48%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '49%', height: 'auto', background: 'white', padding: 20 / proporcional}}>
                         <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
-                            fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                            fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                             Ventas
                         </h4>
                         <VentasChart proporcional={proporcional}/>
@@ -57,12 +55,12 @@ export default function DashboardPanel ({proporcional}) {
                 
                 <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto',
                         marginBottom: 32 / proporcional}}>                    
-                    <div className='shadow' style={{width: '33%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '33%', background: 'white', height: 'auto', padding: 20 / proporcional}}>
                         <PedidosPorEntregar proporcional={proporcional}/>
                     </div>
-                    <div className='shadow' style={{width: '63%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '63%', background: 'white', height: 'auto', padding: 20 / proporcional}}>
                         <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
-                            fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                            fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                             Ganancias
                         </h4>
                         <GananciasChart proporcional={proporcional}/>
@@ -71,17 +69,17 @@ export default function DashboardPanel ({proporcional}) {
                 
                 <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto',
                         marginBottom: 32 / proporcional}}>    
-                    <div className='shadow' style={{width: '48%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '49%', background: 'white', height: 'auto', padding: 20 / proporcional}}>
                         <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
-                            fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                            fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                             Compras por la web
                         </h4>
                         <ComprasChart proporcional={proporcional}/>
                     </div>
                                     
-                    <div className='shadow' style={{width: '48%', height: 'auto', padding: 20 / proporcional}}>
+                    <div className='shadow' style={{width: '49%', background: 'white', height: 'auto', padding: 20 / proporcional}}>
                         <h4 style={{fontSize: 18 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
-                            fontFamily: 'Poppins, sans-serif', color: 'rgb(75, 192, 192)', fontWeight: 600}}>
+                            fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                             Clientes web
                         </h4>
                         <ClientesChart proporcional={proporcional}/>

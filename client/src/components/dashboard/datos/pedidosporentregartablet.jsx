@@ -85,7 +85,7 @@ export default function PedidosPorEntregarTablet({proporcional}) {
                     </div>
                     <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto'}}>
                         <div className={boton_pedidos_entregar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '80%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                            style={{width: '80%', height: 50 / proporcional, background: '#28A745', cursor: 'pointer'}}
                             onMouseOver={() => setBotonPedidosEntregar(true)} onMouseLeave={() => setBotonPedidosEntregar(false)}
                             onClick={() => ver_lista_pedidos_entregar()}>
                             <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
