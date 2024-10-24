@@ -121,7 +121,7 @@ export default function CardMenuContabilidadCell({proporcional}) {
                                         <div className='d-flex'
                                                 style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                             cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                            onClick={() => {navigate ('/panel/contabilidad/nuevo'); dispatch(set_open_menu_lateral(true));
+                                            onClick={() => {navigate ('/panel/contabilidad/facturacion/nuevo'); dispatch(set_open_menu_lateral(true));
                                                 dispatch (set_opcion_menu_lateral({sector: 'contabilidad', menu: 'facturacion', sub_menu: sub_menu === 'nuevo-facturacion' ? '' : 'nuevo-facturacion'}))
                                             }}
                                             onMouseOver={() => setSeleccionSubMenu('nuevo-facturacion')}

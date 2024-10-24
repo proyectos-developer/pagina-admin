@@ -5,12 +5,13 @@ import next_select from '../../../assets/iconos/comun/next_v1.png'
 import preview from '../../../assets/iconos/comun/preview_v2.png'
 import preview_select from '../../../assets/iconos/comun/preview_v1.png'
 
-import CardTrabajadorTablet from './card/trabajadortablet.jsx'
+import CardTrabjadorTablet from './card/trabajadortablet.jsx'
 import {personaldata} from '../../../redux/slice/personaldata.js'
 import { personalConstants } from '../../../uri/personal-constants.js'
 import { useNavigate } from 'react-router-dom'
+import { set_error_message } from '../../../redux/actions/data.js'
 
-export default function ListaTrabajadoresTablet ({proporcional}) {
+export default function ListaPersonalTablet ({proporcional}) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -41,6 +42,8 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
         if (get_personal_filter && get_personal_filter.success === true && get_personal_filter.personal){
             setTotalPersonal(get_personal_filter.total_personal)
             setListaPersonal (get_personal_filter.personal)
+        }else if (get_personal_filter && get_personal_filter.success === false && get_personal_filter.error){
+            dispatch (set_error_message(true))
         }
     }, [get_personal_filter])
 
@@ -51,20 +54,23 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
             setTotalPersonal(delete_personal.total_personal)
             setListaPersonal (delete_personal.personal)
             dispatch (personaldata(personalConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).delete_personal))
+        }else if (delete_personal && delete_personal.success === false && delete_personal.error){
+            dispatch (set_error_message(true))
         }
     }, [delete_personal])
 
-    const buscar_servicio = (value) => {
+    const buscar_personal = (value) => {
         if (value !== ''){
-            dispatch(personaldata(personalConstants(0, value, 0, 0, 0, 0, 0, 16, {}, false).get_personal_filter))
+            setReset(true)
+            dispatch(personaldata(personalConstants(0, 0, value, 0, 0, 0, 0, 16, {}, false).get_personal_filter))
         }else{
+            setReset(false)
             dispatch(personaldata(personalConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_personal_filter))
         }
-        setReset(true)
         setSearchPersonal(value)
     }
 
-    const next_servicios = () => {
+    const next_personal = () => {
         if (begin + amount > total_personal){
 
         }else{
@@ -73,7 +79,7 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
         }
     }
 
-    const previous_servicios = () => {
+    const previous_personal = () => {
         if (begin - amount < 0){
             
         }else{
@@ -99,9 +105,36 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
 
     return (
         <div className='position-relative' style={{width: '100%', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel/rrhh')}>
+                    rrhh
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    personal
+                </p>
+            </div>
             <div className='d-flex justify-content-between' style={{width: '100%', minHeight: 'auto', marginBottom: 16 / proporcional}}>
                 <div style={{width: '48%', height: 'auto'}}>
-                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${50 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                    <h2 style={{fontSize: 24 / proporcional, lineHeight: `${40 / proporcional}px`, fontWeight: 500, marginBottom: 0,
                         color: '#4A4A4A'}}>Personal
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                             {`mostrando del ${begin} al 
@@ -111,38 +144,38 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 50 / proporcional}}>
                     <div className={boton_nuevo ? 'shadow rounded' : 'rounded'} 
-                        style={{width: 200 / proporcional, height: 50 / proporcional, background: '#28A745',
+                        style={{width: 200 / proporcional, height: 40 / proporcional, background: '#28A745',
                                 cursor: 'pointer'}}
                             onClick={() => navigate('/panel/rrhh/personal/nuevo')}
                             onMouseOver={() => setBotonNuevo(true)} onMouseLeave={() => setBotonNuevo(false)}>
-                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                            Nuevo trabajador
+                            Nuevo
                         </p>
                     </div>
                 </div>
             </div>
             <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                 <div className='d-flex rounded' 
-                    style={{width: reset ? 610 / proporcional : 400 / proporcional, height: 50 / proporcional}}>
+                    style={{width: reset ? 610 / proporcional : 400 / proporcional, height: 40 / proporcional}}>
                     <input 
                         id='search_personal'
                         className='form-control rounded-0 border-0'
-                        style={{width: 400 / proporcional, height: 50 / proporcional, fontSize: 16 / proporcional,
+                        style={{width: 400 / proporcional, height: 40 / proporcional, fontSize: 16 / proporcional,
                                 fontFamily: 'Poppins, sans-serif', fontWeight: 400,
                                 marginRight: reset ? 10 / proporcional : 0}}
                         value={search_personal}
-                        onChange={(event) => buscar_servicio(event.target.value)}
-                        placeholder='Buscar por nombre, departamento, documento...'
+                        onChange={(event) => buscar_personal(event.target.value)}
+                        placeholder='Buscar por nombre, código, apellidos, documento...'
                     />
                     {
                         reset ? (
                             <div className={boton_reset ? 'shadow rounded' : 'rounded'} 
-                                style={{width: 200 / proporcional, height: 50 / proporcional, background: '#28A745',
+                                style={{width: 200 / proporcional, height: 40 / proporcional, background: '#28A745',
                                         cursor: 'pointer'}}
                                     onClick={() => resetear_data()}
                                     onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}>
-                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                     fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                     resetear
                                 </p>
@@ -151,38 +184,50 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
                     }
                 </div>
             </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 60 / proporcional,
-                    padding: 10 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
-                <div className='' style={{width: '30%', height: 40 / proporcional}}>
-                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${20 / proporcional}px`, marginBottom: 0 / proporcional, 
-                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
-                        cursor: 'default'}}>
-                        Nombres
-                    </h4>
-                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${20 / proporcional}px`, marginBottom: 0 / proporcional, 
-                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
-                        cursor: 'default'}}>
-                        Departamento
-                    </h4>
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 70 / proporcional,
+                    padding: 5 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
+                <div className='d-flex justify-content-between' style={{width: '70%', height: 60 / proporcional}}>
+                    <div className='' style={{width: '48%', height: 60 / proporcional}}>
+                        <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Nombre
+                            </p>
+                        </div>
+                        <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Departamento
+                            </p>
+                        </div>
+                    </div>
+                    <div className='' style={{width: '48%', height: 60 / proporcional}}>
+                        <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Cargo
+                            </p>
+                        </div>
+                        <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Estado trabajo
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div className='' style={{width: '30%', height: 40 / proporcional}}>
-                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${20 / proporcional}px`, marginBottom: 0 / proporcional, 
-                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
-                        cursor: 'default'}}>
-                        Cargo
-                    </h4>
-                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${20 / proporcional}px`, marginBottom: 0 / proporcional, 
-                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
-                        cursor: 'default'}}>
-                        Estado de trabajo
-                    </h4>
-                </div>
-                <div className='d-flex justify-content-end' style={{width: '40%', height: 40 / proporcional}}>
-                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
-                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
-                        cursor: 'default'}}>
-                        Acción
-                    </h4>
+                <div className='d-flex justify-content-end' style={{width: '30%', height: 60 / proporcional}}>
+                    <div className='d-flex justify-content-center' style={{width: '100%', height: 60 / proporcional}}>
+                        <p style={{fontSize: 14 / proporcional, lineHeight: `${60 / proporcional}px`, marginBottom: 0 / proporcional, 
+                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
+                            cursor: 'default'}}>
+                            Acciones
+                        </p>
+                    </div>
                 </div>
             </div>
             <div style={{width: '100%', minHeight: 500 / proporcional}}>
@@ -190,7 +235,7 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
                     lista_personal && lista_personal.length > 0 ? (
                         lista_personal.map ((trabajador, index) => {
                             return (
-                                <CardTrabajadorTablet proporcional={proporcional} key={index} index={index} trabajador={trabajador}/>
+                                <CardTrabjadorTablet proporcional={proporcional} key={index} index={index} trabajador={trabajador}/>
                             )
                         })
                     ) : null
@@ -204,7 +249,7 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
                         begin !== 0 ? (
                             <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                                onClick={() => {previous_servicios(); window.scrollTo(0, 0)}}>
+                                onClick={() => {previous_personal(); window.scrollTo(0, 0)}}>
                                 <img src={mouse_preview ? preview_select : preview} 
                                     style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
                                 <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
@@ -222,7 +267,7 @@ export default function ListaTrabajadoresTablet ({proporcional}) {
                         ) : (
                             <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
-                                onClick={() => {next_servicios(); window.scrollTo(0, 0)}}>
+                                onClick={() => {next_personal(); window.scrollTo(0, 0)}}>
                                 <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
                                     marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
                                         Siguientes

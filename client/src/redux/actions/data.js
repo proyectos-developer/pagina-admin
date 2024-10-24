@@ -3,6 +3,8 @@ export const datatypes = {
     SET_OPEN_MENU_LATERAL: 'SET_OPEN_MENU_LATERAL',
     SET_OPCION_MENU_LATERAL: 'SET_OPCION_MENU_LATERAL',
     SET_DATA_EDITABLE: 'SET_DATA_EDITABLE',
+    SET_CONFIRMACION_ELIMINACION: 'SET_CONFIRMACION_ELIMINACION',
+    SET_ERROR_MESSAGE: 'SET_ERROR_MESSAGE',
 
     SET_DATA_NEGOCIO: 'SET_DATA_NEGOCIO',
     SET_DATA_TIPO_PROYECTO: 'SET_DATA_TIPO_PROYECTO',
@@ -32,9 +34,41 @@ export const datatypes = {
     SET_DATA_MENSAJES: 'SET_DATA_MENSAJES',
     SET_DATA_REUNIONES: 'SET_DATA_REUNIONES',
     SET_DATA_GESTION_PROYECTOS: 'SET_DATA_GESTION_PROYECTOS',
+    SET_DATA_NOMINAS: 'SET_DATA_NOMINAS',
+    SET_DATA_FACTURACION: 'SET_DATA_FACTURACION',
+    SET_DATA_FACTURACION_CLIENTE: 'SET_DATA_FACTURACION_CLIENTE',
+    SET_DATA_FACTURACION_FISCAL: 'SET_DATA_FACTURACION_FISCAL',
+    SET_DATA_FACTURACION_PRODUCTOS: 'SET_DATA_FACTURACION_PRODUCTOS',
+    SET_DATA_FACTURACION_FACTURA: 'SET_DATA_FACTURACION_FACTURA',
+    SET_DATA_ESTADO_TRABAJO: 'SET_DATA_ESTADO_TRABAJO',
+    SET_DATA_ESTADO_TRABAJADOR: 'SET_DATA_ESTADO_TRABAJADOR',
+    SET_DATA_ESTADO_REEMPLAZO: 'SET_DATA_ESTADO_REEMPLAZO',
+    SET_DATA_ASISTENCIA: 'SET_DATA_ASISTENCIA',
+    SET_DATA_GESTION_INFORMACION: 'SET_DATA_GESTION_INFORMACION',
+    SET_DATA_GESTION_TAREAS: 'SET_DATA_GESTION_TAREAS',
+    SET_DATA_GESTION_EQUIPO: 'SET_DATA_GESTION_EQUIPO',
+    SET_DATA_GESTION_DOCUMENTOS: 'SET_DATA_GESTION_DOCUMENTOS',
+    SET_DATA_GESTION_COMUNICACIONES: 'SET_DATA_GESTION_COMUNICACIONES',
+    SET_DATA_GESTION_RIESGOS: 'SET_DATA_GESTION_RIESGOS',
+    SET_DATA_GESTION_KPIS: 'SET_DATA_GESTION_KPIS',
+    SET_DATA_PROVEEDOR: 'SET_DATA_PROVEEDO',
+    SET_DATA_PROVEEDOR_GENERAL: 'SET_DATA_PROVEEDOR_GENERAL',
+    SET_DATA_PROVEEDOR_COMERCIAL: 'SET_DATA_PROVEEDOR_COMERCIAL',
+    SET_DATA_PROVEEDOR_FINANCIERA: 'SET_DATA_PROVEEDOR_FINANCIERA',
+    SET_DATA_PROVEEDOR_EVALUACION: 'SET_DATA_PROVEEDOR_EVALUACION',
+    SET_DATA_PROVEEDOR_ADICIONAL: 'SET_DATA_PROVEEDOR_ADICIONAL',
+    SET_DATA_MARCA: 'SET_DATA_MARCA',
+    SET_DATA_PRODUCTO_DETALLES: 'SET_DATA_PRODUCTO_DETALLES',
+    SET_DATA_PRODUCTO_PRECIOS: 'SET_DATA_PRODUCTO_PRECIOS',
+    SET_DATA_PRODUCTO_CARACTERISTICAS: 'SET_DATA_PRODUCTO_CARACTERISTICAS',
+    SET_DATA_PRODUCTO_FOTOS: 'SET_DATA_PRODUCTO_FOTOS',
 
     SET_DATOS_PASO_PERSONAL: 'SET_DATOS_PASO_PERSONAL',
-    SET_DATA_RESETEAR: 'SET_DATA_RESETEAR'
+    SET_DATOS_PASO_FACTURA: 'SET_DATOS_PASO_FACTURA',
+    SET_DATOS_PASO_ESTADO: 'SET_DATOS_PASO_ESTADO',
+    SET_DATOS_PASO_GESTION_PROYECTOS: 'SET_DATOS_GESTION_PROYECTO',
+    SET_DATOS_PASO_PROVEEDOR: 'SET_DATOS_PASO_PROVEEDOR',
+    SET_DATOS_PASO_PRODUCTO: 'SET_DATOS_PASO_PRODUCTO'
 }
 
 export const set_authenticated = authenticated => {
@@ -261,16 +295,254 @@ export const set_datos_paso_personal = datos_paso_personal => {
     }
 }
 
-export const set_data_resetear = data_resetear => {
-    return {
-        data_resetear,
-        type: datatypes.SET_DATA_RESETEAR
-    }
-}
-
 export const set_data_editable = data_editable => {
     return {
         data_editable,
         type: datatypes.SET_DATA_EDITABLE
+    }
+}
+
+export const set_confirmacion_eliminacion = confirmacion_eliminacion => {
+    return {
+        confirmacion_eliminacion,
+        type: datatypes.SET_CONFIRMACION_ELIMINACION
+    }
+}
+
+export const set_error_message = error_message => {
+    return {
+        error_message,
+        type: datatypes.SET_ERROR_MESSAGE
+    }
+}
+
+export const set_data_nomina = data_nomina => {
+    return {
+        data_nomina,
+        type: datatypes.SET_DATA_NOMINAS
+    }
+}
+
+export const set_data_facturacion = data_facturacion => {
+    return {
+        data_facturacion,
+        type: datatypes.SET_DATA_FACTURACION
+    }
+}
+
+export const set_datos_paso_factura = datos_paso_factura => {
+    return {
+        datos_paso_factura,
+        type: datatypes.SET_DATOS_PASO_FACTURA
+    }
+}
+
+export const set_data_facturacion_cliente = data_facturacion_cliente => {
+    return {
+        data_facturacion_cliente,
+        type: datatypes.SET_DATA_FACTURACION_CLIENTE
+    }
+}
+
+export const set_data_facturacion_fiscal = data_facturacion_fiscal => {
+    return {
+        data_facturacion_fiscal,
+        type: datatypes.SET_DATA_FACTURACION_FISCAL
+    }
+}
+
+export const set_data_facturacion_productos = data_facturacion_productos => {
+    return {
+        data_facturacion_productos,
+        type: datatypes.SET_DATA_FACTURACION_PRODUCTOS
+    }
+}
+
+export const set_data_facturacion_factura = data_facturacion_factura => {
+    return {
+        data_facturacion_factura,
+        type: datatypes.SET_DATA_FACTURACION_FACTURA
+    }
+}
+
+export const set_data_estado_trabajo = data_estado_trabajo => {
+    return {
+        data_estado_trabajo,
+        type: datatypes.SET_DATA_ESTADO_TRABAJO
+    }
+}
+
+export const set_datos_paso_estado = datos_paso_estado => {
+    return {
+        datos_paso_estado,
+        type: datatypes.SET_DATOS_PASO_ESTADO
+    }
+}
+
+export const set_data_estado_trabajador = data_estado_trabajador => {
+    return {
+        data_estado_trabajador,
+        type: datatypes.SET_DATA_ESTADO_TRABAJADOR
+    }
+}
+
+export const set_data_estado_reemplazo = data_estado_reemplazo => {
+    return {
+        data_estado_reemplazo,
+        type: datatypes.SET_DATA_ESTADO_REEMPLAZO
+    }
+}
+
+export const set_data_gestion_informacion = data_gestion_informacion => {
+    return {
+        data_gestion_informacion,
+        type: datatypes.SET_DATA_GESTION_INFORMACION
+    }
+}
+
+export const set_data_gestion_tareas = data_gestion_tareas => {
+    return {
+        data_gestion_tareas,
+        type: datatypes.SET_DATA_GESTION_TAREAS
+    }
+}
+
+export const set_data_gestion_equipo = data_gestion_equipo => {
+    return {
+        data_gestion_equipo,
+        type: datatypes.SET_DATA_GESTION_EQUIPO
+    }
+}
+
+export const set_data_gestion_documentos = data_gestion_documentos => {
+    return {
+        data_gestion_documentos,
+        type: datatypes.SET_DATA_GESTION_DOCUMENTOS
+    }
+}
+
+export const set_data_gestion_comunicaciones = data_gestion_comunicaciones => {
+    return {
+        data_gestion_comunicaciones,
+        type: datatypes.SET_DATA_GESTION_COMUNICACIONES
+    }
+}
+
+export const set_data_gestion_riesgos = data_gestion_riesgos => {
+    return {
+        data_gestion_riesgos,
+        type: datatypes.SET_DATA_GESTION_RIESGOS
+    }
+}
+
+export const set_data_gestion_kpis = data_gestion_kpis => {
+    return {
+        data_gestion_kpis,
+        type: datatypes.SET_DATA_GESTION_KPIS
+    }
+}
+
+export const set_data_asistencia = data_asistencia => {
+    return {
+        data_asistencia,
+        type: datatypes.SET_DATA_ASISTENCIA
+    }
+}
+
+export const set_datos_paso_gestion_proyectos = datos_paso_gestion_proyectos => {
+    return {
+        datos_paso_gestion_proyectos,
+        type: datatypes.SET_DATOS_PASO_GESTION_PROYECTOS
+    }
+}
+
+export const set_data_proveedor = data_proveedor => {
+    return {
+        data_proveedor,
+        type: datatypes.SET_DATA_PROVEEDOR
+    }
+}
+
+export const set_data_proveedor_general = data_proveedor_general => {
+    return {
+        data_proveedor_general,
+        type: datatypes.SET_DATA_PROVEEDOR_GENERAL
+    }
+}
+
+export const set_data_proveedor_comercial = data_proveedor_comercial => {
+    return {
+        data_proveedor_comercial,
+        type: datatypes.SET_DATA_PROVEEDOR_COMERCIAL
+    }
+}
+
+export const set_data_proveedor_financiera = data_proveedor_financiera => {
+    return {
+        data_proveedor_financiera,
+        type: datatypes.SET_DATA_PROVEEDOR_FINANCIERA
+    }
+}
+
+export const set_data_proveedor_evaluacion = data_proveedor_evaluacion => {
+    return {
+        data_proveedor_evaluacion,
+        type: datatypes.SET_DATA_PROVEEDOR_EVALUACION
+    }
+}
+
+export const set_data_proveedor_adicional = data_proveedor_adicional => {
+    return {
+        data_proveedor_adicional,
+        type: datatypes.SET_DATA_PROVEEDOR_ADICIONAL
+    }
+}
+
+export const set_datos_paso_proveedor = datos_paso_proveedor => {
+    return {
+        datos_paso_proveedor,
+        type: datatypes.SET_DATOS_PASO_PROVEEDOR
+    }
+}
+
+export const set_data_marca = data_marca => {
+    return {
+        data_marca,
+        type: datatypes.SET_DATA_MARCA
+    }
+}
+
+export const set_datos_paso_producto = datos_paso_producto => {
+    return {
+        datos_paso_producto,
+        type: datatypes.SET_DATOS_PASO_PRODUCTO
+    }
+}
+
+export const set_data_producto_detalles = data_producto_detalles => {
+    return {
+        data_producto_detalles,
+        type: datatypes.SET_DATA_PRODUCTO_DETALLES
+    }
+}
+
+export const set_data_producto_precios = data_producto_precios => {
+    return {
+        data_producto_precios,
+        type: datatypes.SET_DATA_PRODUCTO_PRECIOS
+    }
+}
+
+export const set_data_producto_caracteristicas = data_producto_caracteristicas => {
+    return {
+        data_producto_caracteristicas,
+        type: datatypes.SET_DATA_PRODUCTO_CARACTERISTICAS
+    }
+}
+
+export const set_data_producto_fotos = data_producto_fotos => {
+    return {
+        data_producto_fotos,
+        type: datatypes.SET_DATA_PRODUCTO_FOTOS
     }
 }

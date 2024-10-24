@@ -1,36 +1,23 @@
 import React from 'react'
 
+import save from '../../../../assets/iconos/comun/guardado_exitoso.png'
+
 export default function NuevoProyecto({proporcional, proyecto}) {
 
     return (
         <div className='' style={{width: '100%', height: 'auto'}}>
-            <div className='' style={{width: '100%', height: 'auto', padding: 20 / proporcional,
+            <div className='d-flex' style={{width: '100%', height: 'auto', padding: 10 / proporcional,
                 background: '#007bff' }}>
-                <h2 style={{fontSize: 30 / proporcional, lineHeight: `${40 / proporcional}px`, fontWeight: 600, marginBottom: 0,
-                    fontFamily: 'Merriweather', color: 'white'}}>Nuevo proyecto
-                </h2>
+                <img src={save} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 7 / proporcional,
+                    marginRight: 10 / proporcional}}/>
+                <p style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                    fontFamily: 'Poppins, sans-serif', color: 'white'}}>Guardado exitosamente
+                </p>
             </div>
-            <div style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
-                <div className='d-flex justify-content-center rounded-circle' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <img className='rounded-circle' src={proyecto.url_imagen} 
-                        style={{width: 200 / proporcional, height: 200 / proporcional}}/>
-                </div>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Tipo de proyecto: 
-                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> {proyecto.tipo_proyecto}</span>
-                </h4>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Nombre: 
-                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> {proyecto.nombre_proyecto}</span>
-                </h4>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Cliente: 
-                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> {proyecto.cliente}</span>
-                </h4>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Descripción: 
-                    <br/><span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}> {proyecto.descripcion}</span>
-                </h4>
+            <div className='' style={{width: '100%', height: 'auto', padding: 10 / proporcional }}>
+                <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Nuevo proyecto <strong style={{color: '#007bff'}}>({proyecto.nombre_proyecto})</strong>
+                </h2>
             </div>
         </div>
     )

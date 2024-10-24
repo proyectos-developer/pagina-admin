@@ -5,6 +5,7 @@ import {proyectosdata} from '../../../redux/slice/proyectosdata'
 import {proyectosConstants} from '../../../uri/proyectos-constants'
 import {filesdata} from '../../../redux/slice/filesdata'
 import {filesConstants} from '../../../uri/files-constants'
+import { constantes } from '../../../uri/constantes'
 
 export default function NuevoProyectoTablet ({proporcional}) {
 
@@ -33,14 +34,12 @@ export default function NuevoProyectoTablet ({proporcional}) {
 
     const [boton_guardar, setBotonGuardar] = useState(false)
     const [boton_volver, setBotonVolver] = useState(false)
-    const [show_lista, setShowLista] = useState(false)
 
     const [lista_tipo_proyectos, setListaTipoProyectos] = useState([])
     const [lista_negocios, setListaNegocios] = useState([])
 
     const {new_proyecto, get_tipo_proyectos_negocios} = useSelector(({proyectos_data}) => proyectos_data)
     const {file_upload} = useSelector(({files_data}) => files_data)
-    const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
         dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_tipo_proyectos_negocios))
@@ -48,7 +47,7 @@ export default function NuevoProyectoTablet ({proporcional}) {
 
     useEffect(() => {
         if (file_upload && file_upload.success === true && file_upload.message === true){
-            setUrlImagen(`https://api.developer-ideas.com/proyectos/${file_imagen.name}`)
+            setUrlImagen(`${constantes().url_archivo[0].url}/proyectos/${file_imagen.name}`)
             dispatch (filesdata(filesConstants(0, {}, true).file_upload))
         }
     }, [file_upload])
@@ -110,7 +109,9 @@ export default function NuevoProyectoTablet ({proporcional}) {
     }
 
     const guardar_proyecto = () => {
-        if (tipo_proyecto === '' || nombre_proyecto === '' || cliente === '' || url_imagen === ''){
+        if (tipo_proyecto === '' || nombre_proyecto === '' || cliente === '' || url_imagen === '' ||
+            (500 - descripcion.length <= 0)
+        ){
           setETipoProyecto(tipo_proyecto === '' ? true : false)
           setENombreProyecto(nombre_proyecto === '' ? true : false)
           setECliente(cliente === '' ? true : false)
@@ -146,179 +147,215 @@ export default function NuevoProyectoTablet ({proporcional}) {
 
     useEffect(() => {
         return (() => {
-            setListaNegocios([])
-            setListaTipoProyectos([])
-            dispatch(filesdata(filesConstants(0, {}, true).file_upload))
-            dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).get_tipo_proyectos_negocios))
+            
         })
     }, [])
 
     return (
-        <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
-            paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-between' style={{width: '80%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
-                        color: '#4A4A4A'}}>Nuevo proyecto
-                    </h2>
-                </div>
+        <div className='' style={{width: '100%', height: 'auto', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/proyectos')}>
+                    proyectos
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/proyectos/proyectos')}>
+                    proyectos
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    nuevo
+                </p>
             </div>
-            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
-                <div style={{width: '80%', height: '100%'}}>
+            <div className='shadow' 
+                style={{width: '100%', height: 'auto', background: 'white', padding: 50 / proporcional}}>
+                <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
                     <div className='d-flex justify-content-center' 
-                            style={{width: '100%', height: 'auto', paddingTop: 26.5 / proporcional,
-                                paddingBottom: 26.5 / proporcional, marginBottom: 16 / proporcional}}>
-                        <div className='rounded-circle' style={{width:  292 / proporcional, height: 292 / proporcional,
+                            style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional
+                            }}>
+                        <div className='rounded-circle' style={{width:  192 / proporcional, height: 192 / proporcional,
                             border: '1px solid #4a4a4a'}}>
                             {
                                 url_imagen !== '' ? (
                                     <img className='rounded-circle' src={url_imagen} 
-                                        style={{width: 290 / proporcional, height: 290 / proporcional}}/>
+                                        style={{width: 190 / proporcional, height: 190 / proporcional}}/>
                                 ) : null
                             }
                         </div>
                     </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Tipo proyecto
-                        </span>
-                        <select 
-                            ref={selectTipoProyecto}
-                            id='tipo_proyecto'
-                            className='form-select rounded'
-                            onChange={(event) => seleccionar_tipo_proyecto (event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: etipo_proyecto ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar tipo proyecto</option>     
-                            {
-                                lista_tipo_proyectos && lista_tipo_proyectos.length > 0 ? (
-                                    lista_tipo_proyectos.map ((tipo_proyecto, index) => {
-                                        return (
-                                        <option key={index} value={`${tipo_proyecto.id}-${tipo_proyecto.nombre}`}>{tipo_proyecto.nombre}</option>     
-                                        )
-                                    })
-                                ) : null
-                            }    
-                            </select>
-                    </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Nombre proyecto
-                        </span>
-                        <input 
-                            id='nombre_proyecto'
-                            type='default'
-                            className='form-control rounded'
-                            value={nombre_proyecto}
-                            onChange={(event) => setNombreProyecto(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: enombre_proyecto ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Nombre proyecto'/>
-                    </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Descripcion
-                        </span>
-                        <textarea 
-                            id='descripcion'
-                            type='default'
-                            rows={3}
-                            className='form-control rounded'
-                            value={descripcion}
-                            onChange={(event) => setDescripcion(event.target.value)}
-                            style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Descripción'/>
-                    </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Cliente
-                        </span>
-                        <select 
-                            ref={selectCliente}
-                            id='cliente'
-                            className='form-select rounded'
-                            onChange={(event) => seleccionar_cliente (event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: ecliente ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}>
-                            <option value='0'>Seleccionar cliente</option>     
-                            {
-                                lista_negocios && lista_negocios.length > 0 ? (
-                                    lista_negocios.map ((negocio, index) => {
-                                        return (
-                                        <option key={index} value={`${negocio.nombre_negocio}`}>{negocio.nombre_negocio}</option>     
-                                        )
-                                    })
-                                ) : null
-                            }    
-                            </select>
-                    </div>
-                    <div className='' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Url imagen
-                        </span>
-                        <div className='d-flex justify-content-between' style={{width: '100%', height: 50 / proporcional}}>
-                            <input 
-                                class="form-control" 
-                                type="file" 
-                                id="formFile" 
-                                style={{width: '65%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: eurl_imagen ? '1px solid red' : '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                                onChange={handleFileChange}/>
-                            <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
-                                style={{width: '30%', heihgt: 50 / proporcional, background: '#007bff', cursor: 'pointer'}}>
-                                <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
-                                    lineHeight: `${50 / proporcional}px`, marginBottom: 0, textAlign: 'center',
-                                    fontWeight: 500, cursor: 'pointer'}} onClick={handleUpload}
-                                    onMouseOver={() => setBotonSubirFoto(true)} onMouseLeave={() => setBotonSubirFoto(false)}>Subir foto</p>
+                    <div className='' style={{width: '100%', height: 'auto'}}>
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                            <div className='position-relative' style={{width: '48%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
+                                <span className='position-absolute'  
+                                    style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                        background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                        <strong>Seleccionar tipo proyecto</strong></span>
+                                <select 
+                                    ref={selectTipoProyecto}
+                                    id='tipo_proyecto'
+                                    className='form-select rounded'
+                                    onChange={(event) => seleccionar_tipo_proyecto (event.target.value)}
+                                    style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: etipo_proyecto ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}>
+                                    <option value='0'>{tipo_proyecto === '' ? 'Seleccionar tipo proyecto' : tipo_proyecto}</option>       
+                                    {
+                                        lista_tipo_proyectos && lista_tipo_proyectos.length > 0 ? (
+                                            lista_tipo_proyectos.map ((tipo_proyecto, index) => {
+                                                return (
+                                                <option key={index} value={`${tipo_proyecto.id}-${tipo_proyecto.nombre}`}>{tipo_proyecto.nombre}</option>     
+                                                )
+                                            })
+                                        ) : null
+                                    }    
+                                    </select>
+                            </div>
+                            <div className='position-relative' style={{width: '48%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
+                                <span className='position-absolute'  
+                                    style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                        background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                        <strong>Nombre proyecto</strong></span>
+                                <input 
+                                    id='nombre_proyecto'
+                                    type='default'
+                                    className='form-control rounded'
+                                    value={nombre_proyecto}
+                                    onChange={(event) => setNombreProyecto(event.target.value)}
+                                    style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                            fontFamily: 'Poppins, sans-serif', border: enombre_proyecto ? '1px solid red' : '1px solid #007BFF',
+                                            padding: 10 / proporcional}}
+                                    placeholder='Nombre proyecto'/>
                             </div>
                         </div>
-                    </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                            fontFamily: 'Poppins, sans-serif'}}>
-                            Url contenido
-                        </span>
-                        <input 
-                            id='url_contenido'
-                            type='default'
-                            className='form-control rounded'
-                            value={url_contenido}
-                            onChange={(event) => setUrlContenido(event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Nombre url_contenido'/>
-                    </div>
-                    <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                        <div className={boton_guardar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                            onMouseOver={() => setBotonGuardar(true)} onMouseLeave={() => setBotonGuardar(false)}
-                            onClick={() => guardar_proyecto()}>
-                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                Guardar datos
-                            </p>
+                        <div className='position-relative' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                            <span className='position-absolute'  
+                                style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                    background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                    <strong>Descripción</strong></span>
+                            <textarea 
+                                id='descripcion'
+                                type='default'
+                                rows={3}
+                                className='form-control rounded'
+                                value={descripcion}
+                                onChange={(event) => setDescripcion(event.target.value)}
+                                style={{width: '100%', height: 120 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                        padding: 10 / proporcional, marginBottom: 5 / proporcional}}
+                                placeholder='Descripción del proyecto'/>
+                            <div className='d-flex justify-content-end' style={{width: '100%', height: 20 / proporcional}}>
+                                <p  style={{lineHeight: `${20 / proporcional}px`, fontSize: 14 / proporcional, color: 500 - descripcion.length > 0 ? 'rgb(89, 89, 89)' : 'red',
+                                    fontFamily: 'Poppins, sans-serif', marginBottom: 0, fontWeight: 500, cursor: 'pointer'}}>{500 - descripcion.length}</p>
+                            </div>
                         </div>
-                        <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                            onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
-                            onClick={() => volver_a_lista()}>
-                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                Volver
-                            </p>
+                        <div className='position-relative' style={{width: '100%', height: 40 / proporcional, marginBottom: 16 / proporcional}}>
+                            <span className='position-absolute'  
+                                style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                    background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                    <strong>Seleccionar cliente</strong></span>
+                            <select 
+                                ref={selectCliente}
+                                id='cliente'
+                                className='form-select rounded'
+                                onChange={(event) => seleccionar_cliente (event.target.value)}
+                                style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: ecliente ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}>
+                                <option value='0'>Seleccionar cliente</option>     
+                                {
+                                    lista_negocios && lista_negocios.length > 0 ? (
+                                        lista_negocios.map ((negocio, index) => {
+                                            return (
+                                            <option key={index} value={`${negocio.nombre_negocio}`}>{negocio.nombre_negocio}</option>     
+                                            )
+                                        })
+                                    ) : null
+                                }    
+                                </select>
                         </div>
+                        <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional}}>
+                                <input 
+                                    class="form-control" 
+                                    type="file" 
+                                    id="formFile" 
+                                    style={{width: '65%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: eurl_imagen ? '1px solid red' : '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                    onChange={handleFileChange}/>
+                                <div className={boton_subif_foto ? 'shadow-lg rounded' : 'rounded'} 
+                                    style={{width: '30%', heihgt: 40 / proporcional, background: '#007bff', cursor: 'pointer'}}>
+                                    <p style={{fontSize: 16 / proporcional, color: 'white', fontFamily: 'Poppins, sans,serif',
+                                        lineHeight: `${40 / proporcional}px`, marginBottom: 0, textAlign: 'center',
+                                        fontWeight: 500, cursor: 'pointer'}} onClick={handleUpload}
+                                        onMouseOver={() => setBotonSubirFoto(true)} onMouseLeave={() => setBotonSubirFoto(false)}>Subir foto</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='position-relative' style={{width: '100%', height: 40 / proporcional}}>
+                            <span className='position-absolute'  
+                                style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                    background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                    <strong>Url contenido</strong></span>
+                            <input 
+                                id='url_contenido'
+                                type='default'
+                                className='form-control rounded'
+                                value={url_contenido}
+                                onChange={(event) => setUrlContenido(event.target.value)}
+                                style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                        padding: 10 / proporcional}}
+                                    placeholder='Url contenido'/>
+                        </div>
+                    </div>
+                </div>
+                <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                    <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
+                        style={{width: '48%', height: 40 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                        onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
+                        onClick={() => volver_a_lista()}>
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                            Volver
+                        </p>
+                    </div>
+                    <div className={boton_guardar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                        style={{width: '48%', height: 40 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                        onMouseOver={() => setBotonGuardar(true)} onMouseLeave={() => setBotonGuardar(false)}
+                        onClick={() => guardar_proyecto()}>
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                            Guardar datos
+                        </p>
                     </div>
                 </div>
             </div>

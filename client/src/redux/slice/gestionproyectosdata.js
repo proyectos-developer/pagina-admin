@@ -8,12 +8,12 @@ let stateType = ''
 export const gestionproyectosdata = createAsyncThunk ('', async (params) => {
     stateType = params.stateType
     switch (stateType){
-        case 'new_informe_proyecto':
-        case 'update_informe_proyecto':
-        case 'new_trabajador_proyecto':
-        case 'update_trabajador_proyecto':
-        case 'new_actividad_proyecto':
-        case 'update_actividad_proyecto':
+        case 'new_gestion_proyecto':
+        case 'update_gestion_proyecto':
+        case 'new_equipo_proyecto':
+        case 'update_equipo_proyecto':
+        case 'new_tarea_proyecto':
+        case 'update_tarea_proyecto':
         case 'new_documento_proyecto':
         case 'update_documento_proyecto':
         case 'new_comunicacion_proyecto':
@@ -32,28 +32,24 @@ export const gestionproyectosdata = createAsyncThunk ('', async (params) => {
                     return err.message
                 }
             }
-        case 'get_informes_proyectos_filter':
-        case 'get_informe_proyecto':
-        case 'delete_informe_proyecto':
-        case 'get_actividades_proyecto_filter':
-        case 'get_actividad_proyecto':
-        case 'delete_actividad_proyecto':
-        case 'get_trabajadores_proyecto_filter':
-        case 'get_trabajador_proyecto':
-        case 'get_datos_trabajador_proyecto':
-        case 'delete_trabajador_proyecto':
-        case 'get_documentos_proyecto_filter':
+        case 'get_gestion_proyectos_filter':
+        case 'get_gestion_proyecto':
+        case 'delete_gestion_proyecto':
+        case 'get_tareas_proyectos_filter':
+        case 'get_tarea_proyecto':
+        case 'get_equipos_proyectos_filter':
+        case 'get_equipo_proyecto':
+        case 'get_datos_equipo_proyecto':
+        case 'get_trabajador_equipo_proyecto':
+        case 'get_documentos_proyectos_filter':
+        case 'get_carpetas_documentos_proyecto':
         case 'get_documento_proyecto':
-        case 'delete_documento_proyecto':
-        case 'get_comunicaciones_proyecto_filter':
+        case 'get_comunicaciones_proyectos_filter':
         case 'get_comunicacion_proyecto':
-        case 'delete_comunicacion_proyecto':
-        case 'get_riesgos_proyecto_filter':
+        case 'get_riesgos_proyectos_filter':
         case 'get_riesgo_proyecto':
-        case 'delete_riesgo_proyecto':
-        case 'get_kpis_proyecto_filter':
+        case 'get_kpis_proyectos_filter':
         case 'get_kpi_proyecto':
-        case 'delete_kpi_proyecto':
             if (params.reset){ 
                 return {success: false}
             }else{

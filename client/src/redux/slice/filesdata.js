@@ -13,6 +13,10 @@ export const filesdata = createAsyncThunk ('', async (params) => {
         case 'file_upload_documento':
         case 'file_upload_cuarta_categoria':
         case 'file_upload_evaluacion':
+        case 'file_upload_estado_trabajo':
+        case 'file_upload_logo_proveedor':
+        case 'file_upload_logo_marca':
+        case 'file_upload_fotos_productos':
             if (params.reset){ 
                 return {success: false}
             }else{

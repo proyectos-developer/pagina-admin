@@ -1,68 +1,49 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import next from '../../../assets/iconos/comun/next_v2.png'
 import next_select from '../../../assets/iconos/comun/next_v1.png'
 import preview from '../../../assets/iconos/comun/preview_v2.png'
 import preview_select from '../../../assets/iconos/comun/preview_v1.png'
 
-import view_list_v1 from '../../../assets/iconos/comun/view_list_v1.png'
-import view_grid_v1 from '../../../assets/iconos/comun/view_grid_v1.png'
-import view_list_v2 from '../../../assets/iconos/comun/view_list_v2.png'
-import view_grid_v2 from '../../../assets/iconos/comun/view_grid_v2.png'
-import reset_v2 from '../../../assets/iconos/comun/reset_v2.png'
-import reset_v1 from '../../../assets/iconos/comun/reset_v1.png'
-
-import agregar_nuevo from '../../../assets/iconos/comun/agregar_nuevo.png'
-
 import CardProyectoTablet from './card/proyectotablet.jsx'
-import {proyectosdata} from '../../../redux/slice/proyectosdata.js'
-import { proyectosConstants } from '../../../uri/proyectos-constants.js'
-import {tipoproyectosdata} from '../../../redux/slice/tipoproyectosdata.js'
-import { tipoproyectoConstants } from '../../../uri/tipoproyecto-constants.js'
 import { useNavigate } from 'react-router-dom'
+import { proyectosdata } from '../../../redux/slice/proyectosdata.js'
+import { proyectosConstants } from '../../../uri/proyectos-constants.js'
+import { set_error_message } from '../../../redux/actions/data.js'
 
 export default function ListaProyectosTablet ({proporcional}) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const selectRefTipoProyecto = useRef(null)
-
-    const [view_proyecto, setViewProyecto] = useState ('grid')
     const [begin, setBegin] = useState(0)
-    const [amount, setAmount] = useState(16)
+    const amount = 16
 
-    const [id_tipo_proyecto, setIdTipoProyecto] = useState('')
-    const [tipo_proyecto, setTipoProyecto] = useState('')
-    const [lista_tipos_proyectos, setListaTiposProyectos] = useState([])
-    
-    const [lista_grid_proyectos, setListaGridProyectos] = useState ([])
+    const [search_proyectos, setSearchProyectos] = useState('')
+    const [reset, setReset] = useState(false)
+
     const [lista_proyectos, setListaProyectos] = useState ([])
     const [total_proyectos, setTotalProyectos] = useState(0)
-    const [proyectos, setProyectos] = useState ([])
 
+    const [boton_nuevo, setBotonNuevo] = useState (false)
     const [boton_reset, setBotonReset] = useState (false)
+
     const [mouse_next, setMouseNext] = useState(false)
     const [mouse_preview, setMousePreviewDown] = useState(false)
 
     const {get_proyectos_filter, delete_proyecto} = useSelector(({proyectos_data}) => proyectos_data)
-    const {get_tipo_proyectos_filter} = useSelector(({tipoproyectos_data}) => tipoproyectos_data)
-    const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
-
+    
     useEffect(() => {
-        dispatch(tipoproyectosdata(tipoproyectoConstants(0, 0, 0, 0, 0, 100, {}, false).get_tipo_proyectos_filter))
+        window.scrollTo(0, 0)
+        dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, begin, amount, {}, false).get_proyectos_filter))
     }, [])
 
     useEffect(() => {
-        if (get_tipo_proyectos_filter && get_tipo_proyectos_filter.success === true && get_tipo_proyectos_filter.tipos_proyectos){
-            setListaTiposProyectos(get_tipo_proyectos_filter.tipos_proyectos)
-            dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, begin, amount, {}, false).get_proyectos_filter))
-        }
-    }, [get_tipo_proyectos_filter])
-
-    useEffect(() => {
         if (get_proyectos_filter && get_proyectos_filter.success === true && get_proyectos_filter.proyectos){
-            dividir_nro_columnas(get_proyectos_filter)
+            setTotalProyectos(get_proyectos_filter.total_proyectos)
+            setListaProyectos (get_proyectos_filter.proyectos)
+        }else if (get_proyectos_filter && get_proyectos_filter.success === false && get_proyectos_filter.error){
+            dispatch (set_error_message(true))
         }
     }, [get_proyectos_filter])
 
@@ -70,10 +51,24 @@ export default function ListaProyectosTablet ({proporcional}) {
         if (delete_proyecto && delete_proyecto.success === true && delete_proyecto.proyectos){
             window.scrollTo(0, 0)
             setBegin(0)
-            dividir_nro_columnas(delete_proyecto)
+            setTotalProyectos(delete_proyecto.total_proyectos)
+            setListaProyectos (delete_proyecto.proyectos)
             dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).delete_proyecto))
+        }else if (delete_proyecto && delete_proyecto.success === false && delete_proyecto.error){
+            dispatch (set_error_message(true))
         }
     }, [delete_proyecto])
+
+    const buscar_proyectos = (value) => {
+        if (value !== ''){
+            setReset(true)
+            dispatch(proyectosdata(proyectosConstants(0, value, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
+        }else{
+            setReset(false)
+            dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
+        }
+        setSearchProyectos(value)
+    }
 
     const next_proyectos = () => {
         if (begin + amount > total_proyectos){
@@ -93,60 +88,53 @@ export default function ListaProyectosTablet ({proporcional}) {
         }
     }
 
-    const dividir_nro_columnas = (data_proyectos) => {
-        if (data_proyectos.total_proyectos){setTotalProyectos(data_proyectos.total_proyectos)}
-        let data = data_proyectos.proyectos.length
-        let lista = []
-        let cuenta = data / 2 < 1 ? 1 : data % 2 !== 0 ? (data / 2) + 1 : data / 2
-        for (let count = 0; count < cuenta; count ++){
-            lista.push ({num: `${count + 1}`})
-        }
-        setProyectos (data_proyectos.proyectos)
-        setListaGridProyectos (lista)
-        setListaProyectos (data_proyectos.proyectos)
-    }
-
-    const seleccionar_tipo_proyecto = (value) => {
-        if (value !== '0'){
-            setBegin(0)
-            setListaGridProyectos([])
-            setListaProyectos([])
-            setProyectos([])
-            setIdTipoProyecto(value.split ('-')[0])
-            setTipoProyecto(value.split ('-')[1])
-            dispatch(proyectosdata(proyectosConstants(0,0, value.split('-')[0], 0, 0, 0, 16, {}, false).get_proyectos_filter))
-        }
-    }
-
     const resetear_data = () => {
-        setBegin (0)
-        if (selectRefTipoProyecto.current){
-            selectRefTipoProyecto.current.value = '0'
-        }
-        setTipoProyecto('Tipo de proyecto')
-        setListaGridProyectos([])
+        setBegin(0)
         setListaProyectos ([])
-        setProyectos([])
+        setReset(false)
+        setSearchProyectos('')
         dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
         dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).delete_proyecto))
     }
 
     useEffect(() => {
         return () => {
-            setListaGridProyectos([])
-            setListaProyectos ([])
-            setProyectos([])
-            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).get_proyectos_filter))
-            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, true).delete_proyecto))
+            
         }
     },[])
 
     return (
-        <div className='position-relative' style={{width: '100%', minHeight: 720 / proporcional, paddingLeft: open_menu_lateral ? 60 / proporcional : 100 / proporcional,
-            paddingRight: open_menu_lateral ? 60 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                <div style={{width: '80%', height: 'auto'}}>
-                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+        <div className='position-relative' style={{width: '100%', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel/proyectos')}>
+                    proyectos
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    proyectos
+                </p>
+            </div>
+            <div className='d-flex justify-content-between' style={{width: '100%', minHeight: 'auto', marginBottom: 16 / proporcional}}>
+                <div style={{width: '48%', height: 'auto'}}>
+                    <h2 style={{fontSize: 24 / proporcional, lineHeight: `${40 / proporcional}px`, fontWeight: 500, marginBottom: 0,
                         color: '#4A4A4A'}}>Proyectos
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                             {`mostrando del ${begin} al 
@@ -154,84 +142,100 @@ export default function ListaProyectosTablet ({proporcional}) {
                         </span>
                     </h2>
                 </div>
-                <div className='d-flex justify-content-end' style={{width: '20%', height: 'auto'}}>
-                    <img src={view_proyecto === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            marginRight: 10 / proporcional, cursor: 'pointer'
-                        }} onClick={() => setViewProyecto('lista')}/>
-                    <img src={view_proyecto === 'grid' || view_proyecto === '' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            cursor: 'pointer', marginRight: 10 / proporcional
-                        }} onClick={() => setViewProyecto('grid')}/>
-                    <img src={boton_reset ? reset_v1 : reset_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            cursor: 'pointer'
-                        }} onClick={() => resetear_data()}
-                        onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
+                <div className='d-flex justify-content-end' style={{width: '48%', height: 50 / proporcional}}>
+                    <div className={boton_nuevo ? 'shadow rounded' : 'rounded'} 
+                        style={{width: 200 / proporcional, height: 40 / proporcional, background: '#28A745',
+                                cursor: 'pointer'}}
+                            onClick={() => navigate('/panel/proyectos/proyectos/nuevo')}
+                            onMouseOver={() => setBotonNuevo(true)} onMouseLeave={() => setBotonNuevo(false)}>
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                            Nuevo
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-center' style={{width: '100%', height: 40 / proporcional,
-                    marginBottom: 16 / proporcional
-            }}>
-                <p style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
-                    marginRight: 10 / proporcional, fontFamily: 'Poppins, sans-serif', fontWeight: 500,
-                    cursor: 'default', fontWeight: 500}}>Filtrar por:</p>
-                <select
-                    ref={selectRefTipoProyecto}
-                    className='rounded form-select'
-                    id='tipo_proyecto'
-                    style={{width: 300 / proporcional, height: 40 / proporcional, border: '1px solid #007bff',
-                            fontSize: 16 / proporcional, fontFamily: 'Poppins, sans-serif'}}
-                    onChange={(event) => seleccionar_tipo_proyecto(event.target.value)}>
-                    <option value='0'>{tipo_proyecto === '' ? 'Tipo de proyecto' : tipo_proyecto}</option>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                <div className='d-flex rounded' 
+                    style={{width: reset ? 610 / proporcional : 400 / proporcional, height: 40 / proporcional}}>
+                    <input 
+                        id='search_proyectos'
+                        className='form-control rounded-0 border-0'
+                        style={{width: 400 / proporcional, height: 40 / proporcional, fontSize: 16 / proporcional,
+                                fontFamily: 'Poppins, sans-serif', fontWeight: 400,
+                                marginRight: reset ? 10 / proporcional : 0}}
+                        value={search_proyectos}
+                        onChange={(event) => buscar_proyectos(event.target.value)}
+                        placeholder='Buscar por nombre, código, apellidos...'
+                    />
                     {
-                        lista_tipos_proyectos && lista_tipos_proyectos.length > 0 ? (
-                            lista_tipos_proyectos.map ((tipo_proyecto, index) => {
-                                return (
-                                    <option key={index} value={tipo_proyecto.id + '-' + tipo_proyecto.nombre}>{tipo_proyecto.nombre}</option>
-                                )
-                            })
+                        reset ? (
+                            <div className={boton_reset ? 'shadow rounded' : 'rounded'} 
+                                style={{width: 200 / proporcional, height: 40 / proporcional, background: '#28A745',
+                                        cursor: 'pointer'}}
+                                    onClick={() => resetear_data()}
+                                    onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}>
+                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                    resetear
+                                </p>
+                            </div>
                         ) : null
                     }
-                </select>
+                </div>
             </div>
-            {
-                lista_grid_proyectos && lista_grid_proyectos.length > 0 && view_proyecto === 'grid' ? (
-                    lista_grid_proyectos.map ((proyecto, numpro) => {
-                        return (
-                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                                {
-                                    proyectos [(2 * numpro)] ? (
-                                        <div style={{width: '48%', height: 'auto'}}>
-                                            <CardProyectoTablet proyecto={proyectos[(2 * numpro)]} key={(2 * numpro)} index={(2 * numpro)} proporcional={proporcional} view_proyecto={view_proyecto}/>
-                                        </div>
-                                    ) : (
-                                        <div style={{width: '48%', height: 'auto'}}/>
-                                    )
-                                }
-                                {
-                                    proyectos [((2 * numpro) + 1)] ? (
-                                        <div style={{width: '48%', height: 'auto'}}>
-                                            <CardProyectoTablet proyecto={proyectos[((2 * numpro) + 1)]} key={((2 * numpro) + 1)} index={((2 * numpro) + 1)} proporcional={proporcional} view_proyecto={view_proyecto}/>
-                                        </div>
-                                    ) : (
-                                        <div style={{width: '48%', height: 'auto'}}/>
-                                    )
-                                }
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 70 / proporcional,
+                    padding: 5 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
+                <div className='d-flex justify-content-between' style={{width: '70%', height: 60 / proporcional}}>
+                    <div className='' style={{width: '100%', height: 60 / proporcional}}>
+                        <div className='d-flex justify-content-between' style={{width: '100%', height: 30 / proporcional}}>
+                            <div className='' style={{width: '48%', height: 30 / proporcional}}>
+                                <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                    color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                    cursor: 'default'}}>
+                                    Cliente
+                                </p>
                             </div>
-                        )
-                    })
-                ) : 
-                    lista_proyectos && lista_proyectos.length > 0 && view_proyecto === 'lista' ? (
-                        lista_proyectos.map ((proyecto, numpro) => {
+                            <div className='' style={{width: '48%', height: 30 / proporcional}}>
+                                <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                    color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                    cursor: 'default'}}>
+                                    Tipo proyecto
+                                </p>
+                            </div>
+                        </div>
+                        <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Nombre proyecto
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className='d-flex justify-content-end' style={{width: '30%', height: 60 / proporcional}}>
+                    <div className='d-flex justify-content-center' style={{width: '100%', height: 60 / proporcional}}>
+                        <p style={{fontSize: 14 / proporcional, lineHeight: `${60 / proporcional}px`, marginBottom: 0 / proporcional, 
+                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
+                            cursor: 'default'}}>
+                            Acciones
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style={{width: '100%', minHeight: 500 / proporcional}}>
+                {
+                    lista_proyectos && lista_proyectos.length > 0 ? (
+                        lista_proyectos.map ((proyecto, index) => {
                             return (
-                                <CardProyectoTablet proyecto={proyecto} key={numpro} index={numpro} proporcional={proporcional} view_proyecto={view_proyecto}/>
+                                <CardProyectoTablet proporcional={proporcional} key={index} index={index} proyecto={proyecto}/>
                             )
                         })
-                ) : null
-            }         
+                    ) : null
+                }
+            </div>              
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_proyecto === 'grid' || view_proyecto === '' ? 0 : 16 / proporcional
+                    marginTop: 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
                     {
@@ -267,11 +271,6 @@ export default function ListaProyectosTablet ({proporcional}) {
                         )
                     }
                 </div>
-            </div>
-            <div className='position-fixed rounded-circle shadow-lg' style={{width: 64 / proporcional, height: 64 / proporcional, 
-                bottom: 50 / proporcional, right: 50 / proporcional, background: 'white', cursor: 'pointer'}}
-                onClick={() => navigate ('/panel/proyectos/proyectos/nuevo')}>
-                <img src={agregar_nuevo} style={{width: 64 / proporcional, height: 64 / proporcional, padding: 16 / proporcional}}/>
             </div>
         </div>
     )

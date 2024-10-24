@@ -32,6 +32,30 @@ export const filesConstants = (carpeta = 0, data = {}, reset = false) => {
             stateType: 'file_upload_evaluacion',
             reset: reset,
             data: data
+        },
+        file_upload_estado_trabajo: {
+            path: `upload/archivo/personal/estadotrabajo/${carpeta}`,
+            stateType: 'file_upload_estado_trabajo',
+            reset: reset,
+            data: data
+        },
+        file_upload_logo_proveedor: {
+            path: `upload/archivo/proveedor/logo/${carpeta}`,
+            stateType: 'file_upload_logo_proveedor',
+            reset: reset,
+            data: data
+        },
+        file_upload_logo_marca: {
+            path: `upload/archivo/marca/logo/${carpeta}`,
+            stateType: 'file_upload_logo_marca',
+            reset: reset,
+            data: data
+        },
+        file_upload_fotos_productos: {
+            path: `upload/archivo/productos/fotos/${carpeta}`,
+            stateType: 'file_upload_fotos_productos',
+            reset: reset,
+            data: data
         }
     }
 }

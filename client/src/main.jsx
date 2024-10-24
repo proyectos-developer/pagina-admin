@@ -27,6 +27,11 @@ import noticiasdata from './redux/slice/noticiasdata.js'
 import personaldata from './redux/slice/personaldata.js'
 import locationdata from './redux/slice/locationdata.js'
 import institutosdata from './redux/slice/institutosdata.js'
+import nominasdata from './redux/slice/nominasdata.js'
+import facturasdata from './redux/slice/facturasdata.js'
+import asistenciasdata from './redux/slice/asistenciasdata.js'
+import proveedoresdata from './redux/slice/proveedoresdata.js'
+import marcasdata from './redux/slice/marcasdata.js'
 
 import notificacionesdata from './redux/slice/notificacionesdata.js'
 import mensajesdata from './redux/slice/mensajesdata.js'
@@ -42,33 +47,45 @@ const store = configureStore ({
         data_actions: data,
         begin_data: begindata,
         files_data: filesdata,
+        
         negocios_data: negociosdata,
+        servicios_data: serviciosdata,
+        administradores_data: administradoresdata,
         tipoproyectos_data: tipoproyectosdata,
         proyectos_data: proyectosdata,
         gestionproyectos_data: gestionproyectosdata,
+        
         productos_data: productosdata,
         categorias_data: categoriasdata,
         subcategorias_data: subcategoriasdata,
         unidades_data: unidadesdata,
+        proveedores_data: proveedoresdata,
+        marcas_data: marcasdata,
+
         favoritos_data: favoritosdata,
         calificaciones_data: calificacionesdata,
+
         clientes_data: clientesdata,
         compras_data: comprasdata,
+
         suscripciones_data: suscripcionesdata,
         categorias_noticias_data: categorias_noticiasdata,
         noticias_data: noticiasdata,
+        
         departamentos_data: departamentosdata,
         personal_data: personaldata,
         location_data: locationdata,
         institutos_data: institutosdata,
+        nominas_data: nominasdata,
+        asistencias_data: asistenciasdata,
+
+        facturas_data: facturasdata,
 
         reuniones_data: reunionesdata,
         mensajes_data: mensajesdata,
         notificaciones_data: notificacionesdata,
 
-        correos_data: correosdata,
-        servicios_data: serviciosdata,
-        administradores_data: administradoresdata
+        correos_data: correosdata
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
       immutableCheck: false,

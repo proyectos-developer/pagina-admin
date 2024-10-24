@@ -9,10 +9,15 @@ import DatosEstudios from './nuevo/datosestudios.jsx'
 import DatosTrabajo from './nuevo/datostrabajo.jsx'
 import DatosSueldo from './nuevo/datossueldo.jsx'
 import DatosEvaluaciones from './nuevo/datosevaluaciones.jsx'
-import { set_data_personal_estudios, set_data_personal_evaluacion, set_data_personal_personal, set_data_personal_sueldo, set_data_personal_trabajo, set_data_personal_ubicacion, set_data_resetear, set_datos_paso_personal } from '../../../redux/actions/data.js'
+import { set_data_personal_estudios, set_data_personal_evaluacion, set_data_personal_personal, 
+         set_data_personal_sueldo, set_data_personal_trabajo, set_data_personal_ubicacion, 
+         set_datos_paso_personal, 
+         set_error_message} from '../../../redux/actions/data.js'
+import { useNavigate } from 'react-router-dom'
 
-export default function NuevoTrabajador ({proporcional}) {
+export default function NuevoPersonal ({proporcional}) {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const {new_personal} = useSelector(({personal_data}) => personal_data)
@@ -20,10 +25,17 @@ export default function NuevoTrabajador ({proporcional}) {
            data_personal_trabajo, data_personal_sueldo, data_personal_evaluacion} = useSelector(({data_actions}) => data_actions)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+        dispatch (set_datos_paso_personal('personal'))
+    }, [])
+
+    useEffect(() => {
         if (new_personal && new_personal.success === true && new_personal.trabajador){
             dispatch(personaldata(personalConstants(0, 0, 0, 0, 0, 0, 0, 16, {}, true).new_personal))
             window.scrollTo(0, 0)
             resetear_data()
+        }else if (new_personal && new_personal.success === false && new_personal.error){
+            dispatch(set_error_message(true))
         }
     }, [new_personal])
 
@@ -31,10 +43,11 @@ export default function NuevoTrabajador ({proporcional}) {
         if (datos_paso_personal === 'guardar'){
             const data_nuevo = {
                 /**datos personales */
-                url_foto: data_personal_personal.url_foto,
+                url_foto: data_personal_personal.url_foto === null ? '' : data_personal_personal.url_foto,
                 nombres: data_personal_personal.nombres,
                 apellidos: data_personal_personal.apellidos,
                 fecha_nacimiento: data_personal_personal.fecha_nacimiento,
+                cumpleanios: data_personal_personal.fecha_nacimiento.split('-')[1] + '-' + data_personal_personal.fecha_nacimiento.split('-')[2],
                 genero: data_personal_personal.genero,
                 estado_civil: data_personal_personal.estado_civil,
                 hijos: data_personal_personal.nro_hijos,
@@ -55,9 +68,10 @@ export default function NuevoTrabajador ({proporcional}) {
                 universidad: data_personal_estudios.universidad,
                 titulo: data_personal_estudios.titulo,
                 estudios: data_personal_estudios.estudios,
-                url_documento: data_personal_estudios.url_documento,
+                url_documento: data_personal_estudios.url_documento === null ? '' : data_personal_estudios.url_documento,
 
                 /**datos trabajo*/
+                codigo_personal: data_personal_trabajo.codigo_personal,
                 departamento: data_personal_trabajo.departamento,
                 id_departamento: data_personal_trabajo.id_departamento,
                 jefe_inmediato: data_personal_trabajo.jefe_inmediato,
@@ -67,7 +81,7 @@ export default function NuevoTrabajador ({proporcional}) {
                 tipo_contrato: data_personal_trabajo.tipo_contrato,
                 estado_trabajo: data_personal_trabajo.estado_trabajo,
 
-                /**datos trabajo*/
+                /**datos sueldo*/
                 afp: data_personal_sueldo.afp,
                 seguro: data_personal_sueldo.seguro,
                 bonos: data_personal_sueldo.bonos,
@@ -75,14 +89,15 @@ export default function NuevoTrabajador ({proporcional}) {
                 sueldo_bruto: data_personal_sueldo.sueldo_bruto,
                 sueldo_neto: data_personal_sueldo.sueldo_neto,
                 cuarta_categoria: data_personal_sueldo.cuarta_categoria,
-                url_cuarta_categoria: data_personal_sueldo.url_cuarta_categoria,
+                url_cuarta_categoria: data_personal_sueldo.url_cuarta_categoria === null ? '' : data_personal_sueldo.url_cuarta_categoria,
                 banco: data_personal_sueldo.banco,
                 nro_cuenta_bancaria: data_personal_sueldo.nro_cuenta_bancaria,
                 nro_cuenta_interbancaria: data_personal_sueldo.nro_cuenta_interbancaria,
 
                 /**datos evaluacion*/
-                evaluaciones: data_personal_evaluacion.evaluaciones,
-            }  
+                evaluacion: data_personal_evaluacion.evaluacion === null ? '' : data_personal_evaluacion.evaluacion,
+                notas_evaluacion: data_personal_evaluacion.notas_evaluacion
+            } 
             dispatch (set_datos_paso_personal('personal'))
             dispatch (personaldata(personalConstants(0, 0, 0, 0, 0, 0, 0, 16, data_nuevo, false).new_personal))
         }
@@ -104,8 +119,45 @@ export default function NuevoTrabajador ({proporcional}) {
 
     return (
         <div className='' style={{width: '100%', height: 'auto', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/rrhh')}>
+                    R.R.H.H
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/rrhh/personal')}>
+                    personal
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    nuevo
+                </p>
+            </div>
             <div className='shadow' 
-                style={{width: '90%', height: 'auto', background: 'white', padding: 50 / proporcional}}>
+                style={{width: '100%', height: 'auto', background: 'white', padding: 100 / proporcional}}>
                 <div className='' style={{width: '100%', height: 'auto'}}>
                     <div className='d-flex justify-content-between' 
                         style={{width: '100%', height: 196 / proporcional, marginBottom: 32 / proporcional}}>
@@ -273,41 +325,22 @@ export default function NuevoTrabajador ({proporcional}) {
                             </div>
                         </div>
                     </div>
-                    <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                    <div style={{width: '100%', height: 'auto'}}>
                         {
-                            data_personal_personal.url_foto ? (
-                                <div className='d-flex justify-content-center' style={{width: '25%', height: 'auto'}}> 
-                                    <div style={{width: 182 / proporcional, height: 'auto'}}>
-                                        <div className='rounded-circle' style={{width:  182 / proporcional, height: 182 / proporcional,
-                                            border: '1px solid #4a4a4a', marginRight: 0 / proporcional, marginBottom: 16 / proporcional}}>
-                                                    <img className='rounded-circle' src={data_personal_personal.url_foto} 
-                                                    style={{width: 180 / proporcional, height: 180 / proporcional}}/>
-                                        </div>
-                                        <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`,
-                                            color: '#007bff', marginBottom: 16 / proporcional, fontWeight: 600, textAlign: 'center'}}>
-                                            {data_personal_personal.nombres} <br/> {data_personal_personal.apellidos}
-                                        </h2>
-                                    </div>
-                                </div>
+                            datos_paso_personal === 'personal' || datos_paso_personal === 'guardar' ? ( 
+                                <DatosPersonales proporcional={proporcional}/>
+                            ) : datos_paso_personal === 'ubicacion' ? (
+                                <DatosComunicacionUbicacion proporcional={proporcional}/>
+                            ) : datos_paso_personal === 'estudios' ? (
+                                <DatosEstudios proporcional={proporcional}/>
+                            ) : datos_paso_personal === 'trabajo' ? (
+                                <DatosTrabajo proporcional={proporcional}/>
+                            ) : datos_paso_personal === 'sueldo' ? (
+                                <DatosSueldo proporcional={proporcional}/>
+                            ) : datos_paso_personal === 'evaluacion' ? (
+                                <DatosEvaluaciones proporcional={proporcional}/>
                             ) : null
                         }
-                        <div style={{width: data_personal_personal.foto ? '73%' : '100%', height: 'auto'}}>
-                            {
-                                datos_paso_personal === 'personal' || datos_paso_personal === 'guardar' ? ( 
-                                    <DatosPersonales proporcional={proporcional}/>
-                                ) : datos_paso_personal === 'ubicacion' ? (
-                                    <DatosComunicacionUbicacion proporcional={proporcional}/>
-                                ) : datos_paso_personal === 'estudios' ? (
-                                    <DatosEstudios proporcional={proporcional}/>
-                                ) : datos_paso_personal === 'trabajo' ? (
-                                    <DatosTrabajo proporcional={proporcional}/>
-                                ) : datos_paso_personal === 'sueldo' ? (
-                                    <DatosSueldo proporcional={proporcional}/>
-                                ) : datos_paso_personal === 'evaluacion' ? (
-                                    <DatosEvaluaciones proporcional={proporcional}/>
-                                ) : null
-                            }
-                        </div>
                     </div>
                 </div>
             </div>

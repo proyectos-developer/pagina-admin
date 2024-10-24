@@ -25,7 +25,7 @@ export default function ProyectosFinalizadosCell ({proporcional}) {
     const [select_ejecucion, setSelectEjecucion] = useState('')
 
     const {get_proyectos_filter, get_proyecto} = useSelector(({proyectos_data}) => proyectos_data)
-    const {get_informes_proyectos_filter, get_informe_proyecto} = useSelector(({gestionproyectos_data}) => gestionproyectos_data)
+    const {get_gestion_proyectos_filter, get_gestion_proyecto} = useSelector(({gestionproyectos_data}) => gestionproyectos_data)
 
     useEffect(() => {
         dispatch(proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 16, {}, false).get_proyectos_filter))
@@ -34,15 +34,15 @@ export default function ProyectosFinalizadosCell ({proporcional}) {
     useEffect(() => {
         if (get_proyectos_filter && get_proyectos_filter.success === true && get_proyectos_filter.proyectos){
             setListaProyectosFinalizados(get_proyectos_filter.proyectos)
-            dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_informes_proyectos_filter))
+            dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_gestion_proyectos_filter))
         }
     }, [get_proyectos_filter])
 
     useEffect(() => {
-        if (get_informes_proyectos_filter && get_informes_proyectos_filter.success === true && get_informes_proyectos_filter.gestion_proyectos){
-            setListaProyectosEjecucion(get_informes_proyectos_filter.gestion_proyectos)
+        if (get_gestion_proyectos_filter && get_gestion_proyectos_filter.success === true && get_gestion_proyectos_filter.gestion_proyectos){
+            setListaProyectosEjecucion(get_gestion_proyectos_filter.gestion_proyectos)
         }
-    }, [get_informes_proyectos_filter])
+    }, [get_gestion_proyectos_filter])
 
     useEffect(() => {
         if (get_proyecto && get_proyecto.success === true && get_proyecto.proyecto){
@@ -63,16 +63,16 @@ export default function ProyectosFinalizadosCell ({proporcional}) {
     }
 
     useEffect(() => {
-        if (get_informe_proyecto && get_informe_proyecto.success === true && get_informe_proyecto.gestion_proyecto){
-            dispatch (set_data_gestion_proyectos(get_informe_proyecto.gestion_proyecto))
-            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 0, {}, true).get_informe_proyecto))
+        if (get_gestion_proyecto && get_gestion_proyecto.success === true && get_gestion_proyecto.gestion_proyecto){
+            dispatch (set_data_gestion_proyectos(get_gestion_proyecto.gestion_proyecto))
+            dispatch (proyectosdata(proyectosConstants(0, 0, 0, 0, 0, 0, 0, {}, true).get_gestion_proyecto))
             window.scrollTo(0,0)
-            navigate (`/panel/proyectos/gestion-proyectos/proyecto/${get_informe_proyecto.gestion_proyecto.nombre_proyecto}/${get_informe_proyecto.gestion_proyecto.id}`)
+            navigate (`/panel/proyectos/gestion-proyectos/proyecto/${get_gestion_proyecto.gestion_proyecto.nombre_proyecto}/${get_gestion_proyecto.gestion_proyecto.id}`)
         }
-    }, [get_informe_proyecto])
+    }, [get_gestion_proyecto])
     
     const ver_proyectos_ejecucion = (id) => {
-        dispatch (gestionproyectosdata(gestionproyectosConstants(id, 0, 0, 0, 0, 0, 0, 0, 0, {}, false).get_informe_proyecto))
+        dispatch (gestionproyectosdata(gestionproyectosConstants(id, 0, 0, 0, 0, 0, 0, 0, 0, {}, false).get_gestion_proyecto))
     }
 
     const ver_lista_proyectos_ejecucion = () => {

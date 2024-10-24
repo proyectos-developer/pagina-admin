@@ -58,6 +58,17 @@ export default function MenuSuperiorPanel ({proporcional}) {
                     </div>
                 </div>
                 <div className={'shadow-lg rounded-pill'} 
+                    style={{width: '12.3%', height: 'auto', cursor: 'pointer', background: seleccion_menu === 'contabilidad' || pagina === 'contabilidad' ?
+                        '#007bff' : 'white'}} onClick={() => navigate ('/panel/contabilidad')}
+                    onMouseOver={() => setSeleccionMenu('contabilidad')} onMouseLeave={() => setSeleccionMenu('')}>
+                    <div className='d-flex justify-content-center' style={{width: '100%', height: 60  / proporcional}}>
+                        <img src={seleccion_menu === 'contabilidad' || pagina === 'contabilidad' ? menu_contabilidad_white : menu_contabilidad_blue} 
+                            style={{width: 60 / proporcional, height: 60 / proporcional, padding: 16 / proporcional}}/>
+                        <p style={{fontSize: 16 / proporcional, lineHeight: `${60 / proporcional}px`, marginBottom: 0, fontWeight: 500,
+                            color: seleccion_menu === 'contabilidad' || pagina === 'contabilidad' ? 'white' : '#00b7ff', fontFamily: 'Poppins, sans-serif'}}>Contabilidad</p>
+                    </div>
+                </div>
+                <div className={'shadow-lg rounded-pill'} 
                     style={{width: '12.3%', height: 'auto', cursor: 'pointer', background: seleccion_menu === 'proyectos' || pagina === 'proyectos' ?
                         '#007bff' : 'white'}} onClick={() => navigate ('/panel/proyectos')}
                     onMouseOver={() => setSeleccionMenu('proyectos')} onMouseLeave={() => setSeleccionMenu('')}>
@@ -99,17 +110,6 @@ export default function MenuSuperiorPanel ({proporcional}) {
                             style={{width: 60 / proporcional, height: 60 / proporcional, padding: 16 / proporcional}}/>
                         <p style={{fontSize: 16 / proporcional, lineHeight: `${60 / proporcional}px`, marginBottom: 0, fontWeight: 500,
                             color: seleccion_menu === 'estadisticas' || pagina === 'estadisticas' ? 'white' : '#00b7ff', fontFamily: 'Poppins, sans-serif'}}>Estadísticas</p>
-                    </div>
-                </div>
-                <div className={'shadow-lg rounded-pill'} 
-                    style={{width: '12.3%', height: 'auto', cursor: 'pointer', background: seleccion_menu === 'contabilidad' || pagina === 'contabilidad' ?
-                        '#007bff' : 'white'}} onClick={() => navigate ('/panel/contabilidad')}
-                    onMouseOver={() => setSeleccionMenu('contabilidad')} onMouseLeave={() => setSeleccionMenu('')}>
-                    <div className='d-flex justify-content-center' style={{width: '100%', height: 60  / proporcional}}>
-                        <img src={seleccion_menu === 'contabilidad' || pagina === 'contabilidad' ? menu_contabilidad_white : menu_contabilidad_blue} 
-                            style={{width: 60 / proporcional, height: 60 / proporcional, padding: 16 / proporcional}}/>
-                        <p style={{fontSize: 16 / proporcional, lineHeight: `${60 / proporcional}px`, marginBottom: 0, fontWeight: 500,
-                            color: seleccion_menu === 'contabilidad' || pagina === 'contabilidad' ? 'white' : '#00b7ff', fontFamily: 'Poppins, sans-serif'}}>Contabilidad</p>
                     </div>
                 </div>
                 <div className={'shadow-lg rounded-pill'} 

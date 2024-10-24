@@ -21,7 +21,7 @@ export const proyectosConstants = (id = 1, search = '', id_tipo = '', order_by =
             reset: reset
         },   
         get_tipo_proyectos_negocios: {
-            path: `/proyecto/tipo_proyectos/clientes`,
+            path: `proyecto/tipo_proyectos/clientes`,
             stateType: 'get_tipo_proyectos_negocios',
             reset: reset
         },

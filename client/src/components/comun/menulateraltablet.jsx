@@ -6,11 +6,11 @@ import settings from '../../assets/iconos/menu/lateral/settings.png'
 
 import CardMenuEmpresaTablet from './card/menu/empresatablet.jsx'
 import CardMenuRrHhTablet from './card/menu/rrhhtablet.jsx'
+import CardMenuContabilidadTablet from './card/menu/contabilidadtablet.jsx'
 import CardMenuProyectosTablet from './card/menu/proyectostablet.jsx'
 import CardMenuAlmacenTablet from './card/menu/almacentablet.jsx'
 import CardMenuTiendaTablet from './card/menu/tiendatablet.jsx'
 import CardMenuEstadisticasTablet from './card/menu/estadisticastablet.jsx'
-import CardMenuContabilidadTablet from './card/menu/contabilidadtablet.jsx'
 import CardMenuOtrosTablet from './card/menu/otrostablet.jsx'
 
 import dashboard from '../../assets/iconos/menu/lateral/dashboard.png'
@@ -102,6 +102,8 @@ export default function MenuLateralTablet ({proporcional}) {
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuRrHhTablet proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
+                    <CardMenuContabilidadTablet proporcional={proporcional}/>
+                    <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuProyectosTablet proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuAlmacenTablet proporcional={proporcional}/>
@@ -109,8 +111,6 @@ export default function MenuLateralTablet ({proporcional}) {
                     <CardMenuTiendaTablet proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuEstadisticasTablet proporcional={proporcional}/>
-                    <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
-                    <CardMenuContabilidadTablet proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuOtrosTablet proporcional={proporcional}/>
                 </div>

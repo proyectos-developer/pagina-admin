@@ -48,16 +48,33 @@ export default function EmpresaDashboard ({proporcional}) {
     }, [])
 
     return (
-        <div style={{width: '100%', height: 'auto'}}>
+        <div className='position-relative' style={{width: '100%', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    empresa
+                </p>
+            </div>
             <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
                 <div className='rounded shadow' style={{width: '24%', height: 'auto', padding: 20 / proporcional,
                     background: 'white'
                 }}>
-                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
+                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16 / proporcional,
                         fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                         Servicios que brindamos
                     </h6>
-                    <div style={{width: '100%', height: 300 / proporcional}}>
+                    <div className='overflow-auto' style={{width: '100%', minHeight: 300 / proporcional, maxHeight: 450 / proporcional, marginBottom: 16 / proporcional}}>
                     {
                         lista_servicios && lista_servicios.length > 0 ? (
                             lista_servicios.map ((servicio, index) => {
@@ -74,12 +91,12 @@ export default function EmpresaDashboard ({proporcional}) {
                         ) : null
                     }
                     </div>
-                    <div style={{width: '100%', height: 50 / proporcional}}>
+                    <div style={{width: '100%', height: 40 / proporcional}}>
                         <div className={boton_servicios ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '100%', height: 50 / proporcional, cursor: 'pointer', background: '#28A745'}}
+                            style={{width: '100%', height: 40 / proporcional, cursor: 'pointer', background: '#28A745'}}
                             onMouseOver={() => setBotonServicios(true)} onMouseLeave={() => setBotonServicios(false)}
                             onClick={() => navigate ('servicios')}>
-                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                 Ver servicios
                             </p>
@@ -89,11 +106,11 @@ export default function EmpresaDashboard ({proporcional}) {
                 <div className='rounded shadow' style={{width: '24%', height: 'auto', padding: 20 / proporcional,
                     background: 'white'
                 }}>
-                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
+                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16 / proporcional,
                         fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                         Departamentos / áreas
                     </h6>
-                    <div style={{width: '100%', height: 300 / proporcional}}>
+                    <div className='overflow-auto' style={{width: '100%', minHeight: 300 / proporcional, maxHeight: 450 / proporcional, marginBottom: 16 / proporcional}}>
                     {
                         lista_departamentos && lista_departamentos.length > 0 ? (
                             lista_departamentos.map ((departamento, index) => {
@@ -110,12 +127,12 @@ export default function EmpresaDashboard ({proporcional}) {
                         ) : null
                     }
                     </div>
-                    <div style={{width: '100%', height: 50 / proporcional}}>
+                    <div style={{width: '100%', height: 40 / proporcional}}>
                         <div className={boton_departamentos ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '100%', height: 50 / proporcional, cursor: 'pointer', background: '#28A745'}}
+                            style={{width: '100%', height: 40 / proporcional, cursor: 'pointer', background: '#28A745'}}
                             onMouseOver={() => setBotonDepartamentos(true)} onMouseLeave={() => setBotonDepartamentos(false)}
                             onClick={() => navigate ('departamentos')}>
-                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                 Ver departamentos
                             </p>
@@ -125,18 +142,18 @@ export default function EmpresaDashboard ({proporcional}) {
                 <div className='rounded shadow' style={{width: '24%', height: 'auto', padding: 20 / proporcional,
                     background: 'white'
                 }}>
-                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
+                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 16 / proporcional,
                         fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                         Agenda
                     </h6>
-                    <div style={{width: '100%', height: 300 / proporcional}}>
+                    <div className='overflow-auto' style={{width: '100%', minHeight: 300 / proporcional, maxHeight: 450 / proporcional, marginBottom: 16 / proporcional}}>
                     </div>
-                    <div style={{width: '100%', height: 50 / proporcional}}>
+                    <div style={{width: '100%', height: 40 / proporcional}}>
                         <div className={boton_agenda ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '100%', height: 50 / proporcional, cursor: 'pointer', background: '#28A745'}}
+                            style={{width: '100%', height: 40 / proporcional, cursor: 'pointer', background: '#28A745'}}
                             onMouseOver={() => setBotonAgenda(true)} onMouseLeave={() => setBotonAgenda(false)}
                             onClick={() => navigate ('agenda')}>
-                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                 Ver agenda
                             </p>
@@ -146,18 +163,18 @@ export default function EmpresaDashboard ({proporcional}) {
                 <div className='rounded shadow' style={{width: '24%', height: 'auto', padding: 20 / proporcional,
                     background: 'white'
                 }}>
-                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom: 0,
+                    <h6 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, marginBottom:  16 / proporcional,
                         fontFamily: 'Poppins, sans-serif', color: '#28A745', fontWeight: 600}}>
                         Admins página
                     </h6>
-                    <div style={{width: '100%', height: 300 / proporcional}}>
+                    <div className='overflow-auto' style={{width: '100%', minHeight: 300 / proporcional, maxHeight: 450 / proporcional, marginBottom: 16 / proporcional}}>
                     </div>
-                    <div style={{width: '100%', height: 50 / proporcional}}>
+                    <div style={{width: '100%', height: 40 / proporcional}}>
                         <div className={boton_administradores ? 'shadow rounded' : 'shadow-sm rounded'} 
-                            style={{width: '100%', height: 50 / proporcional, cursor: 'pointer', background: '#28A745'}}
+                            style={{width: '100%', height: 40 / proporcional, cursor: 'pointer', background: '#28A745'}}
                             onMouseOver={() => setBotonAdministradores(true)} onMouseLeave={() => setBotonAdministradores(false)}
                             onClick={() => navigate ('administradores')}>
-                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                            <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                 fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                 Ver administradores
                             </p>

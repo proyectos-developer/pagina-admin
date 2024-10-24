@@ -6,11 +6,11 @@ import settings from '../../assets/iconos/menu/lateral/settings.png'
 
 import CardMenuEmpresaCell from './card/menu/empresacell.jsx'
 import CardMenuRrHhCell from './card/menu/rrhhcell.jsx'
+import CardMenuContabilidadCell from './card/menu/contabilidadcell.jsx'
 import CardMenuProyectosCell from './card/menu/proyectoscell.jsx'
 import CardMenuAlmacenCell from './card/menu/almacencell.jsx'
 import CardMenuTiendaCell from './card/menu/tiendacell.jsx'
 import CardMenuEstadisticasCell from './card/menu/estadisticascell.jsx'
-import CardMenuContabilidadCell from './card/menu/contabilidadcell.jsx'
 import CardMenuOtrosCell from './card/menu/otroscell.jsx'
 
 import dashboard from '../../assets/iconos/menu/lateral/dashboard.png'
@@ -102,6 +102,8 @@ export default function MenuLateralCell ({proporcional}) {
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuRrHhCell proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
+                    <CardMenuContabilidadCell proporcional={proporcional}/>
+                    <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuProyectosCell proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuAlmacenCell proporcional={proporcional}/>
@@ -109,8 +111,6 @@ export default function MenuLateralCell ({proporcional}) {
                     <CardMenuTiendaCell proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuEstadisticasCell proporcional={proporcional}/>
-                    <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
-                    <CardMenuContabilidadCell proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuOtrosCell proporcional={proporcional}/>
                 </div>

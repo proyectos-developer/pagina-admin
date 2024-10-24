@@ -6,11 +6,11 @@ import settings from '../../assets/iconos/menu/lateral/settings.png'
 
 import CardMenuEmpresa from './card/menu/empresa.jsx'
 import CardMenuRrHh from './card/menu/rrhh.jsx'
+import CardMenuContabilidad from './card/menu/contabilidad.jsx'
 import CardMenuProyectos from './card/menu/proyectos.jsx'
 import CardMenuAlmacen from './card/menu/almacen.jsx'
 import CardMenuTienda from './card/menu/tienda.jsx'
 import CardMenuEstadisticas from './card/menu/estadisticas.jsx'
-import CardMenuContabilidad from './card/menu/contabilidad.jsx'
 import CardMenuOtros from './card/menu/otros.jsx'
 
 import dashboard from '../../assets/iconos/menu/lateral/dashboard.png'
@@ -92,6 +92,8 @@ export default function MenuLateral ({proporcional}) {
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuRrHh proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
+                    <CardMenuContabilidad proporcional={proporcional}/>
+                    <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuProyectos proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuAlmacen proporcional={proporcional}/>
@@ -99,8 +101,6 @@ export default function MenuLateral ({proporcional}) {
                     <CardMenuTienda proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuEstadisticas proporcional={proporcional}/>
-                    <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
-                    <CardMenuContabilidad proporcional={proporcional}/>
                     <div style={{width: '100%', height: 1.5, borderBottom: '1.5px dashed rgba(89, 89, 89, 0.8)'}}/>
                     <CardMenuOtros proporcional={proporcional}/>
                 </div>

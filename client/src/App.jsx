@@ -108,21 +108,21 @@ import ProjectsDashboardTablet from './components/proyectos/projects/dashboardta
 import ProjectsDashboardCell from './components/proyectos/projects/dashboardcell.jsx'
 
 /**------------------------Clientes ------------------------*/
-import ClientesPanel from './components/proyectos/clientes/panel.jsx'
-import ClientesPanelTablet from './components/proyectos/clientes/paneltablet.jsx'
-import ClientesPanelCell from './components/proyectos/clientes/panelcell.jsx'
+import NegociosPanel from './components/proyectos/negocios/panel.jsx'
+import NegociosPanelTablet from './components/proyectos/negocios/paneltablet.jsx'
+import NegociosPanelCell from './components/proyectos/negocios/panelcell.jsx'
 
-import ListaClientes from './components/proyectos/clientes/lista.jsx'
-import ListaClientesTablet from './components/proyectos/clientes/listatablet.jsx'
-import ListaClientesCell from './components/proyectos/clientes/listacell.jsx'
+import ListaNegocios from './components/proyectos/negocios/lista.jsx'
+import ListaNegociosTablet from './components/proyectos/negocios/listatablet.jsx'
+import ListaNegociosCell from './components/proyectos/negocios/listacell.jsx'
 
-import NuevoCliente from './components/proyectos/clientes/nuevo.jsx'
-import NuevoClienteTablet from './components/proyectos/clientes/nuevotablet.jsx'
-import NuevoClienteCell from './components/proyectos/clientes/nuevocell.jsx'
+import NuevoNegocio from './components/proyectos/negocios/nuevo.jsx'
+import NuevoNegocioTablet from './components/proyectos/negocios/nuevotablet.jsx'
+import NuevoNegocioCell from './components/proyectos/negocios/nuevocell.jsx'
 
-import DetallesCliente from './components/proyectos/clientes/detalles.jsx'
-import DetallesClienteTablet from './components/proyectos/clientes/detallestablet.jsx'
-import DetallesClienteCell from './components/proyectos/clientes/detallescell.jsx'
+import DetallesNegocio from './components/proyectos/negocios/detalles.jsx'
+import DetallesNegocioTablet from './components/proyectos/negocios/detallestablet.jsx'
+import DetallesNegocioCell from './components/proyectos/negocios/detallescell.jsx'
 /*------------------------------------------*/
 
 /**------------------------Tipo Proyectos ------------------------*/
@@ -174,61 +174,9 @@ import NuevaGestionProyecto from './components/proyectos/gestion/proyecto/nuevo.
 import NuevaGestionProyectoTablet from './components/proyectos/gestion/proyecto/nuevotablet.jsx'
 import NuevaGestionProyectoCell from './components/proyectos/gestion/proyecto/nuevocell.jsx'
 
-import DatosGestionProyectoPanel from './components/proyectos/gestion/proyecto/nuevo/panel.jsx'
-import DatosGestionProyectoPanelTablet from './components/proyectos/gestion/proyecto/nuevo/paneltablet.jsx'
-import DatosGestionProyectoPanelCell from './components/proyectos/gestion/proyecto/nuevo/panelcell.jsx'
-
-import NuevaTareaProyecto from './components/proyectos/gestion/proyecto/nuevo/tareaproyecto.jsx'
-import NuevaTareaProyectoTablet from './components/proyectos/gestion/proyecto/nuevo/tareaproyectotablet.jsx'
-import NuevaTareaProyectoCell from './components/proyectos/gestion/proyecto/nuevo/tareaproyectocell.jsx'
-
-import NuevoTrabajadorProyecto from './components/proyectos/gestion/proyecto/nuevo/trabajadorproyecto.jsx'
-import NuevoTrabajadorProyectoTablet from './components/proyectos/gestion/proyecto/nuevo/trabajadorproyectotablet.jsx'
-import NuevoTrabajadorProyectoCell from './components/proyectos/gestion/proyecto/nuevo/trabajadorproyectocell.jsx'
-
-import NuevoDocumentoProyecto from './components/proyectos/gestion/proyecto/nuevo/documentoproyecto.jsx'
-import NuevoDocumentoProyectoTablet from './components/proyectos/gestion/proyecto/nuevo/documentoproyectotablet.jsx'
-import NuevoDocumentoProyectoCell from './components/proyectos/gestion/proyecto/nuevo/documentoproyectocell.jsx'
-
-import NuevaComunicacionProyecto from './components/proyectos/gestion/proyecto/nueva/comunicacionproyecto.jsx'
-import NuevaComunicacionProyectoTablet from './components/proyectos/gestion/proyecto/nueva/comunicacionproyectotablet.jsx'
-import NuevaComunicacionProyectoCell from './components/proyectos/gestion/proyecto/nueva/comunicacionproyectocell.jsx'
-
-import NuevoRiesgoProyecto from './components/proyectos/gestion/proyecto/nuevo/riesgoproyecto.jsx'
-import NuevoRiesgoProyectoTablet from './components/proyectos/gestion/proyecto/nuevo/riesgoproyectotablet.jsx'
-import NuevoRiesgoProyectoCell from './components/proyectos/gestion/proyecto/nuevo/riesgoproyectocell.jsx'
-
-import NuevoKpiProyecto from './components/proyectos/gestion/proyecto/nuevo/kpiproyecto.jsx'
-import NuevoKpiProyectoTablet from './components/proyectos/gestion/proyecto/nuevo/kpiproyectotablet.jsx'
-import NuevoKpiProyectoCell from './components/proyectos/gestion/proyecto/nuevo/kpiproyectocell.jsx'
-
-import DetallesGestionProyectoPanel from './components/proyectos/gestion/proyecto/detalles/panel.jsx'
-import DetallesGestionProyectoPanelTablet from './components/proyectos/gestion/proyecto/detalles/paneltablet.jsx'
-import DetallesGestionProyectoPanelCell from './components/proyectos/gestion/proyecto/detalles/panelcell.jsx'
-
-import DetallesTareasProyecto from './components/proyectos/gestion/proyecto/detalles/tareasproyecto.jsx'
-import DetallesTareasProyectoTablet from './components/proyectos/gestion/proyecto/detalles/tareasproyectotablet.jsx'
-import DetallesTareasProyectoCell from './components/proyectos/gestion/proyecto/detalles/tareasproyectocell.jsx'
-
-import DetallesTrabajadoresProyecto from './components/proyectos/gestion/proyecto/detalles/trabajadoresproyecto.jsx'
-import DetallesTrabajadoresProyectoTablet from './components/proyectos/gestion/proyecto/detalles/trabajadoresproyectotablet.jsx'
-import DetallesTrabajadoresProyectoCell from './components/proyectos/gestion/proyecto/detalles/trabajadoresproyectocell.jsx'
-
-import DetallesDocumentosProyecto from './components/proyectos/gestion/proyecto/detalles/documentosproyecto.jsx'
-import DetallesDocumentosProyectoTablet from './components/proyectos/gestion/proyecto/detalles/documentosproyectotablet.jsx'
-import DetallesDocumentosProyectoCell from './components/proyectos/gestion/proyecto/detalles/documentosproyectocell.jsx'
-
-import DetallesComunicacionesProyecto from './components/proyectos/gestion/proyecto/detalles/comunicacionesproyecto.jsx'
-import DetallesComunicacionesProyectoTablet from './components/proyectos/gestion/proyecto/detalles/comunicacionesproyectotablet.jsx'
-import DetallesComunicacionesProyectoCell from './components/proyectos/gestion/proyecto/detalles/comunicacionesproyectocell.jsx'
-
-import DetallesRiesgosProyecto from './components/proyectos/gestion/proyecto/detalles/riesgosproyecto.jsx'
-import DetallesRiesgosProyectoTablet from './components/proyectos/gestion/proyecto/detalles/riesgosproyectotablet.jsx'
-import DetallesRiesgosProyectoCell from './components/proyectos/gestion/proyecto/detalles/riesgosproyectocell.jsx'
-
-import DetallesKpisProyecto from './components/proyectos/gestion/proyecto/detalles/kpisproyecto.jsx'
-import DetallesKpisProyectoTablet from './components/proyectos/gestion/proyecto/detalles/kpisproyectotablet.jsx'
-import DetallesKpisProyectoCell from './components/proyectos/gestion/proyecto/detalles/kpisproyectocell.jsx'
+import DetallesGestionProyecto from './components/proyectos/gestion/proyecto/detalles.jsx'
+import DetallesGestionProyectoTablet from './components/proyectos/gestion/proyecto/detallestablet.jsx'
+import DetallesGestionProyectoCell from './components/proyectos/gestion/proyecto/detallescell.jsx'
 /*------------------------------------------*/
 /*------------------------------------------*/
 
@@ -276,6 +224,42 @@ import ModuloAlmacenPanelCell from './components/almacen/almacen/panelcell.jsx'
 import AlmacenDashboard from './components/almacen/almacen/dashboard.jsx'
 import AlmacenDashboardTablet from './components/almacen/almacen/dashboardtablet.jsx'
 import AlmacenDashboardCell from './components/almacen/almacen/dashboardcell.jsx'
+
+/**------------------------Proveedores ------------------------*/
+import ProveedoresPanel from './components/almacen/proveedores/panel.jsx'
+import ProveedoresPanelTablet from './components/almacen/proveedores/paneltablet.jsx'
+import ProveedoresPanelCell from './components/almacen/proveedores/panelcell.jsx'
+
+import ListaProveedores from './components/almacen/proveedores/lista.jsx'
+import ListaProveedoresTablet from './components/almacen/proveedores/listatablet.jsx'
+import ListaProveedoresCell from './components/almacen/proveedores/listacell.jsx'
+
+import NuevoProveedor from './components/almacen/proveedores/nuevo.jsx'
+import NuevoProveedorTablet from './components/almacen/proveedores/nuevotablet.jsx'
+import NuevoProveedorCell from './components/almacen/proveedores/nuevocell.jsx'
+
+import DetallesProveedor from './components/almacen/proveedores/detalles.jsx'
+import DetallesProveedorTablet from './components/almacen/proveedores/detallestablet.jsx'
+import DetallesProveedorCell from './components/almacen/proveedores/detallescell.jsx'
+/*------------------------------------------*/
+
+/**------------------------Marcas ------------------------*/
+import MarcasPanel from './components/almacen/marcas/panel.jsx'
+import MarcasPanelTablet from './components/almacen/marcas/paneltablet.jsx'
+import MarcasPanelCell from './components/almacen/marcas/panelcell.jsx'
+
+import ListaMarcas from './components/almacen/marcas/lista.jsx'
+import ListaMarcasTablet from './components/almacen/marcas/listatablet.jsx'
+import ListaMarcasCell from './components/almacen/marcas/listacell.jsx'
+
+import NuevaMarca from './components/almacen/marcas/nuevo.jsx'
+import NuevaMarcaTablet from './components/almacen/marcas/nuevotablet.jsx'
+import NuevaMarcaCell from './components/almacen/marcas/nuevocell.jsx'
+
+import DetallesMarca from './components/almacen/marcas/detalles.jsx'
+import DetallesMarcaTablet from './components/almacen/marcas/detallestablet.jsx'
+import DetallesMarcaCell from './components/almacen/marcas/detallescell.jsx'
+/*------------------------------------------*/
 
 /**------------------------Productos ------------------------*/
 import ProductosPanel from './components/almacen/productos/panel.jsx'
@@ -452,21 +436,86 @@ import RrHhDashboardTablet from './components/rrhh/dashboardtablet.jsx'
 import RrHhDashboardCell from './components/rrhh/dashboardcell.jsx'
 
 /**------------------------Personal ------------------------*/
-import TrabajadoresPanel from './components/rrhh/personal/panel.jsx'
-import TrabajadoresPanelTablet from './components/rrhh/personal/paneltablet.jsx'
-import TrabajadoresPanelCell from './components/rrhh/personal/panelcell.jsx'
+import PersonalPanel from './components/rrhh/personal/panel.jsx'
+import PersonalPanelTablet from './components/rrhh/personal/paneltablet.jsx'
+import PersonalPanelCell from './components/rrhh/personal/panelcell.jsx'
 
-import ListaTrabajadores from './components/rrhh/personal/lista.jsx'
-import ListaTrabajadoresTablet from './components/rrhh/personal/listatablet.jsx'
-import ListaTrabajadoresCell from './components/rrhh/personal/listacell.jsx'
+import ListaPersonal from './components/rrhh/personal/lista.jsx'
+import ListaPersonalTablet from './components/rrhh/personal/listatablet.jsx'
+import ListaPersonalCell from './components/rrhh/personal/listacell.jsx'
 
-import NuevoTrabajador from './components/rrhh/personal/nuevo.jsx'
-import NuevoTrabajadorTablet from './components/rrhh/personal/nuevotablet.jsx'
-import NuevoTrabajadorCell from './components/rrhh/personal/nuevocell.jsx'
+import NuevoPersonal from './components/rrhh/personal/nuevo.jsx'
+import NuevoPersonalTablet from './components/rrhh/personal/nuevotablet.jsx'
+import NuevoPersonalCell from './components/rrhh/personal/nuevocell.jsx'
 
-import DetallesTrabajador from './components/rrhh/personal/detalles.jsx'
-import DetallesTrabajadorTablet from './components/rrhh/personal/detallestablet.jsx'
-import DetallesTrabajadorCell from './components/rrhh/personal/detallescell.jsx'
+import DetallesPersonal from './components/rrhh/personal/detalles.jsx'
+import DetallesPersonalTablet from './components/rrhh/personal/detallestablet.jsx'
+import DetallesPersonalCell from './components/rrhh/personal/detallescell.jsx'
+/*------------------------------------------*/
+
+/**------------------------Estado trabajo ------------------------*/
+import EstadoTrabajoPanel from './components/rrhh/estadotrabajo/panel.jsx'
+import EstadoTrabajoPanelTablet from './components/rrhh/estadotrabajo/paneltablet.jsx'
+import EstadoTrabajoPanelCell from './components/rrhh/estadotrabajo/panelcell.jsx'
+
+import ListaEstadoTrabajo from './components/rrhh/estadotrabajo/lista.jsx'
+import ListaEstadoTrabajoTablet from './components/rrhh/estadotrabajo/listatablet.jsx'
+import ListaEstadoTrabajoCell from './components/rrhh/estadotrabajo/listacell.jsx'
+
+import NuevoEstadoTrabajo from './components/rrhh/estadotrabajo/nuevo.jsx'
+import NuevoEstadoTrabajoTablet from './components/rrhh/estadotrabajo/nuevotablet.jsx'
+import NuevoEstadoTrabajoCell from './components/rrhh/estadotrabajo/nuevocell.jsx'
+
+import DetallesEstadoTrabajo from './components/rrhh/estadotrabajo/detalles.jsx'
+import DetallesEstadoTrabajoTablet from './components/rrhh/estadotrabajo/detallestablet.jsx'
+import DetallesEstadoTrabajoCell from './components/rrhh/estadotrabajo/detallescell.jsx'
+/*------------------------------------------*/
+
+/**------------------------Asistencias ------------------------*/
+import AsistenciasPanel from './components/rrhh/asistencias/panel.jsx'
+import AsistenciasPanelTablet from './components/rrhh/asistencias/paneltablet.jsx'
+import AsistenciasPanelCell from './components/rrhh/asistencias/panelcell.jsx'
+
+import ListaAsistencias from './components/rrhh/asistencias/lista.jsx'
+import ListaAsistenciasTablet from './components/rrhh/asistencias/listatablet.jsx'
+import ListaAsistenciasCell from './components/rrhh/asistencias/listacell.jsx'
+
+import NuevaAsistencia from './components/rrhh/asistencias/nuevo.jsx'
+import NuevaAsistenciaTablet from './components/rrhh/asistencias/nuevotablet.jsx'
+import NuevaAsistenciaCell from './components/rrhh/asistencias/nuevocell.jsx'
+
+import DetallesAsistencia from './components/rrhh/asistencias/detalles.jsx'
+import DetallesAsistenciaTablet from './components/rrhh/asistencias/detallestablet.jsx'
+import DetallesAsistenciaCell from './components/rrhh/asistencias/detallescell.jsx'
+/*------------------------------------------*/
+
+/**------------------------Cumpleaños ------------------------*/
+import CumpleaniosPanel from './components/rrhh/cumpleanios/panel.jsx'
+import CumpleaniosPanelTablet from './components/rrhh/cumpleanios/paneltablet.jsx'
+import CumpleaniosPanelCell from './components/rrhh/cumpleanios/panelcell.jsx'
+
+import ListaCumpleanios from './components/rrhh/cumpleanios/lista.jsx'
+import ListaCumpleaniosTablet from './components/rrhh/cumpleanios/listatablet.jsx'
+import ListaCumpleaniosCell from './components/rrhh/cumpleanios/listacell.jsx'
+/*------------------------------------------*/
+
+/**------------------------Nominas ------------------------*/
+import NominasPanel from './components/rrhh/nominas/panel.jsx'
+import NominasPanelTablet from './components/rrhh/nominas/paneltablet.jsx'
+import NominasPanelCell from './components/rrhh/nominas/panelcell.jsx'
+
+import ListaNominas from './components/rrhh/nominas/lista.jsx'
+import ListaNominasTablet from './components/rrhh/nominas/listatablet.jsx'
+import ListaNominasCell from './components/rrhh/nominas/listacell.jsx'
+
+import NuevaNomina from './components/rrhh/nominas/nuevo.jsx'
+import NuevaNominaTablet from './components/rrhh/nominas/nuevotablet.jsx'
+import NuevaNominaCell from './components/rrhh/nominas/nuevocell.jsx'
+
+import DetallesNomina from './components/rrhh/nominas/detalles.jsx'
+import DetallesNominaTablet from './components/rrhh/nominas/detallestablet.jsx'
+import DetallesNominaCell from './components/rrhh/nominas/detallescell.jsx'
+/*------------------------------------------*/
 /*------------------------------------------*/
 
 
@@ -515,6 +564,23 @@ import ModuloContabilidadPanelCell from './components/contabilidad/contabilidad/
 import ContabilidadDashboard from './components/contabilidad/contabilidad/dashboard.jsx'
 import ContabilidadDashboardTablet from './components/contabilidad/contabilidad/dashboardtablet.jsx'
 import ContabilidadDashboardCell from './components/contabilidad/contabilidad/dashboardcell.jsx'
+
+/**------------------------Facturación ------------------------*/
+import FacturacionPanel from './components/contabilidad/facturacion/panel.jsx'
+import FacturacionPanelTablet from './components/contabilidad/facturacion/paneltablet.jsx'
+import FacturacionPanelCell from './components/contabilidad/facturacion/panelcell.jsx'
+
+import ListaFacturacion from './components/contabilidad/facturacion/lista.jsx'
+import ListaFacturacionTablet from './components/contabilidad/facturacion/listatablet.jsx'
+import ListaFacturacionCell from './components/contabilidad/facturacion/listacell.jsx'
+
+import NuevaFactura from './components/contabilidad/facturacion/nuevo.jsx'
+import NuevaFacturaTablet from './components/contabilidad/facturacion/nuevotablet.jsx'
+import NuevaFacturaCell from './components/contabilidad/facturacion/nuevocell.jsx'
+
+import DetallesFactura from './components/contabilidad/facturacion/detalles.jsx'
+import DetallesFacturaTablet from './components/contabilidad/facturacion/detallestablet.jsx'
+import DetallesFacturaCell from './components/contabilidad/facturacion/detallescell.jsx'
 /*------------------------------------------*/
 /*------------------------------------------*/
 
@@ -629,30 +695,122 @@ export default function App() {
                       </Route>
                       {/**---------------------------------------------------------------*/}
 
-                      {/** Recursos humanos trabajadores (personal)*/} 
+                      {/** Recursos humanos trabajadores (personal), nominas*/} 
                       <Route path='rrhh' element={width < 500 ? <ModuloRrHhPanelCell   proporcional={499 / width}/> : 
                                                   width < 991 ? <ModuloRrHhPanelTablet proporcional={991 / width}/> : 
                                                                 <ModuloRrHhPanel       proporcional={1920 / width} />}>
 
                           <Route index element={width < 500 ? <RrHhDashboardCell   proporcional={499 / width}/> : 
                                                 width < 991 ? <RrHhDashboardTablet proporcional={991 / width}/> : 
-                                                              <RrHhDashboard       proporcional={1920 / width} />}/>  
+                                                              <RrHhDashboard       proporcional={1920 / width} />}/>
 
-                          <Route path='personal' element={width < 500 ? <TrabajadoresPanelCell   proporcional={499 / width}/> : 
-                                                          width < 991 ? <TrabajadoresPanelTablet proporcional={991 / width}/> : 
-                                                                        <TrabajadoresPanel       proporcional={1920 / width} />}>
+                          <Route path='personal' element={width < 500 ? <PersonalPanelCell proporcional={499 / width}/> : 
+                                                          width < 991 ? <PersonalPanelTablet proporcional={991 / width}/> : 
+                                                                        <PersonalPanel       proporcional={1920 / width} />}>
 
-                            <Route index element={width < 500 ? <ListaTrabajadoresCell   proporcional={499 / width}/> : 
-                                                  width < 991 ? <ListaTrabajadoresTablet proporcional={991 / width}/> : 
-                                                                <ListaTrabajadores       proporcional={1920 / width} />}/>
+                            <Route index element={width < 500 ? <ListaPersonalCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaPersonalTablet proporcional={991 / width}/> : 
+                                                                <ListaPersonal       proporcional={1920 / width} />}/>
 
-                            <Route path='nuevo' element={width < 500 ? <NuevoTrabajadorCell   proporcional={499 / width}/> : 
-                                                         width < 991 ? <NuevoTrabajadorTablet proporcional={991 / width}/> : 
-                                                                       <NuevoTrabajador       proporcional={1920 / width} />}/>
+                            <Route path='nuevo' element={width < 500 ? <NuevoPersonalCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevoPersonalTablet proporcional={991 / width}/> : 
+                                                                       <NuevoPersonal       proporcional={1920 / width} />}/>
                                                                        
-                            <Route path='trabajador/:trabajador/:id' element={width < 500 ? <DetallesTrabajadorCell   proporcional={499 / width}/> : 
-                                                                              width < 991 ? <DetallesTrabajadorTablet proporcional={991 / width}/> : 
-                                                                                            <DetallesTrabajador       proporcional={1920 / width} />}/>
+                            <Route path='trabajador/:trabajador/:id' element={width < 500 ? <DetallesPersonalCell   proporcional={499 / width}/> : 
+                                                                              width < 991 ? <DetallesPersonalTablet proporcional={991 / width}/> : 
+                                                                                            <DetallesPersonal       proporcional={1920 / width} />}/>
+
+                          </Route>
+
+                          <Route path='nominas' element={width < 500 ? <NominasPanelCell proporcional={499 / width}/> : 
+                                                         width < 991 ? <NominasPanelTablet proporcional={991 / width}/> : 
+                                                                       <NominasPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaNominasCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaNominasTablet proporcional={991 / width}/> : 
+                                                                <ListaNominas       proporcional={1920 / width} />}/>
+
+                            <Route path='nuevo' element={width < 500 ? <NuevaNominaCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevaNominaTablet proporcional={991 / width}/> : 
+                                                                       <NuevaNomina       proporcional={1920 / width} />}/>
+                                                                      
+                            <Route path='nomina/:trabajador/:id' element={width < 500 ? <DetallesNominaCell   proporcional={499 / width}/> : 
+                                                                          width < 991 ? <DetallesNominaTablet proporcional={991 / width}/> : 
+                                                                                        <DetallesNomina       proporcional={1920 / width} />}/>
+
+                          </Route>
+
+                          <Route path='estado-trabajo' element={width < 500 ? <EstadoTrabajoPanelCell proporcional={499 / width}/> : 
+                                                                width < 991 ? <EstadoTrabajoPanelTablet proporcional={991 / width}/> : 
+                                                                              <EstadoTrabajoPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaEstadoTrabajoCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaEstadoTrabajoTablet proporcional={991 / width}/> : 
+                                                                <ListaEstadoTrabajo       proporcional={1920 / width} />}/>
+
+                            <Route path='nuevo' element={width < 500 ? <NuevoEstadoTrabajoCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevoEstadoTrabajoTablet proporcional={991 / width}/> : 
+                                                                       <NuevoEstadoTrabajo       proporcional={1920 / width} />}/>
+                                                                      
+                            <Route path='trabajador/:id' element={width < 500 ? <DetallesEstadoTrabajoCell   proporcional={499 / width}/> : 
+                                                                  width < 991 ? <DetallesEstadoTrabajoTablet proporcional={991 / width}/> : 
+                                                                                <DetallesEstadoTrabajo       proporcional={1920 / width} />}/>
+                          </Route>
+
+                          <Route path='asistencias' element={width < 500 ? <AsistenciasPanelCell proporcional={499 / width}/> : 
+                                                             width < 991 ? <AsistenciasPanelTablet proporcional={991 / width}/> : 
+                                                                           <AsistenciasPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaAsistenciasCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaAsistenciasTablet proporcional={991 / width}/> : 
+                                                                <ListaAsistencias       proporcional={1920 / width} />}/>
+
+                            <Route path='nuevo' element={width < 500 ? <NuevaAsistenciaCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevaAsistenciaTablet proporcional={991 / width}/> : 
+                                                                       <NuevaAsistencia       proporcional={1920 / width} />}/>
+
+                            <Route path='trabajador/:id' element={width < 500 ? <DetallesAsistenciaCell   proporcional={499 / width}/> : 
+                                                                  width < 991 ? <DetallesAsistenciaTablet proporcional={991 / width}/> : 
+                                                                                <DetallesAsistencia       proporcional={1920 / width} />}/>
+
+                          </Route>
+
+                          <Route path='cumpleanios' element={width < 500 ? <CumpleaniosPanelCell proporcional={499 / width}/> : 
+                                                             width < 991 ? <CumpleaniosPanelTablet proporcional={991 / width}/> : 
+                                                                           <CumpleaniosPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaCumpleaniosCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaCumpleaniosTablet proporcional={991 / width}/> : 
+                                                                <ListaCumpleanios       proporcional={1920 / width} />}/>
+
+                          </Route>
+                      </Route>
+                      {/**---------------------------------------------------------------*/}
+                      
+                      {/**Contabilidad Finanzas, facturación electrónica, facturas / boletas*/}
+                      <Route path='contabilidad' element={width < 500 ? <ModuloContabilidadPanelCell   proporcional={499 / width}/> : 
+                                                          width < 991 ? <ModuloContabilidadPanelTablet proporcional={991 / width}/> :  
+                                                                        <ModuloContabilidadPanel       proporcional={1920 / width} />}>
+
+                          <Route index element={width < 500 ? <ContabilidadDashboardCell   proporcional={499 / width}/> : 
+                                                width < 991 ? <ContabilidadDashboardTablet proporcional={991 / width}/> : 
+                                                              <ContabilidadDashboard       proporcional={1920 / width} />}/>
+
+                          <Route path='facturacion' element={width < 500 ? <FacturacionPanelCell proporcional={499 / width}/> : 
+                                                             width < 991 ? <FacturacionPanelTablet proporcional={991 / width}/> : 
+                                                                           <FacturacionPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaFacturacionCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaFacturacionTablet proporcional={991 / width}/> : 
+                                                                <ListaFacturacion       proporcional={1920 / width} />}/>
+
+                            <Route path='nuevo' element={width < 500 ? <NuevaFacturaCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevaFacturaTablet proporcional={991 / width}/> : 
+                                                                       <NuevaFactura       proporcional={1920 / width} />}/>
+                                                                      
+                            <Route path='factura/:id' element={width < 500 ? <DetallesFacturaCell   proporcional={499 / width}/> : 
+                                                               width < 991 ? <DetallesFacturaTablet proporcional={991 / width}/> : 
+                                                                             <DetallesFactura       proporcional={1920 / width} />}/>
 
                           </Route>
                       </Route>
@@ -667,21 +825,21 @@ export default function App() {
                                                 width < 991 ? <ProjectsDashboardTablet proporcional={991 / width}/> : 
                                                               <ProjectsDashboard       proporcional={1920 / width} />}/>
 
-                          <Route path='clientes' element={width < 500 ? <ClientesPanelCell   proporcional={499 / width}/> : 
-                                                          width < 991 ? <ClientesPanelTablet proporcional={991 / width}/> : 
-                                                                        <ClientesPanel       proporcional={1920 / width} />}>
+                          <Route path='negocios' element={width < 500 ? <NegociosPanelCell   proporcional={499 / width}/> : 
+                                                          width < 991 ? <NegociosPanelTablet proporcional={991 / width}/> : 
+                                                                        <NegociosPanel       proporcional={1920 / width} />}>
 
-                            <Route index element={width < 500 ? <ListaClientesCell   proporcional={499 / width}/> : 
-                                                  width < 991 ? <ListaClientesTablet proporcional={991 / width}/> : 
-                                                                <ListaClientes       proporcional={1920 / width} />}/>
+                            <Route index element={width < 500 ? <ListaNegociosCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaNegociosTablet proporcional={991 / width}/> : 
+                                                                <ListaNegocios       proporcional={1920 / width} />}/>
 
-                            <Route path='nuevo' element={width < 500 ? <NuevoClienteCell   proporcional={499 / width}/> : 
-                                                         width < 991 ? <NuevoClienteTablet proporcional={991 / width}/> : 
-                                                                       <NuevoCliente       proporcional={1920 / width} />}/>
+                            <Route path='nuevo' element={width < 500 ? <NuevoNegocioCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevoNegocioTablet proporcional={991 / width}/> : 
+                                                                       <NuevoNegocio       proporcional={1920 / width} />}/>
                                                                       
-                            <Route path='cliente/:cliente/:id' element={width < 500 ? <DetallesClienteCell   proporcional={499 / width}/> : 
-                                                                        width < 991 ? <DetallesClienteTablet proporcional={991 / width}/> : 
-                                                                                      <DetallesCliente       proporcional={1920 / width} />}/>
+                            <Route path='negocio/:negocio/:id' element={width < 500 ? <DetallesNegocioCell   proporcional={499 / width}/> : 
+                                                                        width < 991 ? <DetallesNegocioTablet proporcional={991 / width}/> : 
+                                                                                      <DetallesNegocio       proporcional={1920 / width} />}/>
 
                           </Route>
 
@@ -694,8 +852,8 @@ export default function App() {
                                                                 <ListaTiposProyectos       proporcional={1920 / width} />}/>
 
                             <Route path='nuevo' element={width < 500 ? <NuevoTipoProyectoCell   proporcional={499 / width}/> : 
-                                                        width < 991 ? <NuevoTipoProyectoTablet proporcional={991 / width}/> : 
-                                                                      <NuevoTipoProyecto       proporcional={1920 / width} />}/>
+                                                         width < 991 ? <NuevoTipoProyectoTablet proporcional={991 / width}/> : 
+                                                                       <NuevoTipoProyecto       proporcional={1920 / width} />}/>
                                                                       
                             <Route path='tipo-proyecto/:tipo_proyecto/:id' element={width < 500 ? <DetallesTipoProyectoCell   proporcional={499 / width}/> : 
                                                                                     width < 991 ? <DetallesTipoProyectoTablet proporcional={991 / width}/> : 
@@ -715,9 +873,9 @@ export default function App() {
                                                          width < 991 ? <NuevoProyectoTablet proporcional={991 / width}/> : 
                                                                        <NuevoProyecto       proporcional={1920 / width} />}/>
                                                                       
-                            <Route path='proyecto/:proyecto/:id' element={width < 500 ? <DetallesProyectoCell   proporcional={499 / width}/> : 
-                                                                          width < 991 ? <DetallesProyectoTablet proporcional={991 / width}/> : 
-                                                                                        <DetallesProyecto       proporcional={1920 / width} />}/>
+                            <Route path='proyecto/:id' element={width < 500 ? <DetallesProyectoCell   proporcional={499 / width}/> : 
+                                                                width < 991 ? <DetallesProyectoTablet proporcional={991 / width}/> : 
+                                                                              <DetallesProyecto       proporcional={1920 / width} />}/>
 
                           </Route>
                           
@@ -732,66 +890,10 @@ export default function App() {
                             <Route path='nuevo' element={width < 500 ? <NuevaGestionProyectoCell   proporcional={499 / width}/> : 
                                                          width < 991 ? <NuevaGestionProyectoTablet proporcional={991 / width}/> : 
                                                                        <NuevaGestionProyecto       proporcional={1920 / width} />}/>
-                            
-                            <Route path='datos/proyecto/:id' element={width < 500 ? <DatosGestionProyectoPanelCell   proporcional={499 / width}/> : 
-                                                                      width < 991 ? <DatosGestionProyectoPanelTablet proporcional={991 / width}/> : 
-                                                                                    <DatosGestionProyectoPanel       proporcional={1920 / width} />}>
-
-                              <Route path='tarea' element={width < 500 ? <NuevaTareaProyectoCell   proporcional={499 / width}/> : 
-                                                           width < 991 ? <NuevaTareaProyectoTablet proporcional={991 / width}/> : 
-                                                                         <NuevaTareaProyecto       proporcional={1920 / width} />}/>
-                                                                        
-                              <Route path='trabajador' element={width < 500 ? <NuevoTrabajadorProyectoCell   proporcional={499 / width}/> : 
-                                                                width < 991 ? <NuevoTrabajadorProyectoTablet proporcional={991 / width}/> : 
-                                                                              <NuevoTrabajadorProyecto       proporcional={1920 / width} />}/>
-                                                                                
-                              <Route path='documento' element={width < 500 ? <NuevoDocumentoProyectoCell   proporcional={499 / width}/> : 
-                                                               width < 991 ? <NuevoDocumentoProyectoTablet proporcional={991 / width}/> : 
-                                                                             <NuevoDocumentoProyecto       proporcional={1920 / width} />}/>
-                                                                              
-                              <Route path='comunicacion' element={width < 500 ? <NuevaComunicacionProyectoCell   proporcional={499 / width}/> : 
-                                                                  width < 991 ? <NuevaComunicacionProyectoTablet proporcional={991 / width}/> : 
-                                                                                <NuevaComunicacionProyecto       proporcional={1920 / width} />}/>
-                                                                            
-                              <Route path='riesgo' element={width < 500 ? <NuevoRiesgoProyectoCell   proporcional={499 / width}/> : 
-                                                            width < 991 ? <NuevoRiesgoProyectoTablet proporcional={991 / width}/> : 
-                                                                          <NuevoRiesgoProyecto       proporcional={1920 / width} />}/>
-                                                                          
-                              <Route path='kpi' element={width < 500 ? <NuevoKpiProyectoCell   proporcional={499 / width}/> : 
-                                                         width < 991 ? <NuevoKpiProyectoTablet proporcional={991 / width}/> : 
-                                                                       <NuevoKpiProyecto       proporcional={1920 / width} />}/>
-
-                            </Route>
                                                                       
-                            <Route path='proyecto/:proyecto/:id' element={width < 500 ? <DetallesGestionProyectoPanelCell   proporcional={499 / width}/> : 
-                                                                          width < 991 ? <DetallesGestionProyectoPanelTablet proporcional={991 / width}/> : 
-                                                                                        <DetallesGestionProyectoPanel       proporcional={1920 / width} />}>
-
-                              <Route path='tareas' element={width < 500 ? <DetallesTareasProyectoCell   proporcional={499 / width}/> : 
-                                                            width < 991 ? <DetallesTareasProyectoTablet proporcional={991 / width}/> : 
-                                                                          <DetallesTareasProyecto       proporcional={1920 / width} />}/>
-
-                              <Route path='trabajadores' element={width < 500 ? <DetallesTrabajadoresProyectoCell   proporcional={499 / width}/> : 
-                                                                  width < 991 ? <DetallesTrabajadoresProyectoTablet proporcional={991 / width}/> : 
-                                                                                <DetallesTrabajadoresProyecto       proporcional={1920 / width} />}/>
-
-                              <Route path='documentos' element={width < 500 ? <DetallesDocumentosProyectoCell   proporcional={499 / width}/> : 
-                                                                width < 991 ? <DetallesDocumentosProyectoTablet proporcional={991 / width}/> : 
-                                                                              <DetallesDocumentosProyecto       proporcional={1920 / width} />}/>
-                                                                                
-                              <Route path='comunicaciones' element={width < 500 ? <DetallesComunicacionesProyectoCell   proporcional={499 / width}/> : 
-                                                                    width < 991 ? <DetallesComunicacionesProyectoTablet proporcional={991 / width}/> : 
-                                                                                  <DetallesComunicacionesProyecto       proporcional={1920 / width} />}/>
-                                                                    
-                              <Route path='riesgos' element={width < 500 ? <DetallesRiesgosProyectoCell   proporcional={499 / width}/> : 
-                                                             width < 991 ? <DetallesRiesgosProyectoTablet proporcional={991 / width}/> : 
-                                                                           <DetallesRiesgosProyecto       proporcional={1920 / width} />}/>
-                                                                          
-                              <Route path='kpis' element={width < 500 ? <DetallesKpisProyectoCell   proporcional={499 / width}/> : 
-                                                          width < 991 ? <DetallesKpisProyectoTablet proporcional={991 / width}/> : 
-                                                                        <DetallesKpisProyecto       proporcional={1920 / width} />}/>
-
-                            </Route>
+                            <Route path='proyecto/:proyecto/:id' element={width < 500 ? <DetallesGestionProyectoCell   proporcional={499 / width}/> : 
+                                                                          width < 991 ? <DetallesGestionProyectoTablet proporcional={991 / width}/> : 
+                                                                                        <DetallesGestionProyecto       proporcional={1920 / width} />}/>
                           </Route>
                       </Route>
                       {/**---------------------------------------------------------------*/}
@@ -804,6 +906,42 @@ export default function App() {
                           <Route index element={width < 500 ? <AlmacenDashboardCell   proporcional={499 / width}/> : 
                                                 width < 991 ? <AlmacenDashboardTablet proporcional={991 / width}/> : 
                                                               <AlmacenDashboard       proporcional={1920 / width} />}/>
+
+                          <Route path='proveedores' element={width < 500 ? <ProveedoresPanelCell   proporcional={499 / width}/> : 
+                                                             width < 991 ? <ProveedoresPanelTablet proporcional={991 / width}/> : 
+                                                                           <ProveedoresPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaProveedoresCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaProveedoresTablet proporcional={991 / width}/> : 
+                                                                <ListaProveedores       proporcional={1920 / width} />}/>
+
+                            <Route path='nuevo' element={width < 500 ? <NuevoProveedorCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevoProveedorTablet proporcional={991 / width}/> : 
+                                                                       <NuevoProveedor       proporcional={1920 / width} />}/>
+                                                                      
+                            <Route path='proveedor/:proveedor/:id' element={width < 500 ? <DetallesProveedorCell   proporcional={499 / width}/> : 
+                                                                            width < 991 ? <DetallesProveedorTablet proporcional={991 / width}/> : 
+                                                                                          <DetallesProveedor       proporcional={1920 / width} />}/>
+
+                          </Route>
+                          
+                          <Route path='marcas' element={width < 500 ? <MarcasPanelCell   proporcional={499 / width}/> : 
+                                                        width < 991 ? <MarcasPanelTablet proporcional={991 / width}/> : 
+                                                                      <MarcasPanel       proporcional={1920 / width} />}>
+
+                            <Route index element={width < 500 ? <ListaMarcasCell   proporcional={499 / width}/> : 
+                                                  width < 991 ? <ListaMarcasTablet proporcional={991 / width}/> : 
+                                                                <ListaMarcas       proporcional={1920 / width} />}/>
+
+                            <Route path='nuevo' element={width < 500 ? <NuevaMarcaCell   proporcional={499 / width}/> : 
+                                                         width < 991 ? <NuevaMarcaTablet proporcional={991 / width}/> : 
+                                                                       <NuevaMarca       proporcional={1920 / width} />}/>
+                                                                      
+                            <Route path='marca/:marca/:id' element={width < 500 ? <DetallesMarcaCell   proporcional={499 / width}/> : 
+                                                                    width < 991 ? <DetallesMarcaTablet proporcional={991 / width}/> : 
+                                                                                  <DetallesMarca       proporcional={1920 / width} />}/>
+
+                          </Route>
 
                           <Route path='productos' element={width < 500 ? <ProductosPanelCell   proporcional={499 / width}/> : 
                                                            width < 991 ? <ProductosPanelTablet proporcional={991 / width}/> : 
@@ -842,8 +980,8 @@ export default function App() {
                           </Route>
                           
                           <Route path='sub-categorias' element={width < 500 ? <SubCategoriasPanelCell   proporcional={499 / width}/> : 
-                                                               width < 991 ? <SubCategoriasPanelTablet proporcional={991 / width}/> : 
-                                                                             <SubCategoriasPanel       proporcional={1920 / width} />}>
+                                                                width < 991 ? <SubCategoriasPanelTablet proporcional={991 / width}/> : 
+                                                                              <SubCategoriasPanel       proporcional={1920 / width} />}>
 
                             <Route index element={width < 500 ? <ListaSubCategoriasCell   proporcional={499 / width}/> : 
                                                   width < 991 ? <ListaSubCategoriasTablet proporcional={991 / width}/> : 
@@ -945,17 +1083,6 @@ export default function App() {
                                                                                         <DetallesComentariosProducto       proporcional={1920 / width} />}/>
 
                           </Route>
-                      </Route>
-                      {/**---------------------------------------------------------------*/}
-                      
-                      {/**Contabilidad Finanzas, facturación electrónica, facturas / boletas*/}
-                      <Route path='contabilidad' element={width < 500 ? <ModuloContabilidadPanelCell   proporcional={499 / width}/> : 
-                                                          width < 991 ? <ModuloContabilidadPanelTablet proporcional={991 / width}/> :  
-                                                                        <ModuloContabilidadPanel       proporcional={1920 / width} />}>
-
-                          <Route index element={width < 500 ? <ContabilidadDashboardCell   proporcional={499 / width}/> : 
-                                                width < 991 ? <ContabilidadDashboardTablet proporcional={991 / width}/> : 
-                                                              <ContabilidadDashboard       proporcional={1920 / width} />}/>
                       </Route>
                       {/**---------------------------------------------------------------*/}
                       

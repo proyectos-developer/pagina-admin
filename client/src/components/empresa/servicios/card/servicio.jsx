@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { set_data_editable, set_data_servicio } from '../../../../redux/actions/data'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { set_data_editable, set_data_servicio, set_confirmacion_eliminacion } from '../../../../redux/actions/data'
 import { useNavigate } from 'react-router-dom'
 
 import edit from '../../../../assets/iconos/comun/edit_v2.png'
@@ -23,7 +23,16 @@ export default function CardServicio ({proporcional, index, servicio}) {
     const [mouse_view, setMouseView] = useState(false)
     const [mouse_trash, setMouseTrash] = useState(false)
 
-    const ver_servcio = () => {
+    const {confirmacion_eliminacion} = useSelector(({data_actions}) => data_actions)
+
+    useEffect(() => {
+        if (confirmacion_eliminacion.confirmacion){
+            dispatch (set_confirmacion_eliminacion({show: false, mensaje: '', confirmacion: false, id: 0}))
+            dispatch(serviciosdata(serviciosConstants(confirmacion_eliminacion.id, 0, 0, 0, 0, 16, {}, false).delete_servicio))
+        }
+    }, [confirmacion_eliminacion.confirmacion])
+
+    const ver_servicio = () => {
         dispatch (set_data_editable(false))
         ir_navegacion_servicio()
     }
@@ -39,38 +48,40 @@ export default function CardServicio ({proporcional, index, servicio}) {
     }
 
     const eliminar_servicio = () => {
-        dispatch(serviciosdata(serviciosConstants(servicio.id, 0, 0, 0, 0, 16, {}, false).delete_servicio))
+        dispatch (set_confirmacion_eliminacion({show: true, confirmacion: false, mensaje: '¿Seguro que desea eliminar el servicio?', id: servicio.id}))
     }
 
     return (
-        <div key={index} className='rounded' style={{width: '100%', height: '100%', 
+        <div key={index} className='rounded' style={{width: '100%', height: 'auto', 
                 background: over_card ? 'rgba(244, 244, 244, 1)' : 'white', 
                 borderBottom: '1px solid rgb(74, 74, 74, 0.5)'}}>
-            <div style={{width: '100%', height: 'auto', padding: 10 / proporcional, cursor: 'pointer'}}
+            <div style={{width: '100%', height: 'auto', padding: 5 / proporcional, cursor: 'pointer'}}
                 onMouseOver={() => setOverCard(true)} onMouseLeave={() => setOverCard(false)}>
-                <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional}}>
-                    <div className='' style={{width: '30%', height: 40 / proporcional}}>
-                        <h4 style={{fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
-                            color: 'rgb(89, 89, 89)', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left'}}>
-                            <span style={{color: '#007bff', fontSize: 18 / proporcional}}>{servicio.servicio}</span>
-                        </h4>
+                <div className='d-flex justify-content-between' style={{width: '100%', height: 30 / proporcional}}>
+                    <div className='d-flex justify-content-between' style={{width: '70%', height: 30 / proporcional}}>
+                        <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 16 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: 'rgb(89, 89, 89)', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left'}}>
+                                <span style={{color: '#007bff', fontSize: 16 / proporcional}}>{servicio.servicio}</span>
+                            </p>
+                        </div>
                     </div>
-                    <div className='d-flex justify-content-end' style={{width: '40%', height: 40 / proporcional}}>
-                        <div className='d-flex justify-content-center' style={{width: '13.3%', height: 30 / proporcional}}>
-                            <img src={mouse_view ? view_select : view} style={{width: 40 / proporcional, height: 40 / proporcional, 
-                                    padding: 10 / proporcional, cursor: 'pointer'}}
-                                    onClick={() => ver_servcio()}
+                    <div className='d-flex justify-content-end' style={{width: '30%', height: 30 / proporcional}}>
+                        <div className='d-flex justify-content-center' style={{width: '33%', height: 30 / proporcional}}>
+                            <img src={mouse_view ? view_select : view} style={{width: 30 / proporcional, height: 30 / proporcional, 
+                                    padding: 7 / proporcional, cursor: 'pointer'}}
+                                    onClick={() => ver_servicio()}
                                     onMouseOver={() => setMouseView(true)} onMouseLeave={() => setMouseView(false)}/>
                         </div>
-                        <div className='d-flex justify-content-center' style={{width: '13.3%', height: 30 / proporcional}}>
-                            <img src={mouse_edit ? edit_select : edit} style={{width: 40 / proporcional, height: 40 / proporcional, 
-                                    padding: 10 / proporcional, cursor: 'pointer'}}
+                        <div className='d-flex justify-content-center' style={{width: '33%', height: 30 / proporcional}}>
+                            <img src={mouse_edit ? edit_select : edit} style={{width: 30 / proporcional, height: 30 / proporcional, 
+                                    padding: 7 / proporcional, cursor: 'pointer'}}
                                     onClick={() => editar_servicio()}
                                     onMouseOver={() => setMouseEdit(true)} onMouseLeave={() => setMouseEdit(false)}/>
                         </div>
-                        <div className='d-flex justify-content-center' style={{width: '13.3%', height: 30 / proporcional}}>
-                            <img src={mouse_trash ? trash_select : trash} style={{width: 40 / proporcional, height: 40 / proporcional, 
-                                    padding: 10 / proporcional, cursor: 'pointer'}}
+                        <div className='d-flex justify-content-center' style={{width: '33%', height: 30 / proporcional}}>
+                            <img src={mouse_trash ? trash_select : trash} style={{width: 30 / proporcional, height: 30 / proporcional, 
+                                    padding: 7 / proporcional, cursor: 'pointer'}}
                                     onClick={() => eliminar_servicio()}
                                     onMouseOver={() => setMouseTrash(true)} onMouseLeave={() => setMouseTrash(false)}/>
                         </div>

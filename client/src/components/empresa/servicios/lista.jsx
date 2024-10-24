@@ -6,6 +6,7 @@ import preview from '../../../assets/iconos/comun/preview_v2.png'
 import preview_select from '../../../assets/iconos/comun/preview_v1.png'
 
 import CardServicio from './card/servicio.jsx'
+import {set_error_message} from '../../../redux/actions/data.js'
 import {serviciosdata} from '../../../redux/slice/serviciosdata.js'
 import { serviciosConstants } from '../../../uri/servicios-constants.js'
 import { useNavigate } from 'react-router-dom'
@@ -18,7 +19,7 @@ export default function ListaServicios ({proporcional}) {
     const [begin, setBegin] = useState(0)
     const amount = 16
 
-    const [search_servicio, setSearchSevicio] = useState('')
+    const [search_servicio, setSearchServicio] = useState('')
     const [reset, setReset] = useState(false)
 
     const [lista_servicios, setListaServicios] = useState ([])
@@ -41,6 +42,8 @@ export default function ListaServicios ({proporcional}) {
         if (get_servicios_filter && get_servicios_filter.success === true && get_servicios_filter.servicios){
             setTotalServicios(get_servicios_filter.total_servicios)
             setListaServicios (get_servicios_filter.servicios)
+        }else if (get_servicios_filter && get_servicios_filter.success === false && get_servicios_filter.error){
+            dispatch (set_error_message(true))
         }
     }, [get_servicios_filter])
 
@@ -51,17 +54,20 @@ export default function ListaServicios ({proporcional}) {
             setTotalServicios(delete_servicio.total_servicios)
             setListaServicios (delete_servicio.servicios)
             dispatch (serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, true).delete_servicio))
+        }else if (delete_servicio && delete_servicio.success === false && delete_servicio.error){
+            dispatch (set_error_message(true))
         }
     }, [delete_servicio])
 
     const buscar_servicio = (value) => {
         if (value !== ''){
+            setReset(true)
             dispatch(serviciosdata(serviciosConstants(0, value, 0, 0, 0, 16, {}, false).get_servicios_filter))
         }else{
+            setReset(false)
             dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).get_servicios_filter))
         }
-        setReset(true)
-        setSearchSevicio(value)
+        setSearchServicio(value)
     }
 
     const next_servicios = () => {
@@ -86,7 +92,7 @@ export default function ListaServicios ({proporcional}) {
         setBegin(0)
         setListaServicios ([])
         setReset(false)
-        setSearchSevicio('')
+        setSearchServicio('')
         dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).get_servicios_filter))
         dispatch(serviciosdata(serviciosConstants(0, 0, 0, 0, 0, 16, {}, false).delete_servicio))
     }
@@ -99,9 +105,36 @@ export default function ListaServicios ({proporcional}) {
 
     return (
         <div className='position-relative' style={{width: '100%', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel/empresa')}>
+                    empresa
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    servicios
+                </p>
+            </div>
             <div className='d-flex justify-content-between' style={{width: '100%', minHeight: 'auto', marginBottom: 16 / proporcional}}>
                 <div style={{width: '32%', height: 'auto'}}>
-                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${50 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                    <h2 style={{fontSize: 24 / proporcional, lineHeight: `${40 / proporcional}px`, fontWeight: 500, marginBottom: 0,
                         color: '#4A4A4A'}}>Servicios
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
                             {`mostrando del ${begin} al 
@@ -111,25 +144,25 @@ export default function ListaServicios ({proporcional}) {
                 </div>
                 <div className='d-flex justify-content-center' style={{width: '32%', height: 'auto'}}>
                     <div className='d-flex rounded' 
-                        style={{width: reset ? 610 / proporcional : 400 / proporcional, height: 50 / proporcional}}>
+                        style={{width: reset ? 610 / proporcional : 400 / proporcional, height: 40 / proporcional}}>
                         <input 
                             id='search_servicio'
                             className='form-control rounded-0 border-0'
-                            style={{width: 400 / proporcional, height: 50 / proporcional, fontSize: 16 / proporcional,
+                            style={{width: 400 / proporcional, height: 40 / proporcional, fontSize: 16 / proporcional,
                                     fontFamily: 'Poppins, sans-serif', fontWeight: 400,
                                     marginRight: reset ? 10 / proporcional : 0}}
                             value={search_servicio}
                             onChange={(event) => buscar_servicio(event.target.value)}
-                            placeholder='Buscar por nombre de servicio'
+                            placeholder='Buscar por servicio'
                         />
                         {
                             reset ? (
                                 <div className={boton_reset ? 'shadow rounded' : 'rounded'} 
-                                    style={{width: 200 / proporcional, height: 50 / proporcional, background: '#28A745',
+                                    style={{width: 200 / proporcional, height: 40 / proporcional, background: '#28A745',
                                             cursor: 'pointer'}}
                                         onClick={() => resetear_data()}
                                         onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}>
-                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                         fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                         resetear
                                     </p>
@@ -140,47 +173,35 @@ export default function ListaServicios ({proporcional}) {
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '32%', height: 50 / proporcional}}>
                     <div className={boton_nuevo ? 'shadow rounded' : 'rounded'} 
-                        style={{width: 200 / proporcional, height: 50 / proporcional, background: '#28A745',
+                        style={{width: 200 / proporcional, height: 40 / proporcional, background: '#28A745',
                                 cursor: 'pointer'}}
                             onClick={() => navigate('/panel/empresa/servicios/nuevo')}
                             onMouseOver={() => setBotonNuevo(true)} onMouseLeave={() => setBotonNuevo(false)}>
-                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`,
                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                            Nuevo servicio
+                            Nuevo
                         </p>
                     </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-between' style={{width: '100%', height: 60 / proporcional,
-                    padding: 10 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
-                <div className='' style={{width: '30%', height: 40 / proporcional}}>
-                    <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
-                        color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
-                        cursor: 'default'}}>
-                        Nombre
-                    </h4>
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
+                    padding: 5 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
+                <div className='d-flex justify-content-between' style={{width: '70%', height: 30 / proporcional}}>
+                    <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                        <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                            cursor: 'default'}}>
+                            Nombre
+                        </p>
+                    </div>
                 </div>
-                <div className='d-flex justify-content-end' style={{width: '40%', height: 40 / proporcional}}>
-                    <div className='d-flex justify-content-center' style={{width: '13.3%', height: 30 / proporcional}}>
-                        <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
+                <div className='d-flex justify-content-end' style={{width: '30%', height: 30 / proporcional}}>
+                    <div className='d-flex justify-content-center' style={{width: '100%', height: 30 / proporcional}}>
+                        <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
                             color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
                             cursor: 'default'}}>
-                            Detalles
-                        </h4>
-                    </div>
-                    <div className='d-flex justify-content-center' style={{width: '13.3%', height: 30 / proporcional}}>
-                        <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
-                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
-                            cursor: 'default'}}>
-                            Editar
-                        </h4>
-                    </div>
-                    <div className='d-flex justify-content-center' style={{width: '13.3%', height: 30 / proporcional}}>
-                        <h4 style={{fontSize: 14 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0 / proporcional, 
-                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
-                            cursor: 'default'}}>
-                            Borrar
-                        </h4>
+                            Acciones
+                        </p>
                     </div>
                 </div>
             </div>

@@ -21,3 +21,17 @@
 .background-dark-green {
     background: '#28A745'
 }
+
+.form-control:focus{
+    box-shadow: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

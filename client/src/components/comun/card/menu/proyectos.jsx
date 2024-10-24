@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import menu_proyectos_grey from '../../../../assets/iconos/menu/lateral/menu_proyectos_grey.png'
-import clientes from '../../../../assets/iconos/menu/lateral/clientes.png'
+import negocios from '../../../../assets/iconos/menu/lateral/clientes.png'
 import tipo_proyectos from '../../../../assets/iconos/menu/lateral/tipo_proyectos.png'
 import proyectos from '../../../../assets/iconos/menu/lateral/proyectos.png'
 import gestion from '../../../../assets/iconos/menu/lateral/gestion.png'
@@ -83,54 +83,54 @@ export default function CardMenuProyectos({proporcional}) {
                         <div style={{width: '100%', height: 'auto'}}>
                             <div className='' style={{width: '100%', height: 40 / proporcional, paddingTop: 5 / proporcional, 
                                 marginBottom: 5 / proporcional, marginTop: 5 / proporcional, paddingBottom: 5 / proporcional}}>
-                                <div className={seleccion_menu === 'clientes' ? 'd-flex justify-content-between rounded shadow-sm' :
+                                <div className={seleccion_menu === 'negocios' ? 'd-flex justify-content-between rounded shadow-sm' :
                                         'd-flex justify-content-between'} style={{width: '100%', height: 30 / proporcional, cursor: 'pointer'}}
-                                    onMouseOver={() => setSeleccionMenu('clientes')} onMouseLeave={() => setSeleccionMenu('')}
-                                    onClick={() => {setMenu(menu === 'clientes' ? '' : 'clientes'); 
-                                        dispatch(set_opcion_menu_lateral({sector: 'proyectos', menu: menu === 'clientes' ? '' : 'clientes', sub_menu: ''}))}}>
+                                    onMouseOver={() => setSeleccionMenu('negocios')} onMouseLeave={() => setSeleccionMenu('')}
+                                    onClick={() => {setMenu(menu === 'negocios' ? '' : 'negocios'); 
+                                        dispatch(set_opcion_menu_lateral({sector: 'proyectos', menu: menu === 'negocios' ? '' : 'negocios', sub_menu: ''}))}}>
                                     <div className='d-flex' style={{width: 'auto', height: 30 / proporcional}}>
-                                        <img src={clientes} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
+                                        <img src={negocios} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                                 paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
-                                            marginBottom: 0 / proporcional, color: menu === 'clientes' || seleccion_menu === 'clientes' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                            Clientes
+                                            marginBottom: 0 / proporcional, color: menu === 'negocios' || seleccion_menu === 'negocios' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                            Negocios
                                         </p>
                                     </div>
                                     <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>
-                                        <img src={menu === 'clientes' ? down : right} style={{width: 30 / proporcional, 
+                                        <img src={menu === 'negocios' ? down : right} style={{width: 30 / proporcional, 
                                             height: 30 / proporcional, padding: 8 / proporcional, cursor: 'pointer'}}/>
                                     </div>
                                 </div>
                             </div>
                             {
-                                menu === 'clientes' ? (
+                                menu === 'negocios' ? (
                                     <div style={{width: '100%', height: 'auto', padding: 10 / proporcional}}>
                                         <div className='d-flex'
                                                 style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                             cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                            onClick={() => {navigate ('/panel/proyectos/clientes'); dispatch(set_open_menu_lateral(false));
-                                                dispatch (set_opcion_menu_lateral({sector: 'proyectos', menu: 'clientes', sub_menu: sub_menu === 'lista-clientes' ? '' : 'lista-clientes'}))
+                                            onClick={() => {navigate ('/panel/proyectos/negocios'); dispatch(set_open_menu_lateral(false));
+                                                dispatch (set_opcion_menu_lateral({sector: 'proyectos', menu: 'negocios', sub_menu: sub_menu === 'lista-negocios' ? '' : 'lista-negocios'}))
                                             }}
-                                            onMouseOver={() => setSeleccionSubMenu('lista-clientes')}
+                                            onMouseOver={() => setSeleccionSubMenu('lista-negocios')}
                                             onMouseLeave={() => setSeleccionSubMenu('')}>
                                             <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                                     paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                             <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
-                                                marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-clientes' || sub_menu === 'lista-clientes' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                                Lista de clientes
+                                                marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'lista-negocios' || sub_menu === 'lista-negocios' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                                Lista de negocios
                                             </p>
                                         </div>
                                         <div className='d-flex'
                                             style={{width: '100%', height: 30 / proporcional, marginTop: 5 / proporcional,
                                                     cursor: 'pointer', marginBottom: 5 / proporcional}} 
-                                                    onClick={() => {navigate ('/panel/proyectos/clientes/nuevo'); dispatch(set_open_menu_lateral(false));
-                                                        dispatch (set_opcion_menu_lateral({sector: 'proyectos', menu: 'clientes', sub_menu: sub_menu === 'nuevo-cliente' ? '' : 'nuevo-cliente'}))}}
-                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-cliente')}
+                                                    onClick={() => {navigate ('/panel/proyectos/negocios/nuevo'); dispatch(set_open_menu_lateral(false));
+                                                        dispatch (set_opcion_menu_lateral({sector: 'proyectos', menu: 'negocios', sub_menu: sub_menu === 'nuevo-negocio' ? '' : 'nuevo-negocio'}))}}
+                                                    onMouseOver={() => setSeleccionSubMenu('nuevo-negocio')}
                                                     onMouseLeave={() => setSeleccionSubMenu('')}>
                                             <img src={dash} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 5 / proporcional,
                                                     paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                             <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
-                                                marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-cliente' || sub_menu === 'nuevo-cliente' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
+                                                marginBottom: 0 / proporcional, color: seleccion_sub_menu === 'nuevo-negocio' || sub_menu === 'nuevo-negocio' ? '#28a745' :'#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
                                                 Nuevo cliente
                                             </p>
                                         </div>
@@ -209,7 +209,7 @@ export default function CardMenuProyectos({proporcional}) {
                                                 paddingLeft: 0, paddingRight: 10 / proporcional, marginRight: 8 / proporcional}}/>
                                         <p style={{fontSize: 14 / proporcional, fontFamily: 'Poppins, sans-serif', lineHeight: `${30 / proporcional}px`, 
                                             marginBottom: 0 / proporcional, color: menu === 'proyectos' || seleccion_menu === 'proyectos' ? '#28a745' :  '#4a4a4a', fontWeight: 500, textAlign: 'center'}}>
-                                            proyectos
+                                            Proyectos
                                         </p>
                                     </div>
                                     <div className='d-flex justify-content-end' style={{width: 30 / proporcional, height: 30 / proporcional}}>

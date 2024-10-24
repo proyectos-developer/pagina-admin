@@ -10,7 +10,16 @@ export const personaldata = createAsyncThunk ('', async (params) => {
     switch (stateType){
         case 'new_personal':
         case 'update_personal':
-        case 'update_estado_personal':
+        case 'update_personal_personal':
+        case 'update_personal_comunicacion':
+        case 'update_personal_estudios':
+        case 'update_personal_trabajo':
+        case 'update_personal_sueldo':
+        case 'update_personal_evaluacion':
+        case 'new_estado':
+        case 'update_estado':
+        case 'update_estado_trabajador':
+        case 'update_estado_reemplazo':
             if (params.reset){ 
                 return {success: false}
             }else{
@@ -23,7 +32,20 @@ export const personaldata = createAsyncThunk ('', async (params) => {
             }
         case 'get_personal_filter':
         case 'get_personal':
+        case 'get_personal_personal':
+        case 'get_personal_comunicacion':
+        case 'get_personal_estudios':
+        case 'get_personal_trabajo':
+        case 'get_personal_sueldo':
+        case 'get_personal_evaluacion':
         case 'delete_personal':
+        case 'get_cumpleanios_hoy':
+        case 'get_cumpleanios_filter':
+        case 'get_estados_filter':
+        case 'get_estado':
+        case 'delete_estado':
+        case 'get_estado_trabajador':
+        case 'get_estado_reemplazo':
             if (params.reset){ 
                 return {success: false}
             }else{

@@ -1,44 +1,23 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { constantes } from '../../../../../uri/constantes'
+import React from 'react'
 
-export default function NuevoKpi({proporcional, kpi_proyecto}) {
+import save from '../../../../../assets/iconos/comun/guardado_exitoso.png'
 
-    const [tarea, setTarea] = useState({})
-    
-    useEffect(() => {
-        axios.get(`${constantes().url_principal[0].url}/gestion/actividad/proyecto/${kpi_proyecto.id_tarea}`)
-            .then ((res) => {
-                setTarea (res.data.tarea_proyecto)
-            }).catch ((err) => {
-
-            })
-    }, [])
+export default function NuevoKpi({proporcional, proyecto}) {
 
     return (
         <div className='' style={{width: '100%', height: 'auto'}}>
-            <div className='' style={{width: '100%', height: 'auto', padding: 20 / proporcional,
+            <div className='d-flex' style={{width: '100%', height: 'auto', padding: 10 / proporcional,
                 background: '#007bff' }}>
-                <h2 style={{fontSize: 30 / proporcional, lineHeight: `${40 / proporcional}px`, fontWeight: 600, marginBottom: 0,
-                    fontFamily: 'Merriweather', color: 'white'}}>Nuevo kpi
-                </h2>
+                <img src={save} style={{width: 30 / proporcional, height: 30 / proporcional, padding: 7 / proporcional,
+                    marginRight: 10 / proporcional}}/>
+                <p style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                    fontFamily: 'Poppins, sans-serif', color: 'white'}}>Guardado exitosamente
+                </p>
             </div>
-            <div style={{width: '100%', height: 'auto', padding: 20 / proporcional}}>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Tarea: 
-                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}>
-                        <br/>{tarea && tarea.nombre ? tarea.nombre : ''}</span>
-                </h4>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>(%) tara completada: 
-                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}>
-                        <br/>{kpi_proyecto.pocentaje_tarea_completada}</span>
-                </h4>
-                <h4 style={{fontSize: 16 / proporcional, lineHeight: `${24 / proporcional}px`, fontWeight: 500, marginBottom: 16 / proporcional,
-                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Desviacion presupuesto: 
-                    <span style={{fontSize: 18 / proporcional, fontWeight: 600, color: '#007bff'}}>
-                        <br/>{kpi_proyecto.desviacion_presupuesto}</span>
-                </h4>
+            <div className='' style={{width: '100%', height: 'auto', padding: 10 / proporcional }}>
+                <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                    fontFamily: 'Poppins, sans-serif', color: '#4a4a4a'}}>Nuevo kpi agregado al proyecto <strong style={{color: '#007bff'}}>({proyecto.nombre_proyecto})</strong>
+                </h2>
             </div>
         </div>
     )

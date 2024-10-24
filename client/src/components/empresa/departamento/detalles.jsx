@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { set_data_departamento } from '../../../redux/actions/data'
+import { set_data_departamento, set_error_message } from '../../../redux/actions/data'
 import {departamentosdata} from '../../../redux/slice/departamentosdata'
 import {departamentosConstants} from '../../../uri/departamentos-constants'
 import {personaldata} from '../../../redux/slice/personaldata'
@@ -13,7 +13,7 @@ export default function DetallesDepartamento ({proporcional}) {
     const dispatch = useDispatch()
     const location = useLocation()
 
-    const [id_departamento, setIdDepartamento] = useState('')
+    const id_departamento = location.pathname.split('/')[6]
     const [departamento, setDepartamento] = useState ('')
     const [descripcion, setDescripcion] = useState('')
     const [jefe, setJefe] = useState('')
@@ -29,7 +29,7 @@ export default function DetallesDepartamento ({proporcional}) {
     const [lista_equipo, setListaEquipo] = useState([])
 
     const [edepartamento, setEDepartamento] = useState (false)
-    const [ejefe, setEJefe] = useState('')
+    const [edescripcion, setEDescripcion] = useState(false)
 
     const [boton_actualizar, setBotonActualizar] = useState(false)
     const [boton_editar, setBotonEditar] = useState(false)
@@ -45,9 +45,8 @@ export default function DetallesDepartamento ({proporcional}) {
     useEffect(() => {
         window.scrollTo(0, 0)
         if (data_departamento.departamento === undefined){
-            dispatch(departamentosdata(departamentosConstants(location.pathname.split ('/')[6], 0, 0, 0, 0, 16, {}, false).get_departamento))
+            dispatch(departamentosdata(departamentosConstants(id_departamento, 0, 0, 0, 0, 16, {}, false).get_departamento))
         }else{
-            setIdDepartamento(data_departamento.id)
             setDepartamento(data_departamento.departamento)
             setDescripcion(data_departamento.descripcion)
             setIdJefe(data_departamento.id_jefe)
@@ -58,13 +57,14 @@ export default function DetallesDepartamento ({proporcional}) {
 
     useEffect(() => {
         if (get_departamento && get_departamento.success === true && get_departamento.departamento){
-            setIdDepartamento(get_departamento.departamento.id)
             setDepartamento(get_departamento.departamento.departamento)
             setDescripcion(get_departamento.departamento.descripcion)
             setIdJefe(get_departamento.departamento.id_jefe)
             setJefe(get_departamento.departamento.jefe)
             setEquipo(get_departamento.departamento.equipo)
             dispatch(departamentosdata(departamentosConstants(0, 0, 0, 0, 0, 16, {}, true).get_departamento))
+        }else if (get_departamento && get_departamento.success === false && get_departamento.error){
+            dispatch(set_error_message(true))
         }
     }, [get_departamento])
 
@@ -72,6 +72,8 @@ export default function DetallesDepartamento ({proporcional}) {
         if (update_departamento && update_departamento.success === true && update_departamento.departamento){
             dispatch(departamentosdata(departamentosConstants(0, 0, 0, 0, 0, 16, {}, true).update_departamento))
             setEditarInformacion(false)
+        }else if (update_departamento && update_departamento.success === false && update_departamento.error){
+            dispatch(set_error_message(true))
         }
     }, [update_departamento])
 
@@ -82,6 +84,8 @@ export default function DetallesDepartamento ({proporcional}) {
             }else{
                 setListaEquipo(get_personal_filter.personal)
             }
+        }else if (get_personal_filter && get_personal_filter.success === false && get_personal_filter.error){
+            dispatch(set_error_message(true))
         }
     }, [get_personal_filter])
 
@@ -121,16 +125,16 @@ export default function DetallesDepartamento ({proporcional}) {
     }
     
     const actualizar_data_departamento = () => {
-        if (departamento === '' || jefe === ''){
+        if (departamento === '' || (500 - descripcion.length <= 0)){
             setEDepartamento(departamento === '' ? true : false)
-            setEJefe(jefe === '' ? true : false)
+            setEDescripcion((500 - descripcion.length <= 0) ? true : false)
         }else{
             setEDepartamento (false)
-            setEJefe (false)
+            setEDescripcion (false)
             const data_nuevo = {
                 departamento: departamento,
                 descripcion: descripcion,
-                id_jefe: id_jefe,
+                id_jefe: id_jefe === '' ? 0 : id_jefe,
                 jefe: jefe,
                 equipo: equipo
             }
@@ -146,25 +150,73 @@ export default function DetallesDepartamento ({proporcional}) {
 
     return (
         <div className='' style={{width: '100%', height: 'auto', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel/empresa')}>
+                    empresa
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/empresa/departamentos')}>
+                    departamentos
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 40, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    departamento / {departamento}
+                </p>
+            </div>
             <div className='shadow' 
-                style={{width: '60%', height: 'auto', background: 'white', padding: 50 / proporcional}}>
+                style={{width: '60%', height: 'auto', background: 'white', padding: 100 / proporcional}}>
                 <div className='' style={{width: '100%', height: 'auto'}}>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                    <div className='position-relative' style={{width: '100%', height: 40 / proporcional, marginBottom: 32 / proporcional}}>
+                            <span className='position-absolute'  
+                                style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                    background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                    <strong>Nombre departamento</strong></span>
                         <input
+                            autoComplete={false}
                             disabled={!editar_informacion}
                             type='default' 
                             id='departamento'
-                            className='form-control rounded'
                             value={departamento}
+                            className='form-control rounded'
                             onChange={(event) => setDepartamento (event.target.value)}
-                            style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                            style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                     fontFamily: 'Poppins, sans-serif', border: edepartamento ? '1px solid red' : '1px solid #007BFF',
                                     padding: 10 / proporcional}}
-                            placeholder='Nombre del departamento'/>
+                            placeholder='Nombre departamento'/>
                     </div>
-                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                        <textarea
-                            disabled={!editar_informacion} 
+                    <div className='position-relative' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
+                            <span className='position-absolute'  
+                                style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                    background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                    <strong>Desripción</strong></span>
+                        <textarea 
+                            disabled={!editar_informacion}
                             id='descripcion'
                             type='default'
                             rows={3}
@@ -172,15 +224,23 @@ export default function DetallesDepartamento ({proporcional}) {
                             value={descripcion}
                             onChange={(event) => setDescripcion(event.target.value)}
                             style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
+                                    fontFamily: 'Poppins, sans-serif', border: edescripcion ? '1px solid red' : '1px solid #007BFF',
+                                    padding: 10 / proporcional, marginBottom: 5 / proporcional}}
                             placeholder='Descripción del departamento'/>
+                        <div className='d-flex justify-content-end' style={{width: '100%', height: 20 / proporcional}}>
+                            <p  style={{lineHeight: `${20 / proporcional}px`, fontSize: 14 / proporcional, color: 500 - descripcion.length > 0 ? 'rgb(89, 89, 89)' : 'red',
+                                fontFamily: 'Poppins, sans-serif', marginBottom: 0, fontWeight: 40, cursor: 'pointer'}}>{500 - descripcion.length}</p>
+                        </div>
                     </div>
-                    <h2 style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`,
-                        marginBottom: 16 / proporcional, fontWeight: 500, color: '#28A745'}}>Jefe del departamento</h2>
                     <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                        <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div className='position-relative' style={{width: '48%', height: 40 / proporcional, marginBottom: 32 / proporcional}}>
+                                <span className='position-absolute'  
+                                    style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                        background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                        <strong>Buscar jefe</strong></span>
                             <input
+                                autoComplete={false}
                                 disabled={!editar_informacion}
                                 type='default' 
                                 id='search_jefe'
@@ -188,24 +248,29 @@ export default function DetallesDepartamento ({proporcional}) {
                                 className='form-control rounded'
                                 onFocus={() => setSeleccionTrabajador('jefe')}
                                 onChange={(event) => buscar_trabajador (event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: ejefe ? '1px solid red' : '1px solid #007BFF',
+                                style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
-                                placeholder='Nombre del jefe'/>
+                                placeholder='Nombre del jefe, código'/>
                         </div>
                         {
-                            lista_jefes && lista_jefes.length > 0 || jefe !== ''? (
-                                <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                            lista_jefes && lista_jefes.length > 0 ? (
+                                <div className='position-relative' style={{width: '48%', height: 40 / proporcional, marginBottom: 32 / proporcional}}>
+                                        <span className='position-absolute'  
+                                            style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                                background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                                <strong>Seleccionar jefe</strong></span>
                                     <select
-                                    disabled={!editar_informacion}
+                                        disabled={!editar_informacion}
                                         type='default' 
                                         id='jefe'
                                         className='form-select rounded'
                                         onChange={(event) => seleccionar_jefe (event.target.value)}
-                                        style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                                fontFamily: 'Poppins, sans-serif', border: ejefe ? '1px solid red' : '1px solid #007BFF',
+                                        style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                                 padding: 10 / proporcional}}>
-                                        <option value='0'>{jefe === '' ? 'Seleccionar jefe' : jefe}</option>
+                                        <option value='0'>{jefe === '' ? 'Seleccionar jefe' : ''}</option>
                                         {
                                             lista_jefes.map ((jefe, index) => {
                                                 return (
@@ -218,11 +283,15 @@ export default function DetallesDepartamento ({proporcional}) {
                             ) : null
                         }
                     </div>
-                    <h2 style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`,
-                        marginBottom: 16 / proporcional, fontWeight: 500, color: '#28A745'}}>Personal del departamento</h2>
                     <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                        <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <div className='position-relative' style={{width: '48%', height: 40 / proporcional, marginBottom: 32 / proporcional}}>
+                                <span className='position-absolute'  
+                                    style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                        background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                        <strong>Buscar trabajadores</strong></span>
                             <input
+                                autoComplete={false}
                                 disabled={!editar_informacion}
                                 type='default' 
                                 id='search_equipo'
@@ -230,24 +299,29 @@ export default function DetallesDepartamento ({proporcional}) {
                                 className='form-control rounded'
                                 onFocus={() => setSeleccionTrabajador('equipo')}
                                 onChange={(event) => buscar_trabajador (event.target.value)}
-                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                         fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                         padding: 10 / proporcional}}
-                                placeholder='Miembros del equipo'/>
+                                placeholder='Nombre trabajador, codigo'/>
                         </div>
                         {
-                            lista_equipo && lista_equipo.length > 0 || miembro !== '' ? (
-                                <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                            lista_equipo && lista_equipo.length > 0 ? (
+                                <div className='position-relative' style={{width: '48%', height: 40 / proporcional, marginBottom: 32 / proporcional}}>
+                                        <span className='position-absolute'  
+                                            style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                                left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                                background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                                <strong>Seleccionar trabajadores</strong></span>
                                     <select
                                         disabled={!editar_informacion}
                                         type='default' 
                                         id='miembro'
                                         className='form-select rounded'
                                         onChange={(event) => seleccionar_miembro (event.target.value)}
-                                        style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
                                                 fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
                                                 padding: 10 / proporcional}}>
-                                        <option value='0'>{miembro === '' ? 'Seleccionar miembro' : miembro}</option>
+                                        <option value='0'>{miembro === '' ? 'Seleccionar miembro' : ''}</option>
                                         {
                                             lista_equipo.map ((miembro, index) => {
                                                 return (
@@ -260,38 +334,47 @@ export default function DetallesDepartamento ({proporcional}) {
                             ) : null
                         }
                     </div>
-                    <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto',
-                            marginBottom: 16 / proporcional}}>
-                        <textarea
+                    <div className='position-relative' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
+                            <span className='position-absolute'  
+                                style={{lineHeight: `${14 / proporcional}px`, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    left: 10 / proporcional, top: -7 / proporcional, fontFamily: 'Poppins, sans-serif', marginBottom: 0,
+                                    background: 'white', paddingLeft: 5 / proporcional, paddingRight: 5 / proporcional}}>
+                                    <strong>Miembros del departamento</strong></span>
+                        <textarea 
                             disabled={true}
-                            type='default' 
                             id='equipo'
-                            value={equipo}
+                            type='default'
+                            rows={3}
                             className='form-control rounded'
-                            onChange={(event) => setEquipo (event.target.value)}
-                            style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                    fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
-                                    padding: 10 / proporcional}}
-                            placeholder='Miembros del equipo'/>
+                            value={equipo}
+                            onChange={(event) => setEquipo(event.target.value)}
+                            style={{width: '100%', height: 120 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: 1000 - equipo.length <= 0 ? '1px solid red' : '1px solid #007BFF',
+                                    padding: 10 / proporcional, marginBottom: 5 / proporcional}}
+                            placeholder='Miembros del departamento'/>
+                        <div className='d-flex justify-content-end' style={{width: '100%', height: 20 / proporcional}}>
+                            <p  style={{lineHeight: `${20 / proporcional}px`, fontSize: 14 / proporcional, color: 1000 - equipo.length > 0 ? 'rgb(89, 89, 89)' : 'red',
+                                fontFamily: 'Poppins, sans-serif', marginBottom: 0, fontWeight: 1000, cursor: 'pointer'}}>{1000 - equipo.length}</p>
+                        </div>
                     </div>
                     {
                         editar_informacion ? (
                             <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                                 <div className='d-flex justify-content-between' style={{width: '63%', height: 'auto'}}>
                                     <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                        style={{width: '48%', height: 40 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                         onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
                                         onClick={() => setEditarInformacion(false)}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                             Cancelar
                                         </p>
                                     </div>
                                     <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                        style={{width: '48%', height: 40 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                         onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
                                         onClick={() => actualizar_data_departamento()}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                             fontFamily: 'Poppins, sansNoticia-serif', textAlign: 'center', fontWeight: 600}}>
                                             Actualizar datos
                                         </p>
@@ -302,19 +385,19 @@ export default function DetallesDepartamento ({proporcional}) {
                             <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
                                 <div className='d-flex justify-content-between' style={{width: '63%', height: 'auto'}}>
                                     <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                        style={{width: '48%', height: 40 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                         onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
                                         onClick={() => volver_a_lista()}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                             Volver
                                         </p>
                                     </div>
                                     <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                        style={{width: '48%', height: 40 / proporcional, background: '#007BFF', cursor: 'pointer'}}
                                         onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
                                         onClick={() => setEditarInformacion(true)}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
                                             fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
                                             Editar datos
                                         </p>

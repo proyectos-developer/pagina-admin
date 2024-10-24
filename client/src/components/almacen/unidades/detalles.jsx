@@ -11,10 +11,9 @@ export default function DetallesUnidad ({proporcional}) {
     const dispatch = useDispatch()
     const location = useLocation()
 
-    const [editar_informacion, setEditarInformacion] = useState(false)
-
-    const [id_unidad, setIdUnidad] = useState('')
+    const id_unidad = location.pathname.split ('/')[6]
     const [unidad, setUnidad] = useState ('')
+    const [medida, setMedida] = useState ('')
     const [descripcion, setDescripcion] = useState('')
 
     const [eunidad, setEUnidad] = useState (false)
@@ -25,30 +24,33 @@ export default function DetallesUnidad ({proporcional}) {
     const [boton_volver, setBotonVolver] = useState(false)
 
     const {update_unidad, get_unidad} = useSelector(({unidades_data}) => unidades_data)
-    const {data_unidad, open_menu_lateral} = useSelector(({data_actions}) => data_actions)
+    const {data_unidad, data_editable} = useSelector(({data_actions}) => data_actions)
+
+    const [editar_informacion, setEditarInformacion] = useState(data_editable)
 
     useEffect(() => {
         if (data_unidad.unidad === undefined){
-            dispatch(unidadesdata(unidadesConstants(location.pathname.split ('/')[6], 0, 0, 0, 0, 16, {}, false).get_unidad))
+            dispatch(unidadesdata(unidadesConstants(id_unidad, 0, 0, 0, 0, 16, {}, false).get_unidad))
         }else{
-            setIdUnidad(data_unidad.id)
             setUnidad(data_unidad.unidad)
+            setMedida(data_unidad.medida)
             setDescripcion(data_unidad.descripcion)
         }
     }, [])
 
     useEffect(() => {
         if (get_unidad && get_unidad.success === true && get_unidad.unidad){
-            setIdUnidad(get_unidad.unidad.id)
             setUnidad(get_unidad.unidad.unidad)
+            setMedida(get_unidad.unidad.medida)
             setDescripcion(get_unidad.unidad.descripcion)
-            dispatch(unidadesdata(unidadesConstants(0, {}, true).get_unidad))
+            setEditarInformacion(false)
+            dispatch(unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 0, {}, true).get_unidad))
         }
     }, [get_unidad])
 
     useEffect(() => {
         if (update_unidad && update_unidad.success === true && update_unidad.unidad){
-            dispatch(unidadesdata(unidadesConstants(0, {}, true).update_unidad))
+            dispatch(unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 0, {}, true).update_unidad))
             setEditarInformacion(false)
         }
     }, [update_unidad])
@@ -65,36 +67,66 @@ export default function DetallesUnidad ({proporcional}) {
             setEUnidad(false)
             const data_nuevo = {
                 unidad: unidad,
+                medida: medida,
                 descripcion: descripcion,
             }
             dispatch (unidadesdata(unidadesConstants(id_unidad, 0, 0, 0, 0, 16, data_nuevo, false).update_unidad))
         }
     }
 
+    const cancelar_edicion_datos = () => {
+        dispatch (unidadesdata(unidadesConstants(id_unidad, 0, 0, 0, 0, 0, {}, false).get_unidad))
+    }
+
     useEffect(() => {
         return (() => {
-            dispatch(unidadesdata(unidadesConstants(0, 0, 0, 0, 0, 0, {}, true).update_unidad))
         })
     }, [])
 
     return (
-        <div style={{width: '100%', height: '100%', paddingLeft: open_menu_lateral ? 80 / proporcional : 100 / proporcional,
-            paddingRight: open_menu_lateral ? 80 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%', marginBottom: 16 / proporcional}}>
-                <div className='d-flex justify-content-between' style={{width: '60%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <h2 style={{fontSize: 20 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
-                        color: '#4A4A4A'}}>Unidad: <span style={{fontSize: 28 / proporcional, color: '#007bff'}}>{unidad}</span>
-                    </h2>
-                </div>
+        <div className='' style={{width: '100%', height: 'auto', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/almacen')}>
+                    almacén
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                    onClick={() => navigate ('/panel/almacen/unidades')}>
+                    unidades
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    unidad / {unidad}
+                </p>
             </div>
-            <div className='d-flex justify-content-center' style={{width: '100%', height: '100%'}}>
-                <div style={{width: '60%', height: '100%'}}>
-                    <div className='' style={{width: '100%', height: 'auto'}}>
-                        <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Unidad
-                            </span>
+            <div className='shadow' 
+                style={{width: '60%', height: 'auto', background: 'white', padding: 50 / proporcional}}>
+                <div className='' style={{width: '100%', height: 'auto'}}>
+                    <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                        <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
                             <input
                                 disabled={!editar_informacion}
                                 type='default' 
@@ -107,70 +139,83 @@ export default function DetallesUnidad ({proporcional}) {
                                         padding: 10 / proporcional}}
                                 placeholder='Nombre unidad'/>
                         </div>
-                        <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                            <span style={{color: '#4a4a4a', marginBottom: 5 / proporcional, fontSize: 14 / proporcional, lineHeight: `${16 / proporcional}px`,
-                                fontFamily: 'Poppins, sans-serif'}}>
-                                Descripción de la unidad
-                            </span>
-                            <textarea 
+                        <div style={{width: '48%', height: 'auto', marginBottom: 16 / proporcional}}>
+                            <input
                                 disabled={!editar_informacion}
-                                id='descripcion'
-                                type='default'
-                                rows={3}
+                                type='default' 
+                                id='medida'
+                                value={medida}
                                 className='form-control rounded'
-                                value={descripcion}
-                                onChange={(event) => setDescripcion(event.target.value)}
-                                style={{width: '100%', height: 150 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
-                                        fontFamily: 'Poppins, sans-serif', border: '1px solid #007BFF',
+                                onChange={(event) => setMedida (event.target.value)}
+                                style={{width: '100%', height: 50 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                        fontFamily: 'Poppins, sans-serif', border: eunidad ? '1px solid red' : '1px solid #007BFF',
                                         padding: 10 / proporcional}}
-                                placeholder='Descripción de la unidad'/>
+                                placeholder='Símbolo'/>
                         </div>
-                        {
-                            editar_informacion ? (
-                                <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                                    <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                        onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
-                                        onClick={() => actualizar_data_unidad()}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                            Actualizar datos
-                                        </p>
-                                    </div>
-                                    <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                        onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
-                                        onClick={() => setEditarInformacion(false)}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                            Cancelar
-                                        </p>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
-                                    <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                        onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
-                                        onClick={() => setEditarInformacion(true)}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                            Editar datos
-                                        </p>
-                                    </div>
-                                    <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
-                                        style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
-                                        onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
-                                        onClick={() => volver_a_lista()}>
-                                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
-                                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
-                                            Volver
-                                        </p>
-                                    </div>
-                                </div>
-                            )
-                        }
                     </div>
+                    <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                        <textarea
+                            disabled={!editar_informacion}
+                            type='default' 
+                            rows={4}
+                            id='descripcion'
+                            value={descripcion}
+                            className='form-control rounded'
+                            onChange={(event) => setDescripcion (event.target.value)}
+                            style={{width: '100%', height: 200 / proporcional, fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)',
+                                    fontFamily: 'Poppins, sans-serif', border: 500 - descripcion.length > 0 ? '1px solid #007BFF' : '1px solid red',
+                                    padding: 10 / proporcional, marginBottom: 5 / proporcional}}
+                            placeholder='descripcion'/>
+                        <div className='d-flex justify-content-end' style={{width: '100%', height: 20 / proporcional}}>
+                            <p  style={{lineHeight: `${20 / proporcional}px`, fontSize: 14 / proporcional, color: 500 - descripcion.length > 0 ? 'rgb(89, 89, 89)' : 'red',
+                                fontFamily: 'Poppins, sans-serif', marginBottom: 0, fontWeight: 500, cursor: 'pointer'}}>{500 - descripcion.length}</p>
+                        </div>
+                    </div>
+                    {
+                        editar_informacion ? (
+                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                                <div className={boton_cancelar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonCancelar(true)} onMouseLeave={() => setBotonCancelar(false)}
+                                    onClick={() => cancelar_edicion_datos()}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Cancelar
+                                    </p>
+                                </div>
+                                <div className={boton_actualizar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonActualizar(true)} onMouseLeave={() => setBotonActualizar(false)}
+                                    onClick={() => actualizar_data_unidad()}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Actualizar datos
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className='d-flex justify-content-between' style={{width: '100%', height: 'auto'}}>
+                                <div className={boton_volver ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonVolver(true)} onMouseLeave={() => setBotonVolver(false)}
+                                    onClick={() => volver_a_lista()}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Volver
+                                    </p>
+                                </div>
+                                <div className={boton_editar ? 'shadow rounded' : 'shadow-sm rounded'} 
+                                    style={{width: '48%', height: 50 / proporcional, background: '#007BFF', cursor: 'pointer'}}
+                                    onMouseOver={() => setBotonEditar(true)} onMouseLeave={() => setBotonEditar(false)}
+                                    onClick={() => setEditarInformacion(true)}>
+                                    <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${50 / proporcional}px`,
+                                        fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                        Editar datos
+                                    </p>
+                                </div>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>

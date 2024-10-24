@@ -5,158 +5,242 @@ import next_select from '../../../../assets/iconos/comun/next_v1.png'
 import preview from '../../../../assets/iconos/comun/preview_v2.png'
 import preview_select from '../../../../assets/iconos/comun/preview_v1.png'
 
-import view_list_v1 from '../../../../assets/iconos/comun/view_list_v1.png'
-import view_grid_v1 from '../../../../assets/iconos/comun/view_grid_v1.png'
-import view_list_v2 from '../../../../assets/iconos/comun/view_list_v2.png'
-import view_grid_v2 from '../../../../assets/iconos/comun/view_grid_v2.png'
-import reset_v2 from '../../../../assets/iconos/comun/reset_v2.png'
-import reset_v1 from '../../../../assets/iconos/comun/reset_v1.png'
-
-import agregar_nuevo from '../../../../assets/iconos/comun/agregar_nuevo.png'
-
 import CardGestionProyectoCell from './card/gestioncell.jsx'
-import {gestionproyectosdata} from '../../../../redux/slice/gestionproyectosdata.js'
-import { gestionproyectosConstants } from '../../../../uri/gestionproyectos-constants.js'
 import { useNavigate } from 'react-router-dom'
+import { gestionproyectosdata } from '../../../../redux/slice/gestionproyectosdata.js'
+import { gestionproyectosConstants } from '../../../../uri/gestionproyectos-constants.js'
+import { set_error_message } from '../../../../redux/actions/data.js'
 
 export default function ListaGestionProyectosCell ({proporcional}) {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const [view_gestion, setViewGestion] = useState ('grid')
     const [begin, setBegin] = useState(0)
-    const [amount, setAmount] = useState(16)
+    const amount = 16
 
-    const [lista_grid_gestion_proyectos, setListaGridGestionProyectos] = useState ([])
-    const [lista_gestion_proyectos, setListaGestionProyectos] = useState ([])
-    const [total_gestion_proyectos, setTotalGestionProyectos] = useState(0)
+    const [search_proyectos, setSearchProyectos] = useState('')
+    const [reset, setReset] = useState(false)
 
+    const [lista_proyectos, setListaProyectos] = useState ([])
+    const [total_proyectos, setTotalProyectos] = useState(0)
+
+    const [boton_nuevo, setBotonNuevo] = useState (false)
     const [boton_reset, setBotonReset] = useState (false)
+
     const [mouse_next, setMouseNext] = useState(false)
     const [mouse_preview, setMousePreviewDown] = useState(false)
 
-    const {get_informes_proyectos_filter, delete_informe_proyecto} = useSelector(({gestionproyectos_data}) => gestionproyectos_data)
-    const {open_menu_lateral} = useSelector(({data_actions}) => data_actions)
-
+    const {get_gestion_proyectos_filter, delete_gestion_proyecto} = useSelector(({gestionproyectos_data}) => gestionproyectos_data)
+    
     useEffect(() => {
-        dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, begin, amount, {}, false).get_informes_proyectos_filter))
+        window.scrollTo(0, 0)
+        dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, begin, amount, {}, false).get_gestion_proyectos_filter))
     }, [])
 
     useEffect(() => {
-        if (get_informes_proyectos_filter && get_informes_proyectos_filter.success === true && get_informes_proyectos_filter.gestion_proyectos){
-            dividir_nro_columnas(get_informes_proyectos_filter)
+        if (get_gestion_proyectos_filter && get_gestion_proyectos_filter.success === true && get_gestion_proyectos_filter.gestion_proyectos){
+            setTotalProyectos(get_gestion_proyectos_filter.total_gestion)
+            setListaProyectos (get_gestion_proyectos_filter.gestion_proyectos)
+        }else if (get_gestion_proyectos_filter && get_gestion_proyectos_filter.success === false && get_gestion_proyectos_filter.error){
+            dispatch (set_error_message(true))
         }
-    }, [get_informes_proyectos_filter])
+    }, [get_gestion_proyectos_filter])
 
     useEffect(() => {
-        if (delete_informe_proyecto && delete_informe_proyecto.success === true && delete_informe_proyecto.gestion_proyectos){
+        if (delete_gestion_proyecto && delete_gestion_proyecto.success === true && delete_gestion_proyecto.gestion_proyectos){
             window.scrollTo(0, 0)
             setBegin(0)
-            dividir_nro_columnas(delete_informe_proyecto)
-            dispatch (gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).delete_informe_proyecto))
+            setTotalProyectos(delete_gestion_proyecto.total_gestion)
+            setListaProyectos (delete_gestion_proyecto.gestion_proyectos)
+            dispatch (gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, true).delete_gestion_proyecto))
+        }else if (delete_gestion_proyecto && delete_gestion_proyecto.success === false && delete_gestion_proyecto.error){
+            dispatch (set_error_message(true))
         }
-    }, [delete_informe_proyecto])
+    }, [delete_gestion_proyecto])
 
-    const next_gestion_proyectos = () => {
-        if (begin + amount > total_gestion_proyectos){
+    const buscar_proyectos = (value) => {
+        if (value !== ''){
+            setReset(true)
+            dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, value, 0, 0, 0, 0, 16, {}, false).get_gestion_proyectos_filter))
+        }else{
+            setReset(false)
+            dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_gestion_proyectos_filter))
+        }
+        setSearchProyectos(value)
+    }
+
+    const next_proyectos = () => {
+        if (begin + amount > total_proyectos){
 
         }else{
             setBegin (begin + amount)
-            dispatch (gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, begin + amount, amount, {}, false).get_informes_proyectos_filter))
+            dispatch (gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, begin + amount, amount, {}, false).get_gestion_proyectos_filter))
         }
     }
 
-    const previous_gestion_proyectos = () => {
+    const previous_proyectos = () => {
         if (begin - amount < 0){
             
         }else{
             setBegin (begin - amount)
-            dispatch (gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, begin - amount, amount, {}, false).get_informes_proyectos_filter))
+            dispatch (gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, begin - amount, amount, {}, false).get_gestion_proyectos_filter))
         }
-    }
-
-    const dividir_nro_columnas = (data_gestion_proyectos) => {
-        if (data_gestion_proyectos.total_proyectos){setTotalGestionProyectos(data_gestion_proyectos.total_proyectos)}
-        setListaGridGestionProyectos (data_gestion_proyectos.gestion_proyectos)
-        setListaGestionProyectos (data_gestion_proyectos.gestion_proyectos)
     }
 
     const resetear_data = () => {
         setBegin(0)
-        setListaGridGestionProyectos([])
-        setListaGestionProyectos ([])
-        dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_informes_proyectos_filter))
-        dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).delete_informe_proyecto))
+        setListaProyectos ([])
+        setReset(false)
+        setSearchProyectos('')
+        dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).get_gestion_proyectos_filter))
+        dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 16, {}, false).delete_gestion_proyecto))
     }
 
     useEffect(() => {
         return () => {
-            setListaGridGestionProyectos([])
-            setListaGestionProyectos ([])
-            dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, {}, true).get_informes_proyectos_filter))
-            dispatch(gestionproyectosdata(gestionproyectosConstants(0, 0, 0, 0, 0, 0, 0, 0, 0, {}, true).delete_informe_proyecto))
+            
         }
     },[])
 
     return (
-        <div className='position-relative' style={{width: '100%', minHeight: 720 / proporcional, paddingLeft: open_menu_lateral ? 20 / proporcional : 100 / proporcional,
-            paddingRight: open_menu_lateral ? 20 / proporcional : 100 / proporcional, paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
-            <div className='' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+        <div className='position-relative' style={{width: '100%', paddingTop: 40 / proporcional, paddingBottom : 40 / proporcional}}>
+            <div className='d-flex' style={{width: '100%', height: 'auto'}}>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel')}>
+                    Inicio 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}
+                        onClick={() => navigate ('/panel/proyectos')}>
+                    proyectos
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', marginRight: 10 / proporcional}}>
+                    / 
+                </p>
+                <p style={{fontSize: 18 / proporcional, lineHeight: `${30 / proporcional}px`, color: 'rgb(89, 89, 89)',
+                        fontWeight: 500, fontFamily: 'Poppins, sans, serif', cursor: 'pointer',
+                    marginRight: 10 / proporcional}}>
+                    gestión proyectos
+                </p>
+            </div>
+            <div className='' style={{width: '100%', minHeight: 'auto', marginBottom: 16 / proporcional}}>
                 <div style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
-                    <h2 style={{fontSize: 28 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
-                        color: '#4A4A4A'}}>Gestión de proyectos <br/>
+                    <h2 style={{fontSize: 24 / proporcional, lineHeight: `${30 / proporcional}px`, fontWeight: 500, marginBottom: 0,
+                        color: '#4A4A4A'}}>Gestión de proyectos<br/>
                         <span style={{fontSize: 16 / proporcional, color: 'rgb(89, 89, 89)', marginLeft: 10 / proporcional}}>
-                            {`mostrando del ${begin} al 
-                                ${get_informes_proyectos_filter && get_informes_proyectos_filter.gestion_proyectos ? begin + get_informes_proyectos_filter.gestion_proyectos.length : 0} de ${total_gestion_proyectos}`}
+                            {`mostrando del ${begin} al`} 
+                                {get_gestion_proyectos_filter && get_gestion_proyectos_filter.gestion_proyectos ? begin + get_gestion_proyectos_filter.gestion_proyectos.length : 0} de {total_proyectos}
                         </span>
                     </h2>
                 </div>
-                <div className='d-flex justify-content-end' style={{width: '100%', height: 'auto'}}>
-                    <img src={view_gestion === 'lista' ? view_list_v1 : view_list_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            marginRight: 10 / proporcional, cursor: 'pointer'
-                        }} onClick={() => setViewGestion('lista')}/>
-                    <img src={view_gestion === 'grid' || view_gestion === '' ? view_grid_v1 : view_grid_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            cursor: 'pointer', marginRight: 10 / proporcional
-                        }} onClick={() => setViewGestion('grid')}/>
-                    <img src={boton_reset ? reset_v1 : reset_v2} 
-                        style={{width: 30 / proporcional, height: 30 / proporcional, padding: 0 / proporcional,
-                            cursor: 'pointer'
-                        }} onClick={() => resetear_data()}
-                        onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}/>
+                <div className='d-flex justify-content-end' style={{width: '100%', height: 50 / proporcional}}>
+                    <div className={boton_nuevo ? 'shadow rounded' : 'rounded'} 
+                        style={{width: '48%', height: 40 / proporcional, background: '#28A745',
+                                cursor: 'pointer'}}
+                            onClick={() => navigate('/panel/proyectos/gestion-proyectos/nuevo')}
+                            onMouseOver={() => setBotonNuevo(true)} onMouseLeave={() => setBotonNuevo(false)}>
+                        <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`,
+                            fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                            Nuevo
+                        </p>
+                    </div>
                 </div>
             </div>
-            {
-                lista_grid_gestion_proyectos && lista_grid_gestion_proyectos.length > 0 && view_gestion === 'grid' ? (
-                    lista_grid_gestion_proyectos.map ((gestion_proyecto, numgest) => {
-                        return (
-                            <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 32 / proporcional}}>
-                                <div style={{width: '90%', height: 'auto'}}>
-                                    <CardGestionProyectoCell gestion_proyecto={gestion_proyecto} key={numgest} index={numgest} proporcional={proporcional} view_gestion={view_gestion}/>
-                                </div>
+            <div className='d-flex justify-content-center' style={{width: '100%', height: 'auto', marginBottom: 16 / proporcional}}>
+                <div className='rounded' 
+                    style={{width: '100%', height: 'auto'}}>
+                    <input 
+                        id='search_proyectos'
+                        className='form-control rounded-0 border-0'
+                        style={{width: '100%', height: 40 / proporcional, fontSize: 16 / proporcional,
+                                fontFamily: 'Poppins, sans-serif', fontWeight: 400,
+                                marginBottom: 16 / proporcional}}
+                        value={search_proyectos}
+                        onChange={(event) => buscar_proyectos(event.target.value)}
+                        placeholder='Buscar por nombre, código, apellidos...'
+                    />
+                    {
+                        reset ? (
+                            <div className={boton_reset ? 'shadow rounded' : 'rounded'} 
+                                style={{width: 'auto', height: 40 / proporcional, background: '#28A745',
+                                        cursor: 'pointer'}}
+                                    onClick={() => resetear_data()}
+                                    onMouseOver={() => setBotonReset(true)} onMouseLeave={() => setBotonReset(false)}>
+                                <p style={{color: 'white', marginBottom: 0 / proporcional, fontSize: 18 / proporcional, lineHeight: `${40 / proporcional}px`,
+                                    fontFamily: 'Poppins, sans-serif', textAlign: 'center', fontWeight: 600}}>
+                                    resetear
+                                </p>
                             </div>
-                        )
-                    })
-                ) : 
-                    lista_gestion_proyectos && lista_gestion_proyectos.length > 0 && view_gestion === 'lista' ? (
-                        lista_gestion_proyectos.map ((gestion_proyecto, numgest) => {
+                        ) : null
+                    }
+                </div>
+            </div>
+            <div className='d-flex justify-content-between' style={{width: '100%', height: 70 / proporcional,
+                    padding: 5 / proporcional, background: 'white', borderBottom: '1px solid #4a4a4a'}}>
+                <div className='' style={{width: '70%', height: 60 / proporcional}}>
+                    <div className='' style={{width: '100%', height: 30 / proporcional}}>
+                        <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                            cursor: 'default'}}>
+                            Nombre proyecto (prioridad)
+                        </p>
+                    </div>
+                    <div className='d-flex justify-content-between' style={{width: '100%', height: 30 / proporcional}}>
+                        <div className='' style={{width: '48%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Fecha inicio
+                            </p>
+                        </div>
+                        <div className='' style={{width: '48%', height: 30 / proporcional}}>
+                            <p style={{fontSize: 14 / proporcional, lineHeight: `${30 / proporcional}px`, marginBottom: 0 / proporcional, 
+                                color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'left',
+                                cursor: 'default'}}>
+                                Estado
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className='d-flex justify-content-end' style={{width: '30%', height: 60 / proporcional}}>
+                    <div className='d-flex justify-content-center' style={{width: '100%', height: 60 / proporcional}}>
+                        <p style={{fontSize: 14 / proporcional, lineHeight: `${60 / proporcional}px`, marginBottom: 0 / proporcional, 
+                            color: '#4a4a4a', fontFamily: 'Merriweather', fontWeight: 600, textAlign: 'center',
+                            cursor: 'default'}}>
+                            Acciones
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style={{width: '100%', minHeight: 500 / proporcional}}>
+                {
+                    lista_proyectos && lista_proyectos.length > 0 ? (
+                        lista_proyectos.map ((proyecto, index) => {
                             return (
-                                <CardGestionProyectoCell gestion_proyecto={gestion_proyecto} key={numgest} index={numgest} proporcional={proporcional} view_gestion={view_gestion}/>
+                                <CardGestionProyectoCell proporcional={proporcional} key={index} index={index} proyecto={proyecto}/>
                             )
                         })
-                ) : null
-            }                  
+                    ) : null
+                }
+            </div>              
             <div className='d-flex justify-content-between' style={{width: '100%', height: 40 / proporcional,
-                    marginTop: view_gestion === 'grid' || view_gestion === '' ? 0 : 16 / proporcional
+                    marginTop: 16 / proporcional
             }}>
                 <div className='d-flex justify-content-start' style={{width: '48%', height: 40 / proporcional}}>
                     {
                         begin !== 0 ? (
                             <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setMousePreviewDown(true)} onMouseLeave={() => setMousePreviewDown(false)}
-                                onClick={() => {previous_gestion_proyectos(); window.scrollTo(0, 0)}}>
+                                onClick={() => {previous_proyectos(); window.scrollTo(0, 0)}}>
                                 <img src={mouse_preview ? preview_select : preview} 
                                     style={{width: 40 / proporcional, height: 40 / proporcional, padding: 2 / proporcional}}/>
                                 <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
@@ -169,12 +253,12 @@ export default function ListaGestionProyectosCell ({proporcional}) {
                 </div>
                 <div className='d-flex justify-content-end' style={{width: '48%', height: 40 / proporcional}}>
                     {
-                        begin + 16 >= total_gestion_proyectos ? ( 
+                        begin + 16 >= total_proyectos ? ( 
                             null
                         ) : (
                             <div style={{width: 'auto', height: 40 / proporcional, cursor: 'pointer'}}
                                 onMouseOver={() => setMouseNext(true)} onMouseLeave={() => setMouseNext(false)}
-                                onClick={() => {next_gestion_proyectos(); window.scrollTo(0, 0)}}>
+                                onClick={() => {next_proyectos(); window.scrollTo(0, 0)}}>
                                 <span style={{fonsSize: 16 / proporcional, lineHeight: `${40 / proporcional}px`, marginBottom: 0,
                                     marginRight: 5 / proporcional, color: mouse_next ? '#007bff' : 'rgb(89, 89, 89)'}}>
                                         Siguientes
@@ -185,11 +269,6 @@ export default function ListaGestionProyectosCell ({proporcional}) {
                         )
                     }
                 </div>
-            </div>
-            <div className='position-fixed rounded-circle shadow-lg' style={{width: 64 / proporcional, height: 64 / proporcional, 
-                bottom: 50 / proporcional, right: 50 / proporcional, background: 'white', cursor: 'pointer'}}
-                onClick={() => navigate ('/panel/proyectos/gestion-proyectos/nuevo')}>
-                <img src={agregar_nuevo} style={{width: 64 / proporcional, height: 64 / proporcional, padding: 16 / proporcional}}/>
             </div>
         </div>
     )
